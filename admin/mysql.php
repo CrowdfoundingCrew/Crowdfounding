@@ -11,9 +11,38 @@ function Pagination($no_of_records_per_page, $offset){
         $res_data = "query2";
         $result="";
         while($row = mysqli_fetch_array($res_data)){
-            $result = $result."";
+            $result = $result . "<div class='row'>
+            <div class='col-md-12'>
+                <h3>
+                    $nomeonlus
+                </h3>
+                <p>
+                    $descrizioneonlus
+                </p>
+                <p>
+                    <a class='btn' href='$paginaonlus'>View details »</a>
+                </p>
+            </div>
+            </div>". 
+            "<div class='row'>";
+            foreach($row[20] as $progetto){
+                $result = $result .
+                    "<div class='col-md-4'>
+                        <img alt='Bootstrap Image Preview' src='$immagineprogetto'>
+                        <div class='progress mt-2'>
+                            <div class='progress-bar progress-bar-animated progress-bar-striped bg-$coloreprogetto' style='width: $barprogetto%'>
+                        </div>
+                        <address><strong>$nomeprogetto</strong><br>$datiprogetto </address>
+                        <blockquote class='blockquote'>
+                            <p class='mb-0'>$descrizioneprogetto</p>
+                        </blockquote>
+                    </div>".
+                "</div>";
+            }
+            $result = $result . "</div>";
         }
         //chiudi la connessione
         return $result;
 }
+
 ?>

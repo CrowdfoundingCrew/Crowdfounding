@@ -13,7 +13,7 @@
         $pageno = 1;
     }
 
-    $no_of_records_per_page = 10;
+    $no_of_records_per_page = 2;
     $offset = ($pageno - 1) * $no_of_records_per_page; 
     $data = Pagination($no_of_records_per_page, $offset);
 ?>
@@ -49,7 +49,7 @@
             <div class="col-md-4">
                 <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg">
                 <div class="progress mt-2">
-                    <div class="progress-bar w-75 progress-bar-striped progress-bar-animated">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: 75%">
                     </div>
                 </div>
                 <address>
@@ -67,7 +67,7 @@
             <div class="col-md-4">
                 <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg">
                 <div class="progress mt-2">
-                    <div class="progress-bar w-75 progress-bar-striped progress-bar-animated">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width: 13%">
                     </div>
                 </div>
                 <address>
@@ -85,7 +85,7 @@
             <div class="col-md-4">
                 <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg">
                 <div class="progress mt-2">
-                    <div class="progress-bar w-75 progress-bar-striped progress-bar-animated">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" style="width: 90%">
                     </div>
                 </div>
                 <address>
@@ -118,7 +118,7 @@
             <div class="col-md-4">
                 <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg">
                 <div class="progress mt-2">
-                    <div class="progress-bar w-75 progress-bar-animated progress-bar-striped">
+                    <div class="progress-bar progress-bar-animated progress-bar-striped bg-warning" style="width: 34%">
                     </div>
                 </div>
                 <address>
@@ -136,7 +136,7 @@
             <div class="col-md-4">
                 <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg">
                 <div class="progress mt-2">
-                    <div class="progress-bar w-75 progress-bar-striped progress-bar-animated">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 100%">
                     </div>
                 </div>
                 <address>
@@ -154,7 +154,7 @@
             <div class="col-md-4">
                 <img alt="Bootstrap Image Preview" src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg">
                 <div class="progress mt-2">
-                    <div class="progress-bar w-75 progress-bar-animated progress-bar-striped">
+                    <div class="progress-bar progress-bar-animated progress-bar-striped bg-info" style="width: 68%">
                     </div>
                 </div>
                 <address>
@@ -197,6 +197,6 @@
     include 'footer.php';
 ?>
     </body>
-
+<?php
 //TODO
 //TODO query
