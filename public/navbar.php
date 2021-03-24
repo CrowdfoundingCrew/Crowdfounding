@@ -25,7 +25,7 @@
                     <a class="nav-link" href="#">Link 5</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 6</a>
+                    <a class="nav-link" href="./login.php">Login <i class="fas fa-sign-in-alt"></i></a>
                 </li>
             </ul>
         </div>
