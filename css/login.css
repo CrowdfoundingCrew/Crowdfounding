@@ -2,7 +2,7 @@
 #login-container {
     width: 450px;
     height: 400px;
-    border: 3px solid cyan;
+    border: 3px solid #5161ce;
     border-radius: 5px;
     position: fixed;
     top: 50%;
