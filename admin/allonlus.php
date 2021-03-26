@@ -1,8 +1,8 @@
 <?php 
     //include 'checksession.php';
     include 'mysql.php';
-    $title = 'Questo è un titolo';
-    $footer = 'Questo è un footer';
+    $title = 'Parte Admin Sgravata Pazza';
+    $footer = 'Questo è un footer dinamico';
     $page = 1;
     include 'header.php';
     include 'navbar.php';
@@ -16,6 +16,7 @@
     $no_of_records_per_page = 2;
     $offset = ($pageno - 1) * $no_of_records_per_page; 
     $data = Pagination($no_of_records_per_page, $offset);
+    $total_pages = $data[1]
 ?>
 <body>
     <div class="container-xl">
@@ -27,12 +28,13 @@
                 </div>
                     <form class="form-inline">
                         <input class="form-control mr-sm-2" type="text">
-                        <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="bi bi-search"></i>Search</button>
+                        <button class="btn btn-primary my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search"></span>Search</button>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="row">
+<?=$data[0];?>
+    <!--<div class="row">
             <div class="col-md-12">
                 <h3>
                     ONLUS 1
@@ -169,7 +171,7 @@
                     </footer>
                 </blockquote>
             </div>
-        </div>
+        </div>-->
         <div class="row">
             <div class="col-md-12">
                 <div class="d-flex justify-content-around">
@@ -189,10 +191,6 @@
             </div>
         </div>
     </div>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
 <?php
     include 'footer.php';
 ?>
