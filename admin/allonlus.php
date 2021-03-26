@@ -13,9 +13,15 @@
         $pageno = 1;
     }
 
+    if (isset($_GET['search'])) {
+        $search = $_GET['search'];
+    } else {
+        $search = "";
+    }
+
     $no_of_records_per_page = 2;
     $offset = ($pageno - 1) * $no_of_records_per_page; 
-    $data = Pagination($no_of_records_per_page, $offset);
+    $data = Pagination($no_of_records_per_page, $offset, $search);
     $total_pages = $data[1]
 ?>
 <body>
@@ -26,8 +32,8 @@
                 <div class="page-header">
                     <h1><?=$title?></h1>
                 </div>
-                    <form class="form-inline">
-                        <input class="form-control mr-sm-2" type="text">
+                    <form class="form-inline" action = "./allonlus.php" method="get">
+                        <input class="form-control mr-sm-2" type="text" name="search">
                         <button class="btn btn-primary my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search"></span>Search</button>
                     </form>
                 </div>
