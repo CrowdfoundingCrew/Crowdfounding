@@ -8,8 +8,8 @@ include('header.php');
     <span class="logmod__close">Close</span>
     <div class="logmod__container">
       <ul class="logmod__tabs">
-        <li data-tabtar="lgm-2"><a href="#">Onlus</a></li>
-        <li data-tabtar="lgm-1"><a href="#">Donatore</a></li>
+        <li data-tabtar="lgm-2"><a href="#">Donatore</a></li>
+        <li data-tabtar="lgm-1"><a href="#">Onlus</a></li>
       </ul>
       <div class="logmod__tab-wrapper">
       <div class="logmod__tab lgm-1">
@@ -19,54 +19,20 @@ include('header.php');
         <div class="logmod__form">
           <form accept-charset="utf-8" action="#" class="simform">
             <div class="sminputs">
-              <div class="input full">
-                <label class="string optional" for="user-name">Email*</label>
-                <input class="string optional" maxlength="255" id="user-email" placeholder="Email" type="email" size="50" />
-              </div>
-            </div>
-            <div class="sminputs">
-              <div class="input string optional">
-                <label class="string optional" for="user-pw">Password *</label>
-                <input class="string optional" maxlength="255" id="user-pw" placeholder="Password" type="text" size="50" />
+            <div class="input string optional">
+                <label class="string optional" for="user-name">Email *</label>
+                <input class="string optional" maxlength="255" id="onlus-email" placeholder="Email" type="email" size="50" required />
               </div>
               <div class="input string optional">
-                <label class="string optional" for="user-pw-repeat">Repeat password *</label>
-                <input class="string optional" maxlength="255" id="user-pw-repeat" placeholder="Repeat password" type="text" size="50" />
+                <label class="string optional" for="user-name">Username *</label>
+                <input class="string optional" maxlength="255" id="onlus-usrname" placeholder="Username" type="email" size="50" required />
               </div>
-              <div class="input string optional">
-                <label class="string optional" for="user-name">Nome *</label>
-                <input class="string optional" maxlength="255" id="user-name" placeholder="Nome" type="text" size="50" />
-              </div>
-              <div class="input string optional">
-                <label class="string optional" for="user-surname">Cognome *</label>
-                <input class="string optional" maxlength="255" id="user-surname" placeholder="Cognome" type="text" size="50" />
-              </div>
-              <div class="input full">
-                <label class="string optional" for="user-cdf">Codice fiscale*</label>
-                <input class="string optional" maxlength="16" id="user-cdf" placeholder="Codice fiscale" type="text" size="50" />
-            </div>
-            </div>
-            <div class="simform__actions">
-              <input class="sumbit" name="commit" type="sumbit" value="Crea Account" />
-              <span class="simform__actions-sidetext">By creating an account you agree to our <a class="special" href="#" target="_blank" role="link">Terms & Privacy</a></span>
-            </div> 
-          </form>
-        </div> 
-      
-      </div>
-      <div class="logmod__tab lgm-2">
-        <div class="logmod__form">
-          <form accept-charset="utf-8" action="#" class="simform">
-            <div class="sminputs">
-              <div class="input full">
-                <label class="string optional" for="user-name">Email*</label>
-                <input class="string optional" maxlength="255" id="user-email" placeholder="Email" type="email" size="50" />
-              </div>
+
             </div>
             <div class="sminputs">
             <div class="input string optional">
                 <label class="string optional" for="user-pw">Password *</label>
-                <input class="string optional" maxlength="255" id="user-pw" placeholder="Password" type="text" size="50" />
+                <input class="string optional" maxlength="255" id="onlus-pw" placeholder="Password" type="text" size="50" />
               </div>
               <div class="input string optional">
                 <label class="string optional" for="user-pw-repeat">Repeat password *</label>
@@ -103,6 +69,54 @@ include('header.php');
             </div> 
           </form>
         </div>
+      
+      </div>
+      <div class="logmod__tab lgm-2">
+        
+        <div class="logmod__form">
+          <form accept-charset="utf-8" action="#" class="simform">
+            <div class="sminputs">
+              <div class="input string optional">
+                <label class="string optional" for="user-name">Email *</label>
+                <input class="string optional" maxlength="255" id="user-email" placeholder="Email" type="email" size="50" required />
+              </div>
+              <div class="input string optional">
+                <label class="string optional" for="user-name">Username *</label>
+                <input class="string optional" maxlength="255" id="user-usrname" placeholder="Username" type="email" size="50" required />
+              </div>
+            </div>
+            <div class="sminputs">
+              <div class="input string optional">
+                <label class="string optional" for="user-pw">Password *</label>
+                <input class="string optional" maxlength="255" id="user-pw" placeholder="Password" type="text" size="50" required/>
+              </div>
+              <div class="input string optional">
+                <label class="string optional" for="user-pw-repeat">Repeat password *</label>
+                <input class="string optional" maxlength="255" id="user-pw-repeat" placeholder="Repeat password" type="text" size="50" required/>
+              </div>
+              <div class="input string optional">
+                <label class="string optional" for="user-name">Nome</label>
+                <input class="string optional" maxlength="255" id="user-name" placeholder="Nome" type="text" size="50" />
+              </div>
+              <div class="input string optional">
+                <label class="string optional" for="user-surname">Cognome</label>
+                <input class="string optional" maxlength="255" id="user-surname" placeholder="Cognome" type="text" size="50" />
+              </div>
+              <div class="input full">
+                <label class="string optional" for="user-cdf">Codice fiscale</label>
+                <input class="string optional" maxlength="16" id="user-cdf" placeholder="Codice fiscale" type="text" size="50" />
+            </div>
+            <div class="input full">
+                <label class="string optional" for="user-cdf">Indirizzo</label>
+                <input class="string optional" maxlength="255" id="user-ind" placeholder="Indirizzo" type="text" size="50" />
+            </div>
+            </div>
+            <div class="simform__actions">
+              <input class="sumbit" name="commit" type="sumbit" value="Crea Account"/>
+              <span class="simform__actions-sidetext">By creating an account you agree to our <a class="special" href="#" target="_blank" role="link">Terms & Privacy</a></span>
+            </div> 
+          </form>
+        </div> 
           </div>
       </div>
     </div>
