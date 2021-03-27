@@ -1,13 +1,9 @@
 <?php
-include '../config/config.php';
+include '../config/sampleconnection.php';
 
 function Pagination($no_of_records_per_page, $offset, $search)
 {
-    $conf = GetDBConfig();
-    $conn = new mysqli($conf['hostname'], $conf['username'], $conf['password'], $conf['dbname']);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $conn = connectDB();
 
    
     $total_pages_sql = "SELECT COUNT(*) AS Pagine FROM utenti WHERE Tipo = b'01' AND Denominazione LIKE ?";
@@ -46,10 +42,7 @@ function Pagination($no_of_records_per_page, $offset, $search)
             </div>" .
             "<div class='row'>";
 
-        $conn2= new mysqli($conf['hostname'], $conf['username'], $conf['password'], $conf['dbname']);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+        $conn2 = connectDB();
 
         $sqlprogetti = "SELECT IDProgetto, Nome, Descrizione, DataI, DataF, Obbiettivo FROM progetti WHERE IDOnlus = " . $IDUtente. " LIMIT 3";
         $progetti = $conn2->query($sqlprogetti);
