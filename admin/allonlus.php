@@ -33,7 +33,7 @@
                     <h1><?=$title?></h1>
                 </div>
                     <form class="form-inline" action = "./allonlus.php" method="get">
-                        <input class="form-control mr-sm-2" type="text" name="search">
+                        <input class="form-control mr-sm-2" type="text" name="search" value="<?=$search?>">
                         <button class="btn btn-primary my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search"></span>Search</button>
                     </form>
                 </div>
@@ -45,6 +45,7 @@
                 <div class="d-flex justify-content-around">
                     <nav>
                         <ul class="pagination">
+<?php if ($search!="") {?>
                             <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
                             <li class="page-item <?php if($pageno <= 1){ echo 'disabled'; } ?>">
                                 <a class="page-link" href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
@@ -52,7 +53,17 @@
                             <li class="page-item <?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
                                 <a class="page-link" href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1); } ?>">Next</a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="?pageno=<?php echo $total_pages; ?>">Last</a></li>
+                            <li class="page-item"><a class="page-link" href="?pageno=<?=$total_pages; ?>">Last</a></li>
+<?php }else{ ?>
+                            <li class="page-item"><a class="page-link" href="?pageno=1&search=<?=$search?>">First</a></li>
+                            <li class="page-item <?php if($pageno <= 1){ echo 'disabled'; } ?>">
+                                <a class="page-link" href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1)."&search=".$search; } ?>">Prev</a>
+                            </li>
+                            <li class="page-item <?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+                                <a class="page-link" href="<?php if($pageno >= $total_pages){ echo '#'; } else { echo "?pageno=".($pageno + 1)."&search=".$search; } ?>">Next</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="?pageno=<?=$total_pages;?>&search=<?=$search?>">Last</a></li>
+<?php } ?>
                         </ul>
                     </nav>
                 </div>
