@@ -50,16 +50,35 @@ function Pagination($no_of_records_per_page, $offset, $search)
             $nomeprogetto = $progetto['Nome'];
             $descrizioneprogetto = $progetto['Descrizione'];
             $datiprogetto = $progetto['DataI'] . " - " . $progetto['DataF'] . " Obbiettivo: " . $progetto['Obbiettivo'] . "€";
-            $coloreprogetto = "info";
-            $barprogetto = 68;
 
             $sqlimmagine = "SELECT Path FROM risorse WHERE IDProgetto =" . $progetto["IDProgetto"] . " AND Tipologia = 0 LIMIT 1";
             $immagine = $conn2->query($sqlimmagine)->fetch_assoc();
 
+            $sqldonazioni = "SELECT Importo FROM donazioni WHERE IDProgetto =" . $progetto["IDProgetto"] . " AND Status = 'Ok'";
+            $donazioni = $conn2->query($sqldonazioni);
+            $totdona = 0;
+            while($donazione = $donazioni->fetch_assoc()){
+                $totdona = $totdona + $donazione["Importo"];
+            }
+
+            $barprogetto = floor($totdona / $progetto["Obbiettivo"] * 100);
+
+            if($barprogetto < 30){
+                $coloreprogetto = "danger";
+            } else if($barprogetto <50){
+                $coloreprogetto = "warning";
+            } else if ($barprogetto < 80){
+                $coloreprogetto = "info";
+            } else if ($barprogetto < 100){
+                $coloreprogetto = "primary";
+            } else {
+                $coloreprogetto = "success";
+            }
+
             if($immagine)
                 $immagineprogetto = $immagine["Path"];
             else
-                $immagineprogetto = "https://onoranzefunebrifratellimevolimonopoli.it/wp-content/uploads/woocommerce-placeholder-1150x1150.png";
+                $immagineprogetto = "../assets/img/placeholder.png";
 
             $result = $result .
                 "<div class='col-md-4'>
