@@ -1,32 +1,39 @@
 <nav class="navbar navbar-expand-custom navbar-mainbg">
-        <a class="navbar-brand navbar-logo" href="#">Donate For</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand navbar-logo" href="#">Donate For</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars text-white"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <div class="hori-selector">
-                    <div class="left"></div>
-                    <div class="right"></div>
-                </div>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 1</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Link 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 3</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 4</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link 5</a>
-                </li>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <div class="hori-selector">
+                <div class="left"></div>
+                <div class="right"></div>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link 1</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Link 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link 3</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link 4</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link 5</a>
+            </li>
+            <?php if (!isset($_SESSION['Username'])) {
+            ?>
                 <li class="nav-item">
                     <a class="nav-link" href="./login.php">Login <i class="fas fa-sign-in-alt"></i></a>
                 </li>
-            </ul>
-        </div>
-    </nav>
+            <?php } else { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="./login.php"><?php ?>$_SESSION['Username'] <i class="fas fa-sign-in-alt"></i></a>
+                </li>
+            <?php } ?>
+        </ul>
+    </div>
+</nav>
