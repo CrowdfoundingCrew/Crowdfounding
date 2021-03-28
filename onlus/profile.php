@@ -39,7 +39,7 @@ include('navbar.php');
                         <div><span class="font-weight-bold">Obiettivo:</span>
                             <p class="d-inline"><?=$row['Obbiettivo']?></p>
                         </div>
-<!--                         <div><span class="font-weight-bold">Donazioni raggiunte:</span>
+                        <!-- <div><span class="font-weight-bold">Donazioni raggiunte:</span>
                             <p class="d-inline"><?=$row['']?></p>
                         </div> -->
                         <div><span class="font-weight-bold">Data termine:</span>

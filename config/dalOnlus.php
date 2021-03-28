@@ -38,5 +38,48 @@ function GETOnlusProgetti($id, $page){
     return $data;
 }
 
+function GETCategorie(){
+    $mysqli=connectDB();
+    $query="SELECT * FROM `tag`";
+    $result=$mysqli->query($query);
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free_result();
+    $mysqli->close();
+    return $data;
+}
 
+function INSERTProgetto($nome,$desc,$obiettivo,$dataF,$FKTag,$FKOnlus){
+    $mysqli=connectDB();
+    $stmt=$mysqli->prepare("INSERT INTO `progetti`(`Nome`, `Descrizione`, `Obbiettivo`, `DataI`, `DataF`, `IDTag`, `IDOnlus`) VALUES (?,?,?,CURDATE(),?,?,?)");
+    $stmt->bind_param('ssisii',$nome,$desc,intval($obiettivo),$dataF,intval($FKTag),intval($FKOnlus));
+    $stmt->execute();
+    $result=$stmt->get_result();
+    if(!$result)
+        $result=$stmt->insert_id;
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
+
+function INSERTRisorsa($path,$tipologia,$IDProgetto){
+    $mysqli=connectDB();
+    $stmt=$mysqli->prepare("INSERT INTO `risorse`(`Path`, `Tipologia`, `IDProgetto`) VALUES (?,?,?)");
+    $stmt->bind_param('sii',$path,$tipologia,$IDProgetto);
+    $stmt->execute();
+    $result=$stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
+
+function INSERTSocial($link,$nomesocial,$IDProgetto){
+    $mysqli=connectDB();
+    $stmt=$mysqli->prepare("INSERT INTO `social`( `Link`, `IDProgetto`, `IDTipo`) VALUES (?,?,(SELECT `IDTipo` FROM `tipo` WHERE `NomeSocial`= ?))");
+    $stmt->bind_param('sis',$link,$IDProgetto,$nomesocial);
+    $stmt->execute();
+    $result=$stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
 ?>
