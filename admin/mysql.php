@@ -48,7 +48,7 @@ function Pagination($no_of_records_per_page, $offset, $search)
         $progetti = $conn2->query($sqlprogetti);
         while ($progetto = $progetti->fetch_assoc()) {
             $nomeprogetto = $progetto['Nome'];
-            $descrizioneprogetto = $progetto['Descrizione'];
+            $descrizioneprogetto = str_split($progetto['Descrizione'], 140)[0] . "...";
             $datiprogetto = $progetto['DataI'] . " - " . $progetto['DataF'] . " Obbiettivo: " . $progetto['Obbiettivo'] . "€";
 
             $sqlimmagine = "SELECT Path FROM risorse WHERE IDProgetto =" . $progetto["IDProgetto"] . " AND Tipologia = 0 LIMIT 1";
@@ -82,7 +82,7 @@ function Pagination($no_of_records_per_page, $offset, $search)
 
             $result = $result .
                 "<div class='col-md-4'>
-                    <img alt='Bootstrap Image Preview' src='$immagineprogetto' style='width: 150px;'>
+                    <img class='rounded mx-auto d-block' alt='img del progetto' src='$immagineprogetto' style='width: 150px;'>
                     <div class='progress mt-2'>
                         <div class='progress-bar progress-bar-animated progress-bar-striped bg-$coloreprogetto' style='width: $barprogetto%'>
                         </div>

@@ -19,7 +19,7 @@
         $search = "";
     }
 
-    $no_of_records_per_page = 2;
+    $no_of_records_per_page = 5;
     $offset = ($pageno - 1) * $no_of_records_per_page; 
     $data = Pagination($no_of_records_per_page, $offset, $search);
     $total_pages = $data[1]
@@ -45,7 +45,7 @@
                 <div class="d-flex justify-content-around">
                     <nav>
                         <ul class="pagination">
-<?php if ($search!="") {?>
+<?php if ($search=="") {?>
                             <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
                             <li class="page-item <?php if($pageno <= 1){ echo 'disabled'; } ?>">
                                 <a class="page-link" href="<?php if($pageno <= 1){ echo '#'; } else { echo "?pageno=".($pageno - 1); } ?>">Prev</a>
