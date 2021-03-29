@@ -8,6 +8,7 @@ if (isset($_GET['ID'])) {
 if (isset($_POST['submit'])) {
     $Onlus = 1;
     //Ci vuole la sessione per FKOnlus...
+    //DatiProgetto
     $result = INSERTProgetto(
         htmlentities($_POST["txtNomeProgetto"]),
         htmlentities($_POST["txtDescrizioneProgetto"]),
@@ -55,6 +56,14 @@ if (isset($_POST['submit'])) {
 
         if (!empty(trim($_POST["txtTelegram"]))) {
             INSERTSocial(trim($_POST["txtTelegram"]), "Telegram", $result);
+        }
+
+        //RicompenseProgetto
+        $countRicompensa = count($_POST['txtRicompensaProgetto']);
+        for ($i = 0; $i < $countRicompensa; $i++) {
+            if (trim($_POST['txtRicompensaProgetto'][$i])!='') {
+                INSERTRicompensa(trim($_POST['txtRicompensaProgetto'][$i]), $_POST['txtDescrizionePrezzo'][$i], $result);
+            }
         }
     }
 }
@@ -115,6 +124,28 @@ include('navbar.php');
                     <?php } ?>
                 </select>
             </div>
+        </div>
+        <div>
+            <h5>Ricompense</h5>
+            <div class="form-row">
+                <div class="form-group col-md" id="multiPrice">
+                    <label for="txtRicompensaProgetto">A partire da</label>
+                    <div class="input-group mt-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">€</span>
+                        </div>
+                        <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="0">
+                        <div class="input-group-append">
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md" id="multiDesc">
+                    <label for="txtDescrizionePrezzo">Descrizione</label>
+                    <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]">
+                </div>
+            </div>
+            <button class="btn btn-info" name="submit" type="button" onclick="GeneraInput(1)">Aggiungi Riga</button>
         </div>
         <div>
             <h5>Carica gli allegati</h5>

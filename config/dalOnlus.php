@@ -82,4 +82,15 @@ function INSERTSocial($link,$nomesocial,$IDProgetto){
     $mysqli->close();
     return $result;
 }
+
+function INSERTRicompensa($money,$desc,$IDProgetto){
+    $mysqli=connectDB();
+    $stmt=$mysqli->prepare("INSERT INTO `ricompense`(`ImportoMin`, `Descrizione`, `IDProgetto`) VALUES (?,?,?)");
+    $stmt->bind_param('isi',$money,$desc,$IDProgetto);
+    $stmt->execute();
+    $result=$stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
 ?>

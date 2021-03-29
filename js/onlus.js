@@ -20,3 +20,20 @@ function UploadFiles(a, b) {
     }
     $(b).html(text);
 }
+
+function GeneraInput(num) {
+    for (let i = 0; i < num; i++) {
+        GeneraPrice();
+        GeneraDesc();
+    }
+}
+
+function GeneraPrice() {
+    $('#multiPrice').append('<div class="input-group mt-2"><div class="input-group-prepend"><span class="input-group-text">€</span></div>' +
+        '<input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="0"><div class="input-group-append"><span class="input-group-text">.00</span>' +
+        '</div></div>');
+}
+
+function GeneraDesc() {
+    $('#multiDesc').append('<input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]">');
+}
