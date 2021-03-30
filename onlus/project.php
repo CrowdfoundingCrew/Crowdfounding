@@ -1,5 +1,5 @@
 <?php
-include ('checksession.php');
+//include ('checksession.php');
 require('../config/dalOnlus.php');
 
 
@@ -7,6 +7,7 @@ $date = new DateTime();
 $day = $date->add(new DateInterval('P180D'))->format("Y-m-d");
 
 if (isset($_POST['submit'])) {
+    if($_POST['submit']==1){
     $Onlus = 1; //Ci vuole la sessione per FKOnlus...
     //DatiProgetto
     $result = INSERTProgetto(
@@ -61,34 +62,40 @@ if (isset($_POST['submit'])) {
         //RicompenseProgetto
         $countRicompensa = count($_POST['txtRicompensaProgetto']);
         for ($i = 0; $i < $countRicompensa; $i++) {
-            if (trim($_POST['txtRicompensaProgetto'][$i])!='') {
+            if (trim($_POST['txtRicompensaProgetto'][$i]) != '') {
                 INSERTRicompensa(trim($_POST['txtRicompensaProgetto'][$i]), $_POST['txtDescrizionePrezzo'][$i], $result);
             }
         }
+    }}else{
+        //echo var_dump($_POST);
+        echo "Sono POST Method";
     }
-}else if (isset($_GET['ID'])) {
-    $array=GETProgetto($_GET['ID']);
-    $txtNomeProgetto=$array['Nome'];
-    $txtDescrizioneProgetto=$array['Descrizione'];
-    $txtObiettivoProgetto=$array['Obbiettivo'];
-    $day=$array['DataF'];
-    $txtCategoriaProgetto=$array['IDTag'];
-    $txtInstagram=GETSocial($_GET['ID'],"Instagram");
-    $txtFacebook=GETSocial($_GET['ID'],"Facebook");
-    $txtTelegram=GETSocial($_GET['ID'],"Telegram");
-    $txtTwitter=GETSocial($_GET['ID'],"Twitter");
+} else if (isset($_GET['ID'])) {
+    $array = GETProgetto($_GET['ID']);
+    $txtNomeProgetto = $array['Nome'];
+    $txtDescrizioneProgetto = $array['Descrizione'];
+    $txtObiettivoProgetto = $array['Obbiettivo'];
+    $day = $array['DataF'];
+    $txtCategoriaProgetto = $array['IDTag'];
+    $txtInstagram = GETSocial($_GET['ID'], "Instagram");
+    $txtFacebook = GETSocial($_GET['ID'], "Facebook");
+    $txtTelegram = GETSocial($_GET['ID'], "Telegram");
+    $txtTwitter = GETSocial($_GET['ID'], "Twitter");
+    $txtRicompensa = GETRicompense($_GET['ID']);
+    $txtSubmit=0;
 } else {
-    $txtNomeProgetto="";
-    $txtDescrizioneProgetto="";
-    $txtObiettivoProgetto="";
+    $txtNomeProgetto = "";
+    $txtDescrizioneProgetto = "";
+    $txtObiettivoProgetto = "";
     $date = new DateTime();
     $day = $date->add(new DateInterval('P180D'))->format("Y-m-d");;
-    $txtCategoriaProgetto=1;
-    $txtInstagram="";
-    $txtFacebook="";
-    $txtTelegram="";
-    $txtTwitter="";
-
+    $txtCategoriaProgetto = 1;
+    $txtInstagram = "";
+    $txtFacebook = "";
+    $txtTelegram = "";
+    $txtTwitter = "";
+    $txtRicompensa = array();
+    $txtSubmit=1;
 }
 
 
@@ -107,18 +114,18 @@ include('navbar.php');
             <h5>Dati identificativi del progetto</h5>
             <div class="form-group">
                 <label for="txtNomeProgetto">Nome Progetto</label>
-                <input type="text" class="form-control" id="txtNomeProgetto" value="<?=$txtNomeProgetto?>" name="txtNomeProgetto" aria-describedby="txtNomeProgettoHelp">
+                <input type="text" class="form-control" id="txtNomeProgetto" value="<?= $txtNomeProgetto ?>" name="txtNomeProgetto" aria-describedby="txtNomeProgettoHelp">
                 <small id="txtNomeProgettoHelp" class="form-text text-muted">Come si chiama il progetto?</small>
             </div>
             <div class="form-group">
                 <label for="txtDescrizioneProgetto">Descrizione del progetto</label>
-                <textarea class="form-control" id="txtDescrizioneProgetto" name="txtDescrizioneProgetto" aria-describedby="txtDescrizioneProgettoHelp"><?=$txtDescrizioneProgetto?></textarea>
+                <textarea class="form-control" id="txtDescrizioneProgetto" name="txtDescrizioneProgetto" aria-describedby="txtDescrizioneProgettoHelp"><?= $txtDescrizioneProgetto ?></textarea>
                 <small id="txtDescrizioneProgettoHelp" class="form-text text-muted">Descrivi il progetto</small>
             </div>
             <div class="form-row">
                 <div class="form-group col-md">
                     <label for="txtFineProgetto">Data fine del Progetto</label>
-                    <input type="date" class="form-control" id="txtFineProgetto" name="txtFineProgetto" aria-describedby="txtFineProgettoHelp" value="<?=$day?>">
+                    <input type="date" class="form-control" id="txtFineProgetto" name="txtFineProgetto" aria-describedby="txtFineProgettoHelp" value="<?= $day ?>">
                     <small id="txtFineProgettoHelp" class="form-text text-muted">Quando finisce la raccolta fondi?</small>
                 </div>
                 <div class="form-group col-md">
@@ -127,7 +134,7 @@ include('navbar.php');
                         <div class="input-group-prepend">
                             <span class="input-group-text">€</span>
                         </div>
-                        <input type="number" class="form-control" id="txtObiettivoProgetto" value="<?=$txtObiettivoProgetto?>" name="txtObiettivoProgetto" aria-describedby="txtObiettivoProgettoHelp">
+                        <input type="number" class="form-control" id="txtObiettivoProgetto" value="<?= $txtObiettivoProgetto ?>" name="txtObiettivoProgetto" aria-describedby="txtObiettivoProgettoHelp">
                         <div class="input-group-append">
                             <span class="input-group-text">.00</span>
                         </div>
@@ -137,7 +144,7 @@ include('navbar.php');
             </div>
             <div class="form-group">
                 <label for="txtCategoriaProgetto">Seleziona la categoria</label>
-                <select class="form-control" id="txtCategoriaProgetto" name="txtCategoriaProgetto" value="<?=$txtCategoriaProgetto?>">
+                <select class="form-control" id="txtCategoriaProgetto" name="txtCategoriaProgetto" value="<?= $txtCategoriaProgetto ?>">
                     <?php foreach ($categorie as $row) { ?>
                         <option value="<?= $row["IDTag"] ?>"><?= $row["Ambito"] ?></option>
                     <?php } ?>
@@ -149,19 +156,35 @@ include('navbar.php');
             <div class="form-row">
                 <div class="form-group col-md" id="multiPrice">
                     <label for="txtRicompensaProgetto">A partire da</label>
-                    <div class="input-group mt-2">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">€</span>
+                    <?php if(count($txtRicompensa)>0){foreach ($txtRicompensa as $row) { ?>
+                        <div class="input-group mt-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="<?= $row['ImportoMin'] ?>">
+                            <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                            </div>
                         </div>
-                        <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="0">
-                        <div class="input-group-append">
-                            <span class="input-group-text">.00</span>
+                        <?php }}else{ ?>
+                            <div class="input-group mt-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="0">
+                            <div class="input-group-append">
+                                <span class="input-group-text">.00</span>
+                            </div>
                         </div>
-                    </div>
+                    <?php } ?>
                 </div>
                 <div class="form-group col-md" id="multiDesc">
                     <label for="txtDescrizionePrezzo">Descrizione</label>
-                    <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]">
+                    <?php if(count($txtRicompensa)>0){foreach ($txtRicompensa as $row) { ?>
+                        <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]" value="<?= $row['Descrizione'] ?>">
+                    <?php }}else{ ?>
+                        <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]">
+                        <?php } ?>
                 </div>
             </div>
             <button class="btn btn-info" name="submit" type="button" onclick="GeneraInput(1)">Aggiungi Riga</button>
@@ -228,7 +251,7 @@ include('navbar.php');
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fab fa-instagram"></i></span>
                         </div>
-                        <input type="text" class="form-control" id="txtInstagram" name="txtInstagram" aria-describedby="txtInstagramHelp" value="<?=$txtInstagram?>">
+                        <input type="text" class="form-control" id="txtInstagram" name="txtInstagram" aria-describedby="txtInstagramHelp" value="<?= $txtInstagram ?>">
                     </div>
                     <small id="txtInstagramHelp" class="form-text text-muted">Instagram, di moda tra i giovani, ebbene perchè non usarlo per far partecipare anche loro</small>
                 </div>
@@ -238,7 +261,7 @@ include('navbar.php');
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fab fa-facebook-f"></i></span>
                         </div>
-                        <input type="text" class="form-control" id="txtFacebook" name="txtFacebook" aria-describedby="txtFacebookHelp" value="<?=$txtFacebook?>">
+                        <input type="text" class="form-control" id="txtFacebook" name="txtFacebook" aria-describedby="txtFacebookHelp" value="<?= $txtFacebook ?>">
                     </div>
                     <small id="txtFacebookHelp" class="form-text text-muted">Facebook, forse sorpassato ma perchè non sfruttarlo per rendere partecipe anche la popolazione meno aggiornata</small>
                 </div>
@@ -250,7 +273,7 @@ include('navbar.php');
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fab fa-twitter"></i></span>
                         </div>
-                        <input type="text" class="form-control" id="txtTwitter" name="txtTwitter" aria-describedby="txtTwitterHelp" value="<?=$txtTwitter?>">
+                        <input type="text" class="form-control" id="txtTwitter" name="txtTwitter" aria-describedby="txtTwitterHelp" value="<?= $txtTwitter ?>">
                     </div>
                     <small id="txtTwitterHelp" class="form-text text-muted">Puoi usare twitter per pubblicare aggiornamenti di stato o più semplicemente per rigraziare chi ti ha donato</small>
                 </div>
@@ -260,19 +283,19 @@ include('navbar.php');
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fab fa-telegram-plane"></i></span>
                         </div>
-                        <input type="text" class="form-control" id="txtTelegram" name="txtTelegram" aria-describedby="txtTelegramHelp" value="<?=$txtTelegram?>">
+                        <input type="text" class="form-control" id="txtTelegram" name="txtTelegram" aria-describedby="txtTelegramHelp" value="<?= $txtTelegram ?>">
                     </div>
                     <small id="txtTelegramHelp" class="form-text text-muted">Hai Telegram? Benissimo molti utenti della nostra community lo usano costantemente</small>
                 </div>
             </div>
         </div>
         <div class="form-row">
-            <button class="btn btn-info" name="submit" type="submit" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);">Registrati</button>
-            <a class="btn" onclick="location.href='../';">Torna alla home</a>
+            <button class="btn btn-info" name="submit" type="submit" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);" value="<?=$txtSubmit?>">Registrati</button>
+            <a class="btn" onclick="location.href='/public/';">Torna alla home</a>
         </div>
     </form>
     <script>
-    $('#txtCategoriaProgetto option[value="' + <?=$txtCategoriaProgetto?>+ '"]').prop('selected', true);
+        $('#txtCategoriaProgetto option[value="' + <?= $txtCategoriaProgetto ?> + '"]').prop('selected', true);
     </script>
 </div>
 <?php

@@ -137,8 +137,8 @@ function GETSocial($id, $tipo)
 function GETRicompense($id)
 {
     $mysqli = connectDB();
-    $stmt = $mysqli->prepare("SELECT `IDRicompensa`, `ImportoMin`, `Descrizione` FROM `ricompense` WHERE `IDProgetto`=?");
-    $stmt->bind_param('is', $id);
+    $stmt = $mysqli->prepare("SELECT `ImportoMin`, `Descrizione` FROM `ricompense` WHERE `IDProgetto`=?");
+    $stmt->bind_param('i', $id);
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_all(MYSQLI_ASSOC);
@@ -146,4 +146,30 @@ function GETRicompense($id)
     $stmt->close();
     $mysqli->close();
     return $data;
+}
+
+function UPDATEProgetto($id, $nome, $desc, $obiettivo, $dataF, $FKTag){
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("UPDATE `progetti` SET `Nome`=?,`Descrizione`=?,`Obbiettivo`=?,`DataF`=?,`IDTag`=? WHERE `IDProgetto`=?");
+    $stmt->bind_param('ssisii', $nome, $desc, $obiettivo, $dataF, $FKTag, $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
+
+function UPDATESocial(){
+    
+}
+
+function DELETESocial($id, $tipo){
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("DELETE FROM `social` WHERE `IDProgetto`=? AND `IDTag`=(SELECT `IDTipo` FROM `tipo` WHERE `NomeSocial`= ?)");
+    $stmt->bind_param('is', $id, $tipo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
 }
