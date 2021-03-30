@@ -37,3 +37,7 @@ function GeneraPrice() {
 function GeneraDesc() {
     $('#multiDesc').append('<input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]">');
 }
+
+function SelezionaOpzione(id) {
+    $('#txtCategoriaProgetto option[value="' + id + '"]').prop('selected', true)
+}
