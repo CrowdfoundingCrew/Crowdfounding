@@ -1,4 +1,5 @@
 <?php
+session_start();
 $title="HomePage";
 include('header.php');
 include('navbar.php');

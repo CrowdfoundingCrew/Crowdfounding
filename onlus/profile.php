@@ -1,5 +1,5 @@
 <?php
-
+include ('checksession.php');
 $id=isset($_GET['ID'])?intval($_GET['ID']):0;
 $page=isset($_GET['page'])?intval($_GET['page']):0;
 

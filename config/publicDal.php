@@ -12,6 +12,7 @@ function InsertDonator($mail, $usr, $psw, $name, $surn, $cdf, $addr)
     $stmt->close();
     $conn->close();
 }
+
 function InsertOnlus($mail, $usr, $psw, $cdf, $addr, $den, $cell, $piva, $rea)
 {
     $conn = connectDB();
@@ -27,6 +28,7 @@ function InsertOnlus($mail, $usr, $psw, $cdf, $addr, $den, $cell, $piva, $rea)
     $conn->close();
     return $result;
 }
+
 function InsertOnlusWithLogo($id, $path)
 {
     $conn = connectDB();
@@ -36,15 +38,16 @@ function InsertOnlusWithLogo($id, $path)
     $stmt->close();
     $conn->close();
 }
+
 function FindUser($Username)
 {
     $conn = connectDB();
-    $stmt = $conn->prepare("SELECT `IDUtente`,`Username`,`Password` FROM `utenti` WHERE `Username` = ?");
+    $stmt = $conn->prepare("SELECT `IDUtente`,`Password`,`Tipo` FROM `utenti` WHERE `Username` = ?");
     $stmt->bind_param('s', $Username);
     $stmt->execute();
-    $stmt->bind_result($id, $user, $pass);
+    $stmt->bind_result($id, $pass, $tipo);
     $stmt->fetch();
-    $data = array($id, $user, $pass);
+    $data = array($id, $pass, $tipo);
     $stmt->close();
     $conn->close();
     return $data;

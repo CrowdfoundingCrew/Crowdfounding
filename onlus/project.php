@@ -1,4 +1,5 @@
 <?php
+include ('checksession.php');
 require('../config/dalOnlus.php');
 
 
