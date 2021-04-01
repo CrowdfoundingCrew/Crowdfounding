@@ -19,7 +19,7 @@
         $search = "";
     }
 
-    $no_of_records_per_page = 5;
+    $no_of_records_per_page = 20;
     $offset = ($pageno - 1) * $no_of_records_per_page; 
     $data = Pagination($no_of_records_per_page, $offset, $search);
     $total_pages = $data[1]

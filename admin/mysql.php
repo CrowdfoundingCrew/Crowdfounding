@@ -1,7 +1,7 @@
 <?php
 include '../config/sampleconnection.php';
 
-function Pagination($no_of_records_per_page, $offset, $search)
+function Onlus($no_of_records_per_page, $offset, $search)
 {
     $conn = connectDB();
 
