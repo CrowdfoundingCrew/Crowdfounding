@@ -173,3 +173,30 @@ function DELETESocial($id, $tipo){
     $mysqli->close();
     return $result;
 }
+
+function UPDATEOnlusPrivate($mail, $usr, $psw, $id)
+{
+    $conn = connectDB();
+    $pass = password_hash($psw, PASSWORD_DEFAULT);
+    $stmt = $conn->prepare("UPDATE `utenti` SET `Username`=? ,`Password`=? ,`E-mail`=? WHERE `IDUtente`=?");
+    $stmt->bind_param('sssi', $usr, $pass, $mail,$id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $conn->close();
+    return $result;
+}
+
+function UPDATEOnlusProfile($cdf, $addr, $den, $cell, $piva, $rea, $image, $id)
+{
+    $conn = connectDB();
+    $stmt = $conn->prepare("UPDATE `utenti` SET `Indirizzo`=?,`CodiceFiscale`=?,`Denominazione`=?,`Telefono`=?,`PartitaIva`=?,`REA`=?,`Immagine`=? WHERE `IDUtente`=?");
+    $stmt->bind_param('sssssssi', $addr, $cdf, $den, $cell, $piva, $rea, $image, $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $conn->close();
+    return $result;
+}
+
+
