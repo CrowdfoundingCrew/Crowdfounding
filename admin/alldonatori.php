@@ -1,5 +1,5 @@
 <?php 
-    //include 'checksession.php';
+    include 'checksession.php';
     include 'mysql.php';
     $title = 'Parte Admin Sgravata Pazza pt2';
     $footer = 'Questo è un footer dinamico pt2';

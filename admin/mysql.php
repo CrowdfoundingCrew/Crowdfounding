@@ -130,12 +130,16 @@ function Donatori($no_of_records_per_page, $offset, $search)
         if($Donazioni == NULL){
             $Donazioni = 0;
         }
+        $linkuser = "?id=" . $IDUtente;
 
-        $result = $result . "<div class='col-md-4'>
-			                    <strong>$Username: $Cognome $Nome</strong><br>
-                                E-mail: $Email<br>
-                                Indirizzo: $Indirizzo<br>
-                                Totale donazioni: $Donazioni<br>
+        $result = $result . "<div class='col-md-4 mb-2'>
+			                    <p>
+                                    <strong>$Username: $Cognome $Nome</strong><br>
+                                    E-mail: $Email<br>
+                                    Indirizzo: $Indirizzo<br>
+                                    Totale donazioni: $Donazioni<br>
+                                    <a class='btn' href='$linkuser'>View details »</a>
+                                </p>
 		                     </div>";
 
         if($count % 3 == 2){
