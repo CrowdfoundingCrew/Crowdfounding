@@ -1,5 +1,5 @@
 <?php
-//include ('checksession.php');
+include('checksession.php');
 require('../config/dalOnlus.php');
 
 
@@ -7,70 +7,109 @@ $date = new DateTime();
 $day = $date->add(new DateInterval('P180D'))->format("Y-m-d");
 
 if (isset($_POST['submit'])) {
-    if($_POST['submit']==1){
-    $Onlus = 1; //Ci vuole la sessione per FKOnlus...
-    //DatiProgetto
-    $result = INSERTProgetto(
-        htmlentities($_POST["txtNomeProgetto"]),
-        htmlentities($_POST["txtDescrizioneProgetto"]),
-        htmlentities($_POST["txtObiettivoProgetto"]),
-        htmlentities($_POST["txtFineProgetto"]),
-        htmlentities($_POST["txtCategoriaProgetto"]),
-        $Onlus
-    );
+    if ($_POST['submit'] == 1) {
+        //DatiProgetto
+        $result = INSERTProgetto(
+            htmlentities($_POST["txtNomeProgetto"]),
+            htmlentities($_POST["txtDescrizioneProgetto"]),
+            htmlentities($_POST["txtObiettivoProgetto"]),
+            htmlentities($_POST["txtFineProgetto"]),
+            htmlentities($_POST["txtCategoriaProgetto"]),
+            $_SESSION['ID']
+        );
 
-    if (is_numeric($result)) {
-        //ImmagineProgetto
-        if (UPLOAD_ERR_OK === $_FILES['ImmagineProgetto']['error']) {
-            $uploadDirPhoto = 'assets/profile/';
-            $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . basename($_FILES['ImmagineProgetto']['name']);
-            move_uploaded_file($_FILES['ImmagineProgetto']['tmp_name'], "../" . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
-            $profile_path = $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto;
-            INSERTRisorsa($profile_path, 0, $result);
-        }
+        if (is_numeric($result)) {
+            //ImmagineProgetto
+            if (UPLOAD_ERR_OK === $_FILES['ImmagineProgetto']['error']) {
+                $uploadDirPhoto = 'assets/profile/';
+                $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . basename($_FILES['ImmagineProgetto']['name']);
+                move_uploaded_file($_FILES['ImmagineProgetto']['tmp_name'], "../" . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
+                $profile_path = $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto;
+                INSERTRisorsa($profile_path, 0, $result);
+            }
 
-        //RisorseProgetto
-        $countfiles = count($_FILES['RisorseProgetto']['name']);
-        $uploadDirResources = 'assets/resources/';
-        for ($i = 0; $i < $countfiles; $i++) {
-            if (UPLOAD_ERR_OK === $_FILES['RisorseProgetto']['error'][$i]) {
-                $filename = $_FILES['RisorseProgetto']['name'][$i];
-                $fileNameResources = $result . "_" . strval(date('Y-m-d')) . "_" . basename($filename);
-                move_uploaded_file($_FILES['RisorseProgetto']['tmp_name'][$i], "../" . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources);
-                $resources_path = $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources;
-                INSERTRisorsa($resources_path, 0, $result);
+            //RisorseProgetto
+            $countfiles = count($_FILES['RisorseProgetto']['name']);
+            $uploadDirResources = 'assets/resources/';
+            for ($i = 0; $i < $countfiles; $i++) {
+                if (UPLOAD_ERR_OK === $_FILES['RisorseProgetto']['error'][$i]) {
+                    $filename = $_FILES['RisorseProgetto']['name'][$i];
+                    $fileNameResources = $result . "_" . strval(date('Y-m-d')) . "_" . basename($filename);
+                    move_uploaded_file($_FILES['RisorseProgetto']['tmp_name'][$i], "../" . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources);
+                    $resources_path = $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources;
+                    INSERTRisorsa($resources_path, 0, $result);
+                }
+            }
+
+            //Canali Social
+            if (!empty(trim($_POST["txtInstagram"]))) {
+                INSERTSocial(trim(trim($_POST["txtInstagram"])), "Instagram", $result);
+            }
+
+            if (!empty(trim($_POST["txtFacebook"]))) {
+                INSERTSocial(trim($_POST["txtFacebook"]), "Facebook", $result);
+            }
+
+            if (!empty(trim($_POST["txtTwitter"]))) {
+                INSERTSocial(trim($_POST["txtTwitter"]), "Twitter", $result);
+            }
+
+            if (!empty(trim($_POST["txtTelegram"]))) {
+                INSERTSocial(trim($_POST["txtTelegram"]), "Telegram", $result);
+            }
+
+            //RicompenseProgetto
+            $countRicompensa = count($_POST['txtRicompensaProgetto']);
+            for ($i = 0; $i < $countRicompensa; $i++) {
+                if (trim($_POST['txtRicompensaProgetto'][$i]) != '') {
+                    INSERTRicompensa(trim($_POST['txtRicompensaProgetto'][$i]), $_POST['txtDescrizionePrezzo'][$i], $result);
+                }
             }
         }
+    } else {
+        UPDATEProgetto(
+            $_GET['ID'],
+            htmlentities($_POST["txtNomeProgetto"]),
+            htmlentities($_POST["txtDescrizioneProgetto"]),
+            htmlentities($_POST["txtObiettivoProgetto"]),
+            htmlentities($_POST["txtFineProgetto"]),
+            htmlentities($_POST["txtCategoriaProgetto"])
+        );
 
         //Canali Social
         if (!empty(trim($_POST["txtInstagram"]))) {
-            INSERTSocial(trim(trim($_POST["txtInstagram"])), "Instagram", $result);
+            UPDATESocial(trim(trim($_POST["txtInstagram"])), "Instagram", $_GET['ID']);
+        } else {
+            DELETESocial($_GET['ID'], "Instagram");
         }
 
         if (!empty(trim($_POST["txtFacebook"]))) {
-            INSERTSocial(trim($_POST["txtFacebook"]), "Facebook", $result);
+            UPDATESocial(trim($_POST["txtFacebook"]), "Facebook", $_GET['ID']);
+        } else {
+            DELETESocial($_GET['ID'], "Facebook");
         }
 
         if (!empty(trim($_POST["txtTwitter"]))) {
-            INSERTSocial(trim($_POST["txtTwitter"]), "Twitter", $result);
+            UPDATESocial(trim($_POST["txtTwitter"]), "Twitter", $_GET['ID']);
+        } else {
+            DELETESocial($_GET['ID'], "Twitter");
         }
 
         if (!empty(trim($_POST["txtTelegram"]))) {
-            INSERTSocial(trim($_POST["txtTelegram"]), "Telegram", $result);
+            UPDATESocial(trim($_POST["txtTelegram"]), "Telegram", $_GET['ID']);
+        } else {
+            DELETESocial($_GET['ID'], "Telegram");
         }
 
-        //RicompenseProgetto
         $countRicompensa = count($_POST['txtRicompensaProgetto']);
+        DELETERicompense($_GET['ID']);
         for ($i = 0; $i < $countRicompensa; $i++) {
             if (trim($_POST['txtRicompensaProgetto'][$i]) != '') {
-                INSERTRicompensa(trim($_POST['txtRicompensaProgetto'][$i]), $_POST['txtDescrizionePrezzo'][$i], $result);
+                INSERTRicompensa(trim($_POST['txtRicompensaProgetto'][$i]), $_POST['txtDescrizionePrezzo'][$i], $_GET['ID']);
             }
         }
-    }}else{
-        //echo var_dump($_POST);
-        echo "Sono POST Method";
     }
-} else if (isset($_GET['ID'])) {
+} else if (isset($_GET['ID']) && $_GET['ID'] > 0) {
     $array = GETProgetto($_GET['ID']);
     $txtNomeProgetto = $array['Nome'];
     $txtDescrizioneProgetto = $array['Descrizione'];
@@ -82,7 +121,8 @@ if (isset($_POST['submit'])) {
     $txtTelegram = GETSocial($_GET['ID'], "Telegram");
     $txtTwitter = GETSocial($_GET['ID'], "Twitter");
     $txtRicompensa = GETRicompense($_GET['ID']);
-    $txtSubmit=0;
+    $title = "Modifica il progetto";
+    $txtSubmit = 0;
 } else {
     $txtNomeProgetto = "";
     $txtDescrizioneProgetto = "";
@@ -95,12 +135,12 @@ if (isset($_POST['submit'])) {
     $txtTelegram = "";
     $txtTwitter = "";
     $txtRicompensa = array();
-    $txtSubmit=1;
+    $txtSubmit = 1;
+    $title = "Crea un nuovo progetto";
 }
 
 
 $categorie = GETCategorie();
-$title = "Crea un nuovo progetto";
 include('header.php');
 include('navbar.php');
 ?>
@@ -156,18 +196,20 @@ include('navbar.php');
             <div class="form-row">
                 <div class="form-group col-md" id="multiPrice">
                     <label for="txtRicompensaProgetto">A partire da</label>
-                    <?php if(count($txtRicompensa)>0){foreach ($txtRicompensa as $row) { ?>
-                        <div class="input-group mt-2">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">€</span>
-                            </div>
-                            <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="<?= $row['ImportoMin'] ?>">
-                            <div class="input-group-append">
-                                <span class="input-group-text">.00</span>
-                            </div>
-                        </div>
-                        <?php }}else{ ?>
+                    <?php if (count($txtRicompensa) > 0) {
+                        foreach ($txtRicompensa as $row) { ?>
                             <div class="input-group mt-2">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">€</span>
+                                </div>
+                                <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="<?= $row['ImportoMin'] ?>">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">.00</span>
+                                </div>
+                            </div>
+                        <?php }
+                    } else { ?>
+                        <div class="input-group mt-2">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">€</span>
                             </div>
@@ -180,68 +222,73 @@ include('navbar.php');
                 </div>
                 <div class="form-group col-md" id="multiDesc">
                     <label for="txtDescrizionePrezzo">Descrizione</label>
-                    <?php if(count($txtRicompensa)>0){foreach ($txtRicompensa as $row) { ?>
-                        <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]" value="<?= $row['Descrizione'] ?>">
-                    <?php }}else{ ?>
+                    <?php if (count($txtRicompensa) > 0) {
+                        foreach ($txtRicompensa as $row) { ?>
+                            <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]" value="<?= $row['Descrizione'] ?>">
+                        <?php }
+                    } else { ?>
                         <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]">
-                        <?php } ?>
+                    <?php } ?>
                 </div>
             </div>
-            <button class="btn btn-info" name="submit" type="button" onclick="GeneraInput(1)">Aggiungi Riga</button>
+            <button class="btn btn-info mb-3" name="submit" type="button" onclick="GeneraInput(1)">Aggiungi Riga</button>
         </div>
-        <div>
-            <h5>Carica gli allegati</h5>
-            <div class="form-group">
-                <label>Immagine del profilo:</label>
-                <a class="btn btn-outline-light" id="bd-modal-profile-image" data-toggle="modal" data-target=".bd-modal-profile-image">Nessun file disponibile. Clicca qui per caricare</a>
-                <div class="modal fade bd-modal-profile-image" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Immagine del progetto</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+        <?php if (isset($_GET['ID']) && $_GET['ID'] > 0) {
+        } else { ?>
+            <div>
+                <h5>Carica gli allegati</h5>
+                <div class="form-group">
+                    <label>Immagine del profilo:</label>
+                    <a class="btn btn-outline-light" id="bd-modal-profile-image" data-toggle="modal" data-target=".bd-modal-profile-image">Nessun file disponibile. Clicca qui per caricare</a>
+                    <div class="modal fade bd-modal-profile-image" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Immagine del progetto</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="ImmagineProgetto">Allega l'immagine che caratterizza meglio il tuo progetto</label>
+                                    <input type="file" accept=".jpg, .jpeg, .png" size="2MB" class="form-control" id="ImmagineProgetto" name="ImmagineProgetto" aria-describedby="ImmagineProgettoHelp">
+                                    <small id="ImmagineProgettoHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png<br>Dimensione massima consentita: 2 MB</small>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
+                                    <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFile('#bd-modal-profile-image','#ImmagineProgetto');">Carica</button>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                <label for="ImmagineProgetto">Allega l'immagine che caratterizza meglio il tuo progetto</label>
-                                <input type="file" accept=".jpg, .jpeg, .png" size="2MB" class="form-control" id="ImmagineProgetto" name="ImmagineProgetto" aria-describedby="ImmagineProgettoHelp">
-                                <small id="ImmagineProgettoHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png<br>Dimensione massima consentita: 2 MB</small>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFile('#bd-modal-profile-image','#ImmagineProgetto');">Carica</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Altri allegati:</label>
+                    <a class="btn btn-outline-light" id="bd-modal-other" data-toggle="modal" data-target=".bd-modal-other">Nessun file disponibile. Clicca qui per caricare</a>
+                    <div class="modal fade bd-modal-other" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Altre risorse</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="RisorseProgetto">Descrivi il progetto allegando delle
+                                        <span style="text-decoration: underline dashed" data-toggle="tooltip" data-placement="bottom" title="Ad esempio: immagini, manifesti, opuscoli, ecc.">risorse</span>
+                                    </label>
+                                    <input type="file" accept=".jpeg, .jpg, .png, .pdf, .docx, .pptx, .xlsl" size="5MB" class="form-control" id="RisorseProgetto" name="RisorseProgetto[]" aria-describedby="RisorseProgettoHelp" multiple>
+                                    <small id="RisorseProgettoHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png, .pdf, .docx, .pptx, .xlsl<br>Dimensione massima consentita: 5 MB</small>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
+                                    <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFiles('#RisorseProgetto','#bd-modal-other')">Carica</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label>Altri allegati:</label>
-                <a class="btn btn-outline-light" id="bd-modal-other" data-toggle="modal" data-target=".bd-modal-other">Nessun file disponibile. Clicca qui per caricare</a>
-                <div class="modal fade bd-modal-other" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Altre risorse</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            </div>
-                            <div class="modal-body">
-                                <label for="RisorseProgetto">Descrivi il progetto allegando delle
-                                    <span style="text-decoration: underline dashed" data-toggle="tooltip" data-placement="bottom" title="Ad esempio: immagini, manifesti, opuscoli, ecc.">risorse</span>
-                                </label>
-                                <input type="file" accept=".jpeg, .jpg, .png, .pdf, .docx, .pptx, .xlsl" size="5MB" class="form-control" id="RisorseProgetto" name="RisorseProgetto[]" aria-describedby="RisorseProgettoHelp" multiple>
-                                <small id="RisorseProgettoHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png, .pdf, .docx, .pptx, .xlsl<br>Dimensione massima consentita: 5 MB</small>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFiles('#RisorseProgetto','#bd-modal-other')">Carica</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php } ?>
         <div>
             <h5>Canali Social</h5>
             <div class="form-row">
@@ -290,8 +337,8 @@ include('navbar.php');
             </div>
         </div>
         <div class="form-row">
-            <button class="btn btn-info" name="submit" type="submit" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);" value="<?=$txtSubmit?>">Registrati</button>
-            <a class="btn" onclick="location.href='/public/';">Torna alla home</a>
+            <button class="btn btn-info" name="submit" type="submit" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);" value="<?= $txtSubmit ?>">Inserisci</button>
+            <a class="btn" onclick="location.href='/public/';">Annulla operazione</a>
         </div>
     </form>
     <script>

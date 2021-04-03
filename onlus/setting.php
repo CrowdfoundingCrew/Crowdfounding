@@ -3,7 +3,7 @@ include('checksession.php');
 require('../config/dalOnlus.php');
 define('SITE_ROOT', __DIR__);
 
-$id = isset($_GET['ID']) ? $_GET['ID'] : 0;
+$id = isset($_SESSION['ID']) ? $_SESSION['ID'] : 0;
 $array = GETOnlusProfile($id);
 
 if (isset($_POST['submit'])) {
@@ -33,7 +33,6 @@ if (isset($_POST['submit'])) {
     }
 }
 
-//$_SESSION['ID'];
 $title = "Aggiungi progetto";
 include('header.php');
 include('navbar.php');

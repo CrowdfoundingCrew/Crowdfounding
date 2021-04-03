@@ -10,20 +10,20 @@
                 <div class="right"></div>
             </div>
             <li class="nav-item">
-                <a class="nav-link active" href="/public/index.php">HomePage</a>
+                <a class="nav-link" href="/public/index.php">HomePage</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 3</a>
+            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='profile.php'? 'active':''?>">
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='profile.php'? 'active':''?>" href="/onlus/profile.php?ID=<?= $_SESSION['ID'] ?>">Profilo</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 4</a>
+            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='setting.php'? 'active':''?>">
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='setting.php'? 'active':''?>" href="/onlus/setting.php">Dati dell'account</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Impostazioni account</a>
+            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='allproject.php'? 'active':''?>">
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='allproject.php'? 'active':''?>" href="/onlus/allproject.php">Tutti i progetti</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="logout.php"><?= $_SESSION['Username'] ?> <i class="fas fa-sign-out-alt"></i></a>
-            </li>
+            <div class="nav-item form-inline ml-5">
+                <a class="nav-link text-light" href="/public/logout.php"><?=$_SESSION['Username']?><i class="fas fa-sign-out-alt ml-2"></i></a>
+            </div>
         </ul>
     </div>
 </nav>

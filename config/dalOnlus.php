@@ -159,8 +159,9 @@ function UPDATEProgetto($id, $nome, $desc, $obiettivo, $dataF, $FKTag){
     return $result;
 }
 
-function UPDATESocial(){
-    
+function UPDATESocial($link, $tipo, $id){
+    DELETESocial($id, $tipo);
+    INSERTSocial($link, $tipo, $id);
 }
 
 function DELETESocial($id, $tipo){
@@ -199,4 +200,26 @@ function UPDATEOnlusProfile($cdf, $addr, $den, $cell, $piva, $rea, $image, $id)
     return $result;
 }
 
+function DELETEProject($id)
+{
+    $conn = connectDB();
+    $stmt = $conn->prepare("DELETE FROM `progetti` WHERE `IDProgetto`=?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $conn->close();
+    return $result;
+}
 
+function DELETERicompense($id)
+{
+    $conn = connectDB();
+    $stmt = $conn->prepare("DELETE FROM `ricompense` WHERE `IDProgetto`=?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $conn->close();
+    return $result;
+}
