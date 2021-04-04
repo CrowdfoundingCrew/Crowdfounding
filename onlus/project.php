@@ -338,7 +338,7 @@ include('navbar.php');
         </div>
         <div class="form-row">
             <button class="btn btn-info" name="submit" type="submit" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.19);" value="<?= $txtSubmit ?>">Inserisci</button>
-            <a class="btn" onclick="location.href='/public/';">Annulla operazione</a>
+            <a class="btn" onclick="location.href='/onlus/allproject.php';">Annulla operazione</a>
         </div>
     </form>
     <script>

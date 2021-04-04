@@ -27,10 +27,10 @@ function GETOnlusProfile($id)
 
 function GETOnlusProgetti($id, $page)
 {
-    $off = (10 * intval($page));
+    $off = (10 * (intval($page)-1));
     $mysqli = connectDB();
 
-    $stmt = $mysqli->prepare("SELECT IDProgetto, Nome, Descrizione, Obbiettivo, DataI, DataF, Ambito FROM `progetti` INNER JOIN `tag` ON progetti.IDTag=tag.IDTag WHERE progetti.IDOnlus=? ORDER BY progetti.DataI DESC, progetti.DataF LIMIT 10 OFFSET ? ");
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, P.Obbiettivo, P.DataI, P.DataF, T.Ambito, ROUND(SUM(D.`Importo`),2) AS Totale, COUNT(D.IDProgetto) AS Donatori FROM `donazioni` AS D RIGHT OUTER JOIN progetti AS P ON D.`IDProgetto`=P.IDProgetto INNER JOIN `tag` AS T ON P.IDTag=T.IDTag WHERE P.IDOnlus=? GROUP BY P.`IDProgetto` ORDER BY P.DataI DESC, P.DataF LIMIT 10 OFFSET ? ");
 
     $stmt->bind_param('ii', $id, $off);
     $stmt->execute();
@@ -222,4 +222,18 @@ function DELETERicompense($id)
     $stmt->close();
     $conn->close();
     return $result;
+}
+
+function GETPages($id)
+{
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("SELECT COUNT(*) AS C FROM `progetti` WHERE `IDOnlus`=?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_array(MYSQLI_ASSOC);
+    $result->free_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data['C'];
 }

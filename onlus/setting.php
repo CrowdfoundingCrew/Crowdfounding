@@ -33,7 +33,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
-$title = "Aggiungi progetto";
+$title = "Modifica profilo";
 include('header.php');
 include('navbar.php');
 ?>
