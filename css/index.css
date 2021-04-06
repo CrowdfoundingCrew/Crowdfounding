@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+}
+
+.row {
+    margin-top: 25px;
+}
+
+.row .col-md-4 .progress {
+    margin-top: 15px;
+}
+
+.row .col-md-4 .row .col-md-6 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
