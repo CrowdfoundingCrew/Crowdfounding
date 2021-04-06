@@ -1,5 +1,5 @@
 <?php
-require('./sampleconnection.php');
+require 'sampleconnection.php';
 
 function InsertDonator($mail, $usr, $psw, $name, $surn, $cdf, $addr)
 {
@@ -51,4 +51,38 @@ function FindUser($Username)
     $stmt->close();
     $conn->close();
     return $data;
+}
+function FindProject($id)
+{
+    $conn = connectDB();
+    $stmt = $conn->prepare("SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI,progetti.DataF, ricompense.ImportoMin, ricompense.Descrizione, utenti.Username, utenti.Immagine, tag.Ambito, risorse.Path
+    FROM `progetti`
+    INNER JOIN ricompense ON progetti.IDProgetto = ricompense.IDProgetto 
+    INNER JOIN utenti ON progetti.IDOnlus = utenti.IDUtente 
+    INNER JOIN tag ON progetti.IDTag= tag.IDTag 
+    INNER JOIN risorse ON progetti.IDProgetto = risorse.IDProgetto
+    WHERE progetti.IDProgetto = ? AND risorse.Tipologia=0");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $ImportoMin, $Descrizione, $Username, $Immagine, $Ambito, $path);
+    $stmt->fetch();
+    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $ImportoMin, $Descrizione, $Username, $Immagine, $Ambito, $path);
+    $stmt->close();
+    $conn->close();
+    return $data;
+}
+function PrintPrj($id)
+{
+    $data = FindProject($id);
+    $title = $data[0];
+    $desc = $data[1];
+    $Obbiettivo = $data[2];
+    $DataI = $data[3];
+    $DataF = $data[4];
+    $ImportoMin = $data[5];
+    $Rdesc = $data[6];
+    $usr = $data[7];
+    $img = $data[8];
+    $res=array($title,$desc,$Obbiettivo,$DataI,$DataF,$ImportoMin,$Rdesc,$Rdesc,$usr,$img);
+    return $res;
 }
