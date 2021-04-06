@@ -152,3 +152,16 @@ function Donatori($no_of_records_per_page, $offset, $search)
     $conn->close();
     return [$result, $total_pages];
 }
+
+function NewAdmin($Nome, $Cognome, $Username, $Email, $Password){
+    $conn = connectDB();
+    $pass = password_hash($Password, PASSWORD_DEFAULT);
+    $stmt = $conn->prepare("INSERT INTO utenti(Username, Password, `E-mail`, Tipo, Nome, Cognome) VALUES (?,?,?,?,?,?)");
+    $value = 2;
+    $stmt->bind_param('sssiss', $Username, $pass, $Email, $value, $Nome, $Cognome);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+
+    return;
+}
