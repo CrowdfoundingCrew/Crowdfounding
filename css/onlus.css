@@ -5,42 +5,22 @@ div.divide-project {
     border-bottom: 1px #c3c3c3 solid;
 }
 
-img.big-logo {
-    height: 100%;
-    width: 100%;
-    max-width: 256px;
-    max-height: 256px;
-}
-
 div.project-logo {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 }
 
-div.profile-detail img.profile-background-image {
-    z-index: 0;
-    width: 100%;
-    margin-bottom: 10px;
-    position: relative;
-}
-
-img.profile-background-image {
+.profile-background-image {
     background: #667db6;
     /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #667db6, #0082c8, #0082c8, #667db6);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    min-height: 250px;
-    height: 100%;
-    max-height: 300px;
 }
 
 img.logo {
-    position: relative;
-    margin: -140px 10px 0px 50px;
-    z-index: 9;
     height: 100%;
     width: 100%;
     max-width: 256px;
