@@ -14,20 +14,15 @@ $data = FindProject($_GET['Idprj']);
         </div>
         <div class="col-md-8">
             <h3>
-                <?= $data[0] ?>
+                <?= $data[7] ?>
             </h3>
-            <p>
-                <?= $data[1] ?>
-            </p>
+            <address>Indirizzo: <?= $data[11] ?></address>
+            <abbr title="Email">Email: <?= $data[12] ?></abbr><br>
+            <abbr title="Phone">Telefono: <?= $data[13] ?></abbr>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-12">
-                    <img alt="Logo" src=" <?= $data[8] ?>" />
-                </div>
-            </div>
+        <div class="col-md-8" id="content-column">
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="text-center">
@@ -46,105 +41,37 @@ $data = FindProject($_GET['Idprj']);
             <div class="row">
                 <div class="col-md-12">
                     <p>
-                        <?= $data[1] ?>
+                        Obiettivo: <?= $data[2] ?> </br>
+                        Inizio progetto: <?= $data[3] ?> </br>
+                        Fine progetto: <?= $data[4] ?> </br>
+                        <?= $data[1] ?> </br>
+                        Tag: <?= $data[9] ?>
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                <?= $data[11] ?>
+                    <?= $data[14] ?>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" id="table-column">
             <table class="table">
                 <thead>
                     <tr>
                         <th>
-                            #
+                            Descrizione
                         </th>
                         <th>
-                            Product
+                            Importo minimo
                         </th>
                         <th>
-                            Payment Taken
-                        </th>
-                        <th>
-                            Status
+                            Link
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            01/04/2012
-                        </td>
-                        <td>
-                            Default
-                        </td>
-                    </tr>
-                    <tr class="table-active">
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            01/04/2012
-                        </td>
-                        <td>
-                            Approved
-                        </td>
-                    </tr>
-                    <tr class="table-success">
-                        <td>
-                            2
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            02/04/2012
-                        </td>
-                        <td>
-                            Declined
-                        </td>
-                    </tr>
-                    <tr class="table-warning">
-                        <td>
-                            3
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            03/04/2012
-                        </td>
-                        <td>
-                            Pending
-                        </td>
-                    </tr>
-                    <tr class="table-danger">
-                        <td>
-                            4
-                        </td>
-                        <td>
-                            TB - Monthly
-                        </td>
-                        <td>
-                            04/04/2012
-                        </td>
-                        <td>
-                            Call in to confirm
-                        </td>
-                    </tr>
+                    <?= $data[15] ?>
                 </tbody>
             </table>
         </div>

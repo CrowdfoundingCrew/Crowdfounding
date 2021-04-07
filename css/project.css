@@ -2,3 +2,7 @@
     width: 640px;
     height: 500px;
 }
+
+#content-column .row {
+    margin-top: 20px;
+}
