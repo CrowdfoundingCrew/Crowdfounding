@@ -1,10 +1,9 @@
 <?php
 include '../config/sampleconnection.php';
 
-function Pagination($no_of_records_per_page, $offset, $search)
+function Onlus($no_of_records_per_page, $offset, $search)
 {
     $conn = connectDB();
-
    
     $total_pages_sql = "SELECT COUNT(*) AS Pagine FROM utenti WHERE Tipo = b'01' AND Denominazione LIKE ?";
     $countrows = $conn->prepare($total_pages_sql);
@@ -99,4 +98,70 @@ function Pagination($no_of_records_per_page, $offset, $search)
 
     $conn->close();
     return [$result, $total_pages];
+}
+
+function Donatori($no_of_records_per_page, $offset, $search)
+{
+    $conn = connectDB();
+
+    $total_pages_sql = "SELECT COUNT(*) AS Pagine FROM utenti WHERE Tipo = b'00' AND Username LIKE ?";
+    $countrows = $conn->prepare($total_pages_sql);
+    $search = $search . "%";
+    $countrows->bind_param("s", $search);
+    $countrows->execute();
+    $countrows->bind_result($total_rows);
+    $countrows->fetch();
+    $total_pages = ceil($total_rows / $no_of_records_per_page);
+    $countrows->close();
+
+
+    $sql = "SELECT utenti.IDUtente, Username, Nome, Cognome, utenti.`E-mail`, Indirizzo, SUM(Importo) AS Donazioni FROM utenti LEFT JOIN donazioni ON utenti.IDUtente = donazioni.IDUtente WHERE Tipo = 0 AND Username LIKE ? GROUP BY utenti.IDUtente LIMIT $offset, $no_of_records_per_page";
+    $result_data = $conn->prepare($sql);
+    $result_data->bind_param("s", $search);
+    $result_data->execute();
+    $result_data->bind_result($IDUtente, $Username, $Nome, $Cognome, $Email, $Indirizzo, $Donazioni);
+    $result = "<div class='container-fluid'>";
+    $count = 0;
+
+    while ($result_data->fetch()) {
+        if($count % 3 == 0){
+            $result = $result . "<div class='row'>";
+        }
+        if($Donazioni == NULL){
+            $Donazioni = 0;
+        }
+        $linkuser = "?id=" . $IDUtente;
+
+        $result = $result . "<div class='col-md-4 mb-2'>
+			                    <p>
+                                    <strong>$Username: $Cognome $Nome</strong><br>
+                                    E-mail: $Email<br>
+                                    Indirizzo: $Indirizzo<br>
+                                    Totale donazioni: $Donazioni<br>
+                                    <a class='btn' href='$linkuser'>View details »</a>
+                                </p>
+		                     </div>";
+
+        if($count % 3 == 2){
+            $result = $result . "</div>";
+        }
+        $count++;
+    }
+
+    $result = $result . "</div>";
+    $conn->close();
+    return [$result, $total_pages];
+}
+
+function NewAdmin($Nome, $Cognome, $Username, $Email, $Password){
+    $conn = connectDB();
+    $pass = password_hash($Password, PASSWORD_DEFAULT);
+    $stmt = $conn->prepare("INSERT INTO utenti(Username, Password, `E-mail`, Tipo, Nome, Cognome) VALUES (?,?,?,?,?,?)");
+    $value = 2;
+    $stmt->bind_param('sssiss', $Username, $pass, $Email, $value, $Nome, $Cognome);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+
+    return;
 }

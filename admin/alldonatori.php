@@ -1,9 +1,10 @@
 <?php 
     include 'checksession.php';
     include 'mysql.php';
-    $title = 'Parte Admin Sgravata Pazza';
-    $footer = 'Questo è un footer dinamico';
+    $title = 'Parte Admin Sgravata Pazza pt2';
+    $footer = 'Questo è un footer dinamico pt2';
     $page = 1;
+
     include 'header.php';
     include 'navbar.php';
     
@@ -19,11 +20,12 @@
         $search = "";
     }
 
-    $no_of_records_per_page = 5;
+    $no_of_records_per_page = 21;
     $offset = ($pageno - 1) * $no_of_records_per_page; 
-    $data = Onlus($no_of_records_per_page, $offset, $search);
+    $data = Donatori($no_of_records_per_page, $offset, $search);
     $total_pages = $data[1]
 ?>
+
 <body>
     <div class="container-xl">
         <div class="row">
@@ -32,7 +34,7 @@
                 <div class="page-header">
                     <h1><?=$title?></h1>
                 </div>
-                    <form class="form-inline" action = "./allonlus.php" method="get">
+                    <form class="form-inline" action = "./alldonatori.php" method="get">
                         <input class="form-control mr-sm-2" type="text" name="search" value="<?=$search?>">
                         <button class="btn btn-primary my-2 my-sm-0" type="submit"><span class="glyphicon glyphicon-search"></span>Search</button>
                     </form>
@@ -70,10 +72,9 @@
             </div>
         </div>
     </div>
+
 <?php
     include 'footer.php';
 ?>
     </body>
 <?php
-//TODO
-//TODO query
