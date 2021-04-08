@@ -55,7 +55,7 @@ function FindUser($Username)
 function FindProject($id)
 {
     $conn = connectDB();
-    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI, progetti.DataF, utenti.Username, utenti.Immagine, tag.Ambito, risorse.Path, utenti.Indirizzo,  utenti.Denominazione, utenti.Telefono
+    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI, progetti.DataF, utenti.Username, utenti.Immagine, tag.Ambito, risorse.Path, utenti.Indirizzo,  utenti.Denominazione, utenti.Telefono, `utenti`.`E-mail`
     FROM progetti
     INNER JOIN utenti ON progetti.IDOnlus = utenti.IDUtente 
     INNER JOIN tag ON progetti.IDTag= tag.IDTag 
@@ -63,9 +63,9 @@ function FindProject($id)
     WHERE progetti.IDProgetto = ? AND risorse.Tipologia=0');
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel);
+    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail);
     $stmt->fetch();
-    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel);
+    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail);
     $stmt->close();
 
     $stmt = $conn->prepare('SELECT `Path` FROM `risorse` INNER JOIN progetti ON risorse.IDProgetto=progetti.IDProgetto WHERE progetti.IDProgetto=?');
@@ -80,9 +80,11 @@ function FindProject($id)
                 </div>";
 
     while ($stmt->fetch()) {
-        $r = $r . "<div class='carousel-item'>
+        if ($counter != 0) {
+            $r = $r . "<div class='carousel-item'>
                     <img class='d-block w-100' src='$path' alt='$counter'>
                 </div>";
+        }
         $counter += 1;
     }
 
@@ -99,7 +101,7 @@ function FindProject($id)
     array_push($data, $r);
     $stmt->close();
 
-    $stmt = $conn->prepare('SELECT `Descrizione`,`ImportoMin` FROM `ricompense` WHERE `IDProgetto` = ?');
+    $stmt = $conn->prepare('SELECT `Descrizione`, `ImportoMin` FROM `ricompense` WHERE `IDProgetto` = ? ORDER BY `ImportoMin` ASC');
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $stmt->bind_result($rdesc, $rmin);

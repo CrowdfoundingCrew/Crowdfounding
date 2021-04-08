@@ -14,10 +14,10 @@ $data = FindProject($_GET['Idprj']);
         </div>
         <div class="col-md-8">
             <h3>
-                <?= $data[5] ?>
+                <?= $data[10] ?>
             </h3>
             <address>Indirizzo: <?= $data[9] ?></address>
-            <abbr title="Email">Email: <?= $data[10] ?></abbr><br>
+            <abbr title="Email">Email: <?= $data[12] ?></abbr><br>
             <abbr title="Phone">Telefono: <?= $data[11] ?></abbr>
         </div>
     </div>
@@ -51,7 +51,7 @@ $data = FindProject($_GET['Idprj']);
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <?= $data[12] ?>
+                    <?= $data[13] ?>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@ $data = FindProject($_GET['Idprj']);
                     </tr>
                 </thead>
                 <tbody>
-                    <?= $data[13] ?>
+                    <?= $data[14] ?>
                 </tbody>
             </table>
         </div>
