@@ -16,11 +16,17 @@ function Onlus($no_of_records_per_page, $offset, $search)
     $countrows->close();
 
 
-    $sql = "SELECT IDUtente, Denominazione, `E-mail`, Indirizzo, PartitaIva, REA FROM utenti WHERE Tipo = 1 AND Denominazione LIKE ? LIMIT $offset, $no_of_records_per_page";
+    $sql = "SELECT IDUtente, Denominazione, `E-mail`, Indirizzo, PartitaIva, REA, COUNT(progetti.IDProgetto) AS Progetti
+            FROM utenti INNER JOIN progetti ON utenti.IDUtente = progetti.IDOnlus
+            WHERE Tipo = 1 AND Denominazione LIKE ? 
+            GROUP BY IDUtente
+            ORDER BY COUNT(progetti.IDProgetto) DESC 
+            LIMIT $offset, $no_of_records_per_page";
+
     $result_data = $conn->prepare($sql);
     $result_data->bind_param("s", $search);
     $result_data->execute();
-    $result_data->bind_result($IDUtente, $nomeonlus, $Email, $Indirizzo, $IVA, $REA);
+    $result_data->bind_result($IDUtente, $nomeonlus, $Email, $Indirizzo, $IVA, $REA, $NProgetti);
     $result = "";
 
     while ($result_data->fetch()) {
@@ -29,7 +35,7 @@ function Onlus($no_of_records_per_page, $offset, $search)
         $result = $result . "<div class='row border-top border-primary pt-3'>
             <div class='col-md-12'>
                 <h3>
-                    $nomeonlus
+                    $nomeonlus - Progetti: $NProgetti
                 </h3>
                 <p>
                     $descrizioneonlus
