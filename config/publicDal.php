@@ -55,18 +55,17 @@ function FindUser($Username)
 function FindProject($id)
 {
     $conn = connectDB();
-    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI,progetti.DataF, ricompense.ImportoMin, ricompense.Descrizione, utenti.Username, utenti.Immagine, tag.Ambito, risorse.Path, utenti.Indirizzo,  utenti.Denominazione, utenti.Telefono
-    FROM `progetti`
-    INNER JOIN ricompense ON progetti.IDProgetto = ricompense.IDProgetto 
+    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI, progetti.DataF, utenti.Username, utenti.Immagine, tag.Ambito, risorse.Path, utenti.Indirizzo,  utenti.Denominazione, utenti.Telefono
+    FROM progetti
     INNER JOIN utenti ON progetti.IDOnlus = utenti.IDUtente 
     INNER JOIN tag ON progetti.IDTag= tag.IDTag 
     INNER JOIN risorse ON progetti.IDProgetto = risorse.IDProgetto
     WHERE progetti.IDProgetto = ? AND risorse.Tipologia=0');
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $ImportoMin, $Rdesc, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel);
+    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel);
     $stmt->fetch();
-    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $ImportoMin, $Rdesc, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel);
+    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel);
     $stmt->close();
 
     $stmt = $conn->prepare('SELECT `Path` FROM `risorse` INNER JOIN progetti ON risorse.IDProgetto=progetti.IDProgetto WHERE progetti.IDProgetto=?');

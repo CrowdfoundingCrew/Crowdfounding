@@ -10,15 +10,15 @@ $data = FindProject($_GET['Idprj']);
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
-            <img alt="Logo" src="<?= $data[10] ?>" width="350px" height="350px" />
+            <img alt="Logo" src="<?= $data[6] ?>" width="350px" height="350px" />
         </div>
         <div class="col-md-8">
             <h3>
-                <?= $data[7] ?>
+                <?= $data[5] ?>
             </h3>
-            <address>Indirizzo: <?= $data[11] ?></address>
-            <abbr title="Email">Email: <?= $data[12] ?></abbr><br>
-            <abbr title="Phone">Telefono: <?= $data[13] ?></abbr>
+            <address>Indirizzo: <?= $data[9] ?></address>
+            <abbr title="Email">Email: <?= $data[10] ?></abbr><br>
+            <abbr title="Phone">Telefono: <?= $data[11] ?></abbr>
         </div>
     </div>
     <div class="row">
@@ -51,7 +51,7 @@ $data = FindProject($_GET['Idprj']);
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <?= $data[14] ?>
+                    <?= $data[12] ?>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@ $data = FindProject($_GET['Idprj']);
                     </tr>
                 </thead>
                 <tbody>
-                    <?= $data[15] ?>
+                    <?= $data[13] ?>
                 </tbody>
             </table>
         </div>
