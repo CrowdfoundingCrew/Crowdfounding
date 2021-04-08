@@ -16,20 +16,26 @@ function Onlus($no_of_records_per_page, $offset, $search)
     $countrows->close();
 
 
-    $sql = "SELECT IDUtente, Denominazione, `E-mail`, Indirizzo, PartitaIva, REA FROM utenti WHERE Tipo = 1 AND Denominazione LIKE ? LIMIT $offset, $no_of_records_per_page";
+    $sql = "SELECT IDUtente, Denominazione, `E-mail`, Indirizzo, PartitaIva, REA, COUNT(progetti.IDProgetto) AS Progetti
+            FROM utenti INNER JOIN progetti ON utenti.IDUtente = progetti.IDOnlus
+            WHERE Tipo = 1 AND Denominazione LIKE ? 
+            GROUP BY IDUtente
+            ORDER BY COUNT(progetti.IDProgetto) DESC 
+            LIMIT $offset, $no_of_records_per_page";
+
     $result_data = $conn->prepare($sql);
     $result_data->bind_param("s", $search);
     $result_data->execute();
-    $result_data->bind_result($IDUtente, $nomeonlus, $Email, $Indirizzo, $IVA, $REA);
+    $result_data->bind_result($IDUtente, $nomeonlus, $Email, $Indirizzo, $IVA, $REA, $NProgetti);
     $result = "";
 
     while ($result_data->fetch()) {
         $descrizioneonlus = $Email . " - " . $Indirizzo . " - " . $IVA . " - " . $REA;
-        $paginaonlus = "?Onlus=" . $IDUtente;
-        $result = $result . "<div class='row'>
+        $paginaonlus = "/onlus/profile.php?ID=" . $IDUtente;
+        $result = $result . "<div class='row border-top border-primary pt-3'>
             <div class='col-md-12'>
                 <h3>
-                    $nomeonlus
+                    $nomeonlus - Progetti: $NProgetti
                 </h3>
                 <p>
                     $descrizioneonlus
@@ -125,14 +131,14 @@ function Donatori($no_of_records_per_page, $offset, $search)
 
     while ($result_data->fetch()) {
         if($count % 3 == 0){
-            $result = $result . "<div class='row'>";
+            $result = $result . "<div class='row  border-top border-primary pt-3'>";
         }
         if($Donazioni == NULL){
             $Donazioni = 0;
         }
-        $linkuser = "?id=" . $IDUtente;
+        $linkuser = "/donatori/profile.php?ID=" . $IDUtente;
 
-        $result = $result . "<div class='col-md-4 mb-2'>
+        $result = $result . "<div class='col-md-4'>
 			                    <p>
                                     <strong>$Username: $Cognome $Nome</strong><br>
                                     E-mail: $Email<br>
@@ -156,12 +162,12 @@ function Donatori($no_of_records_per_page, $offset, $search)
 function NewAdmin($Nome, $Cognome, $Username, $Email, $Password){
     $conn = connectDB();
     $pass = password_hash($Password, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare("INSERT INTO utenti(Username, Password, `E-mail`, Tipo, Nome, Cognome) VALUES (?,?,?,?,?,?)");
-    $value = 2;
-    $stmt->bind_param('sssiss', $Username, $pass, $Email, $value, $Nome, $Cognome);
+    $stmt = $conn->prepare("INSERT INTO utenti(Username, Password, `E-mail`, Tipo, Nome, Cognome) VALUES (?,?,?,b'10',?,?)");
+    $stmt->bind_param('sssss', $Username, $pass, $Email, $Nome, $Cognome);
     $stmt->execute();
+    echo $stmt->error;
     $stmt->close();
     $conn->close();
-
+    
     return;
 }

@@ -19,7 +19,7 @@
                 <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='setting.php'? 'active':''?>" href="/onlus/setting.php">Dati dell'account</a>
             </li>
             <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='allproject.php' || basename($_SERVER['PHP_SELF'])=='project.php' ? 'active':''?>">
-                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='allproject.php'? 'active':''?>" href="/onlus/allproject.php">Tutti i progetti</a>
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='allproject.php' || basename($_SERVER['PHP_SELF'])=='project.php' ? 'active':''?>" href="/onlus/allproject.php">Tutti i progetti</a>
             </li>
             <div class="nav-item form-inline ml-5">
                 <a class="nav-link text-light" href="/public/logout.php"><?=$_SESSION['Username']?><i class="fas fa-sign-out-alt ml-2"></i></a>

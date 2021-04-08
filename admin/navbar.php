@@ -12,18 +12,18 @@
             <li class="nav-item">
                 <a class="nav-link" href="/public/index.php">HomePage</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 3</a>
+            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='allonlus.php'? 'active':''?>">
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='allonlus.php'? 'active':''?>" href="/admin/allonlus.php">Tutte le onlus</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link 4</a>
+            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='alldonatori.php'? 'active':''?>">
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='alldonatori.php'? 'active':''?>" href="/admin/alldonatori.php">Tutti i donatori</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link active" href="/admin/allonlus.php">Impostazioni account</a>
+            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='newadmin.html.php' ? 'active':''?>">
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='newadmin.html.php'? 'active':''?>" href="/admin/newadmin.html.php">Aggiungi un amministratore</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="logout.php"><?= $_SESSION['Username'] ?> <i class="fas fa-sign-out-alt"></i></a>
-            </li>
+            <div class="nav-item form-inline ml-5">
+                <a class="nav-link text-light" href="/public/logout.php"><?=$_SESSION['Username']?><i class="fas fa-sign-out-alt ml-2"></i></a>
+            </div>
         </ul>
     </div>
 </nav>

@@ -12,11 +12,10 @@ if (isset($_POST['Elimina']) && $_POST['Elimina'] > 0) {
 
 $page = isset($_GET['page']) ?  $_GET['page'] : 1;
 $total = ceil(GETPages($id) / 10);
-
 $table = GETOnlusProgetti($id, $page);
+
 $title = "Tutti i progetti";
 include('header.php');
-
 include('navbar.php');
 ?>
 

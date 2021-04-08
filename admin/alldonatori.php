@@ -1,7 +1,7 @@
 <?php 
     include 'checksession.php';
     include 'mysql.php';
-    $title = 'Parte Admin Sgravata Pazza pt2';
+    $title = 'Parte Admin pt2';
     $footer = 'Questo è un footer dinamico pt2';
     $page = 1;
 
@@ -76,5 +76,3 @@
 <?php
     include 'footer.php';
 ?>
-    </body>
-<?php

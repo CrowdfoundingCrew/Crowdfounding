@@ -29,9 +29,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="login.php">Login <i class="fas fa-sign-in-alt"></i></a>
                 </li>
-            <?php } else if ($_SESSION['Tipo'] === 2) { ?>
+                <?php } else if ($_SESSION['Tipo'] === 0) { ?>
                 <li class="nav-item active">
-                    <a class="nav-link active" href="../public/index.php">HomePage</a>
+                    <a class="nav-link active" href="/public/index.php">HomePage</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link 3</a>
@@ -40,7 +40,39 @@
                     <a class="nav-link" href="#">Link 4</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../admin/allonlus.php">Impostazioni account</a>
+                    <a class="nav-link" href="/donatori/profile.php">Impostazioni account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php"><?= $_SESSION['Username'] ?> <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+            <?php } else if ($_SESSION['Tipo'] === 1) { ?>
+                <li class="nav-item active">
+                    <a class="nav-link active" href="/public/index.php">HomePage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 3</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 4</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/onlus/profile.php">Impostazioni account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php"><?= $_SESSION['Username'] ?> <i class="fas fa-sign-out-alt"></i></a>
+                </li>
+            <?php } else if ($_SESSION['Tipo'] === 2) { ?>
+                <li class="nav-item active">
+                    <a class="nav-link active" href="/public/index.php">HomePage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 3</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link 4</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/allonlus.php">Impostazioni account</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php"><?= $_SESSION['Username'] ?> <i class="fas fa-sign-out-alt"></i></a>

@@ -1,7 +1,7 @@
 <?php 
     include 'checksession.php';
     include 'mysql.php';
-    $title = 'Parte Admin Sgravata Pazza';
+    $title = 'Parte Admin';
     $footer = 'Questo è un footer dinamico';
     $page = 1;
     include 'header.php';
@@ -73,7 +73,3 @@
 <?php
     include 'footer.php';
 ?>
-    </body>
-<?php
-//TODO
-//TODO query

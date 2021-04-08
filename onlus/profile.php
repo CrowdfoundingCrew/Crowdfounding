@@ -22,7 +22,7 @@ include('header.php');
 if ($_SESSION['Tipo'] === 1) {
     include('navbar.php');
 } else {
-    include('/public/navbar.php');
+    include('../public/navbar.php');
 }
 ?>
 <div class="container-fluid">
@@ -86,7 +86,7 @@ if ($_SESSION['Tipo'] === 1) {
                         <h2><?= $row['Nome'] ?></h2>
                         <a href="#" class="badge badge-primary"><?= $row['Ambito'] ?></a>
                         <div>
-                            <p><?= substr($row['Descrizione'], 0, 100) ?>...<a class="ml-1" href="#">Prosegui con la lettura»</a></p>
+                            <p><?= substr($row['Descrizione'], 0, 100) ?>...<a class="ml-1" href="/public/project.php?Idprj=<?=$row['IDProgetto']?>">Prosegui con la lettura»</a></p>
                         </div>
                         <div><span class="font-weight-bold">Obiettivo:</span>
                             <p class="d-inline"><?= $row['Obbiettivo'] ?></p>
