@@ -26,7 +26,7 @@ function Onlus($no_of_records_per_page, $offset, $search)
     while ($result_data->fetch()) {
         $descrizioneonlus = $Email . " - " . $Indirizzo . " - " . $IVA . " - " . $REA;
         $paginaonlus = "?Onlus=" . $IDUtente;
-        $result = $result . "<div class='row'>
+        $result = $result . "<div class='row border-top border-primary pt-3'>
             <div class='col-md-12'>
                 <h3>
                     $nomeonlus
@@ -125,14 +125,14 @@ function Donatori($no_of_records_per_page, $offset, $search)
 
     while ($result_data->fetch()) {
         if($count % 3 == 0){
-            $result = $result . "<div class='row'>";
+            $result = $result . "<div class='row  border-top border-primary pt-3'>";
         }
         if($Donazioni == NULL){
             $Donazioni = 0;
         }
         $linkuser = "?id=" . $IDUtente;
 
-        $result = $result . "<div class='col-md-4 mb-2'>
+        $result = $result . "<div class='col-md-4'>
 			                    <p>
                                     <strong>$Username: $Cognome $Nome</strong><br>
                                     E-mail: $Email<br>
