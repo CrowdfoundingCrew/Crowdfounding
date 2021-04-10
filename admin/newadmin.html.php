@@ -1,7 +1,8 @@
 <?php
-//include './checksession.php';
+include './checksession.php';
 $title = "Crea un nuovo Admin";
 include './header.php';
+include './navbar.php';
 ?>
 
 <body>
@@ -53,3 +54,4 @@ include './header.php';
         </div>
     </div>
 </body>
+<script src="../js/common.js"></script>

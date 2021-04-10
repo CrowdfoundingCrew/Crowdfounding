@@ -12,10 +12,10 @@
         $_SESSION['ID']=$res[0];
         $_SESSION['Username']=$user;
         $_SESSION['Tipo']=$res[2];
-        header('Location: /public/index.php');
+        header('Location: ../public/index.php');
     }
     else{
         echo "Wrong username or password";
-        header('Location: /public/login.php');
+        header('Location: ../public/login.php');
     }
 ?>

@@ -1,0 +1,8 @@
+.carousel-inner>.carousel-item>img {
+    width: 650px;
+    height: 500px;
+}
+
+#content-column .row {
+    margin-top: 20px;
+}

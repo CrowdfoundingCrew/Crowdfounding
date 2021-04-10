@@ -73,7 +73,3 @@
 <?php
     include 'footer.php';
 ?>
-    </body>
-<?php
-//TODO
-//TODO query

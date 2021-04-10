@@ -31,7 +31,7 @@ function Onlus($no_of_records_per_page, $offset, $search)
 
     while ($result_data->fetch()) {
         $descrizioneonlus = $Email . " - " . $Indirizzo . " - " . $IVA . " - " . $REA;
-        $paginaonlus = "?Onlus=" . $IDUtente;
+        $paginaonlus = "/onlus/profile.php?ID=" . $IDUtente;
         $result = $result . "<div class='row border-top border-primary pt-3'>
             <div class='col-md-12'>
                 <h3>
@@ -136,7 +136,7 @@ function Donatori($no_of_records_per_page, $offset, $search)
         if($Donazioni == NULL){
             $Donazioni = 0;
         }
-        $linkuser = "?id=" . $IDUtente;
+        $linkuser = "/donatori/profile.php?ID=" . $IDUtente;
 
         $result = $result . "<div class='col-md-4'>
 			                    <p>
@@ -162,12 +162,12 @@ function Donatori($no_of_records_per_page, $offset, $search)
 function NewAdmin($Nome, $Cognome, $Username, $Email, $Password){
     $conn = connectDB();
     $pass = password_hash($Password, PASSWORD_DEFAULT);
-    $stmt = $conn->prepare("INSERT INTO utenti(Username, Password, `E-mail`, Tipo, Nome, Cognome) VALUES (?,?,?,?,?,?)");
-    $value = 2;
-    $stmt->bind_param('sssiss', $Username, $pass, $Email, $value, $Nome, $Cognome);
+    $stmt = $conn->prepare("INSERT INTO utenti(Username, Password, `E-mail`, Tipo, Nome, Cognome) VALUES (?,?,?,b'10',?,?)");
+    $stmt->bind_param('sssss', $Username, $pass, $Email, $Nome, $Cognome);
     $stmt->execute();
+    echo $stmt->error;
     $stmt->close();
     $conn->close();
-
+    
     return;
 }
