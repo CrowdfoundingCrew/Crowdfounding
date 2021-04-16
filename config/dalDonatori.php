@@ -39,4 +39,38 @@ function GETUserProgetti($id)
     return $data;
 }
 
+function UPDATEDonatoriPrivate($email, $username,$password,$id){
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("UPDATE `utenti` SET `Username`=?, `Password`=?, `E-mail`=? WHERE `IDUtente`=?");
+    $stmt->bind_param('sssi', $email, $username,$password,$id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
+
+function UPDATEDonatoriPublic($indirizzo, $nome, $cognome, $cf, $id){
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("UPDATE `utenti` SET `Indirizzo`=?,`Nome`=?,`Cognome`=?,`CodiceFiscale`=? WHERE `IDUtente`=?");
+    $stmt->bind_param('ssssi', $indirizzo, $nome, $cognome, $cf, $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
+
+function DELETEDonatori($id){
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("DELETE FROM `utenti` WHERE `IDUtente`=?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    $mysqli->close();
+    return $result;
+}
+
+
 ?>

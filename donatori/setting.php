@@ -1,85 +1,115 @@
 <?php
-include ('checksession.php');
-$id = isset($_SESSION['ID']) ? $_SESSION['ID'] : 0;
+include('checksession.php');
+require('../config/dalDonatori.php');
+$id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 
-$title="Modifica le impostazioni";
+if (isset($_POST['submit'])) {
+    if ($_POST['submit'] == 0) {
+        if ($_POST["Password"] == $_POST["Password2"]) {
+            $username=$_POST["Username"]==""?$_SESSION['Username']:$_POST["Username"];
+            if (UPDATEDonatoriPrivate($_POST["Email"], $username, $_POST["Password"], $id)) {
+                echo "<script>alert('Errore, Dati non validi')</script>";
+            }
+        }
+    } else if ($_POST['submit'] == 1) {
+        if (UPDATEDonatoriPublic($_POST['Indirizzo'],$_POST['Nome'],$_POST['Cognome'],$_POST['CF'],$id)) {
+            echo "<script>alert('Errore, Dati non validi')</script>";
+        }
+    }
+}
+
+$array=GETUserProfile($id);
+
+$title = "Modifica le impostazioni";
 include('header.php');
 include('navbar.php');
 ?>
-    <div class="container">
-        <div class="col-md-12">
-            <div class="card h-100">
-                <div class="card-body">
+<div class="container">
+    <div class="col-md-12">
+        <div class="card h-100">
+            <div class="card-body px-5">
+                <form method="POST">
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <h6 class="mb-2 text-primary">Dati Personali</h6>
+                            <h6 class="mb-2 text-primary">Dati d'accesso</h6>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="fullName">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
+                                <label>Username</label>
+                                <input type="text" class="form-control" name="Username" value="<?=$array['Username']?>" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="eMail">Email</label>
-                                <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+                                <label>Email</label>
+                                <input type="email" class="form-control" name="Email" value="<?=$array['E-mail']?>" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+                                <label>Nuova Password</label>
+                                <input type="password" class="form-control" name="Password"required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="website">Website URL</label>
-                                <input type="url" class="form-control" id="website" placeholder="Website url">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <h6 class="mt-3 mb-2 text-primary">Address</h6>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="Street">Street</label>
-                                <input type="name" class="form-control" id="Street" placeholder="Enter Street">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="ciTy">City</label>
-                                <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="sTate">State</label>
-                                <input type="text" class="form-control" id="sTate" placeholder="Enter State">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="zIp">Zip Code</label>
-                                <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
+                                <label>Conferma la password</label>
+                                <input type="password" class="form-control" name="Password2" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <div class="text-right">
-                                <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
-                                <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                                <button type="button" class="btn btn-secondary">Annulla</button>
+                                <button type="button" name="submit" value="0" class="btn btn-primary">Modifica</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h6 class="mb-2 text-primary">Dati Personali</h6>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Nome">Nome</label>
+                                <input type="text" class="form-control" name="Nome" value="<?=$array['Nome']?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Cognome">Cognome</label>
+                                <input type="text" class="form-control" name="Cognome" value="<?=$array['Cognome']?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="CF">Codice Fiscale</label>
+                                <input type="text" class="form-control" name="CF" value="<?=$array['CodiceFiscale']?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Indirizzo">Indirizzo</label>
+                                <input type="text" class="form-control" name="Indirizzo" value="<?=$array['Indirizzo']?>" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-secondary">Annulla</button>
+                                <button type="button" name="submit" value="1" class="btn btn-primary">Modifica</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <?php
+</div>
+<?php
 include('footer.php');
 ?>
