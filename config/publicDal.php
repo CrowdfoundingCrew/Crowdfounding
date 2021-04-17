@@ -115,3 +115,47 @@ function FindProject($id)
     $conn->close();
     return $data;
 }
+function GetProjectPrev()
+{
+    $conn = connectDB();
+    $stmt = $conn->prepare('SELECT `progetti`.`IDProgetto`, `progetti`.`Nome`, `progetti`.`Descrizione`, `risorse`.`Path` FROM `progetti` 
+    INNER JOIN `risorse` ON `risorse`.`IDProgetto`=`progetti`.`IDProgetto`
+    WHERE `risorse`.`Tipologia`= 0');
+    $stmt->execute();
+    $stmt->bind_result($id, $name, $desc, $path);
+    $res = "";
+    while ($stmt->fetch()) {
+        $res = $res . "<div class='col-md-4'>
+        <div class='row'>
+            <div class='col-md-6'>
+                <img alt='Logo' src=$path class='rounded' widht='150px' height='150px'/>
+            </div>
+            <div class='col-md-6'>
+                <h3>
+                    $name
+                </h3>
+            </div>
+        </div>
+        <div class='progress'>
+            <div class='progress-bar w-75'>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='col-md-12'>
+                <h2>
+                    Descrizione
+                </h2>
+                <p>
+                $desc
+                </p>
+                <p>
+                    <a class='btn' href='../public/project.php?Idprj=$id'>View details»</a>
+                </p>
+            </div>
+        </div>
+    </div>";
+    }
+    $stmt->close();
+    $conn->close();
+    return $res;
+}
