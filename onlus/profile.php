@@ -8,12 +8,12 @@ if (isset($_GET['ID'])) {
 } else if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
     $id = $_SESSION['ID'];
 } else {
-    $id = 0;
+    header('Location: /public'); 
 }
 
 $page = isset($_GET['page']) ?  $_GET['page'] : 1;
 
-$total = ceil(GETPages($id) / 10);
+$total = ceil(GETNumPagesProgetti($id) / 10);
 $onlus_array = GETOnlusProfile($id);
 $progetti = GETOnlusProgetti($id, $page);
 $title = $onlus_array['Denominazione'];

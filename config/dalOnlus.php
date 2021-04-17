@@ -224,7 +224,7 @@ function DELETERicompense($id)
     return $result;
 }
 
-function GETPages($id)
+function GETNumPagesProgetti($id)
 {
     $mysqli = connectDB();
     $stmt = $mysqli->prepare("SELECT COUNT(*) AS C FROM `progetti` WHERE `IDOnlus`=?");
@@ -236,4 +236,35 @@ function GETPages($id)
     $stmt->close();
     $mysqli->close();
     return $data['C'];
+}
+
+function GETNumPagesDonatori($id)
+{
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("SELECT COUNT(*) AS C FROM `progetti` WHERE `IDOnlus`=?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_array(MYSQLI_ASSOC);
+    $result->free_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data['C'];
+}
+
+function GETProgettoDonatori($id, $page)
+{
+    $off = (10 * (intval($page)-1));
+    $mysqli = connectDB();
+
+    $stmt = $mysqli->prepare("SELECT U.`IDUtente`, CONCAT(U.Nome,\" \",U.Cognome) AS Donatore, U.`E-mail`, D.`Importo`, D.`Data` FROM `donazioni` AS D INNER JOIN `utenti` AS U ON D.IDUtente=U.IDUtente WHERE `IDProgetto`=? LIMIT 10 OFFSET ? ");
+
+    $stmt->bind_param('ii', $id, $off);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
 }

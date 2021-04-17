@@ -3,7 +3,7 @@ include('checksession.php');
 require('../config/dalOnlus.php');
 define('SITE_ROOT', __DIR__);
 
-$id = isset($_SESSION['ID']) ? $_SESSION['ID'] : 0;
+$id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 $array = GETOnlusProfile($id);
 
 if (isset($_POST['submit'])) {

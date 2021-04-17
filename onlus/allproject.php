@@ -2,16 +2,15 @@
 
 include('checksession.php');
 require('../config/dalOnlus.php');
-//define('SITE_ROOT', __DIR__);
 
-$id = isset($_SESSION['ID']) ? $_SESSION['ID'] : 0;
+$id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 if (isset($_POST['Elimina']) && $_POST['Elimina'] > 0) {
     DELETEProject($_POST['Elimina']);
     header("allproject.php");
 }
 
 $page = isset($_GET['page']) ?  $_GET['page'] : 1;
-$total = ceil(GETPages($id) / 10);
+$total = ceil(GETNumPagesProgetti($id) / 10);
 $table = GETOnlusProgetti($id, $page);
 
 $title = "Tutti i progetti";
@@ -22,7 +21,7 @@ include('navbar.php');
 <div class="container">
     <div class="row my-3">
         <div class="col-12 col-sm-6 col-md-6">
-            <h3 class="text-right">Tutti i progetti</h3>
+            <h3 class="text-right"><?= $title ?></h3>
         </div>
         <div class="col-12 col-sm-6 col-md-6">
             <a type="button" class="btn btn-success mb-1 float-right" href="project.php">Nuovo Progetto</a>
@@ -46,7 +45,7 @@ include('navbar.php');
                     <td><?= $row['DataI'] ?></td>
                     <td><?= $row['DataF'] ?></td>
                     <td><?=isset($row['Totale'])?$row['Totale']:0 ?>/<?= $row['Obbiettivo'] ?></td>
-                    <td><?= $row['Donatori'] ?></td>
+                    <td><a class="nav-link" href="alldonatori.php?ID=<?= $row['IDProgetto'] ?>"><?= $row['Donatori'] ?></a></td>
                     <td>
                         <a type="button" class="btn btn-warning mb-1" href="project.php?ID=<?= $row['IDProgetto'] ?>">Modifica</a>
                         <br>
