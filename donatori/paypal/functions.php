@@ -1,12 +1,6 @@
 <?php
 
-/**
- * Verify transaction is authentic
- *
- * @param array $data Post data from Paypal
- * @return bool True if the transaction is verified by PayPal
- * @throws Exception
- */
+
 function verifyTransaction($data) {
 	global $paypalUrl;
 
@@ -50,12 +44,7 @@ function verifyTransaction($data) {
 	return $res === 'VERIFIED';
 }
 
-/**
- * Check we've not already processed a transaction
- *
- * @param string $txnid Transaction ID
- * @return bool True if the transaction ID has not been seen before, false if already processed
- */
+
 function checkTxnid($txnid) {
 	global $db;
 
@@ -65,25 +54,21 @@ function checkTxnid($txnid) {
 	return ! $results->num_rows;
 }
 
-/**
- * Add payment to database
- *
- * @param array $data Payment data
- * @return int|bool ID of new payment or false if failed
- */
+
 function addPayment($data) {
 	global $db;
 
 	if (is_array($data)) {
 		$stmt = $db->prepare('INSERT INTO Donazioni (txnid, Importo, Status, IDProgetto, Data, IDUtente, `E-mail`) VALUES(?, ?, ?, ?, ?, ?, ?)');
+		$arr = explode(" ", $data['custom']);
 		$stmt->bind_param(
 			'sdsssis',
 			$data['txn_id'],
 			$data['payment_amount'],
 			$data['payment_status'],
-			$data['item_number'],
+			$arr[1],
 			date('Y-m-d H:i:s'),
-			$data['custom'],
+			$arr[0],
 			$data['payer_email']
 		);
 		$stmt->execute();
