@@ -30,7 +30,7 @@ function GETOnlusProgetti($id, $page)
     $off = (10 * (intval($page)-1));
     $mysqli = connectDB();
 
-    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, P.Obbiettivo, P.DataI, P.DataF, T.Ambito, ROUND(SUM(D.`Importo`),2) AS Totale, COUNT(D.IDProgetto) AS Donatori FROM `donazioni` AS D RIGHT OUTER JOIN progetti AS P ON D.`IDProgetto`=P.IDProgetto INNER JOIN `tag` AS T ON P.IDTag=T.IDTag WHERE P.IDOnlus=? GROUP BY P.`IDProgetto` ORDER BY P.DataI DESC, P.DataF LIMIT 10 OFFSET ? ");
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, P.Obbiettivo, P.DataI, P.DataF, T.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo, ROUND(SUM(D.`Importo`),2) AS Totale, COUNT(D.IDProgetto) AS Donatori FROM `donazioni` AS D RIGHT OUTER JOIN progetti AS P ON D.`IDProgetto`=P.IDProgetto INNER JOIN `tag` AS T ON P.IDTag=T.IDTag WHERE P.IDOnlus=? GROUP BY P.`IDProgetto` ORDER BY P.DataI DESC, P.DataF LIMIT 10 OFFSET ? ");
 
     $stmt->bind_param('ii', $id, $off);
     $stmt->execute();
@@ -57,7 +57,7 @@ function INSERTProgetto($nome, $desc, $obiettivo, $dataF, $FKTag, $FKOnlus)
 {
     $mysqli = connectDB();
     $stmt = $mysqli->prepare("INSERT INTO `progetti`(`Nome`, `Descrizione`, `Obbiettivo`, `DataI`, `DataF`, `IDTag`, `IDOnlus`) VALUES (?,?,?,CURDATE(),?,?,?)");
-    $stmt->bind_param('ssisii', $nome, $desc, intval($obiettivo), $dataF, intval($FKTag), intval($FKOnlus));
+    $stmt->bind_param('ssisii', $nome, $desc, $obiettivo, $dataF, $FKTag, $FKOnlus);
     $stmt->execute();
     $result = $stmt->get_result();
     if (!$result)

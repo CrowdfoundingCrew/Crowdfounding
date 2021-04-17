@@ -1,7 +1,7 @@
 <?php
 include('checksession.php');
 require('../config/dalOnlus.php');
-
+define('SITE_ROOT', realpath(dirname(getcwd())));
 
 $date = new DateTime();
 $day = $date->add(new DateInterval('P180D'))->format("Y-m-d");
@@ -21,23 +21,46 @@ if (isset($_POST['submit'])) {
         if (is_numeric($result)) {
             //ImmagineProgetto
             if (UPLOAD_ERR_OK === $_FILES['ImmagineProgetto']['error']) {
-                $uploadDirPhoto = 'assets/profile/';
-                $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . basename($_FILES['ImmagineProgetto']['name']);
-                move_uploaded_file($_FILES['ImmagineProgetto']['tmp_name'], "../" . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
+                $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets\profile';
+                $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . strval(date('H-i-s')) . "_" . basename($_FILES['ImmagineProgetto']['name']);
+
+                move_uploaded_file($_FILES['ImmagineProgetto']['tmp_name'], SITE_ROOT . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
                 $profile_path = $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto;
                 INSERTRisorsa($profile_path, 0, $result);
             }
 
+            //ImmagineCarosello
+            $countfiles = count($_FILES['ImmagineCarosello']['name']);
+            $uploadDirResources = DIRECTORY_SEPARATOR . 'assets\resources';
+            for ($i = 0; $i < $countfiles; $i++) {
+                if (UPLOAD_ERR_OK === $_FILES['ImmagineCarosello']['error'][$i]) {
+                    $filename = $_FILES['ImmagineCarosello']['name'][$i];
+                    $fileNameResources = $result . "_" . strval(date('Y-m-d')) . "_" . strval(date('H-i-s')) . "_" . basename($filename);
+
+                    move_uploaded_file($_FILES['ImmagineCarosello']['tmp_name'][$i], SITE_ROOT . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources);
+                    $resources_path = $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources;
+                    INSERTRisorsa($resources_path, 1, $result);
+                }
+            }
+
+            //VideoCarosello
+            if (UPLOAD_ERR_OK === $_FILES['VideoCarosello']['error']) {
+                $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . strval(date('H-i-s')) . "_" . basename($_FILES['VideoCarosello']['name']);
+                move_uploaded_file($_FILES['VideoCarosello']['tmp_name'], SITE_ROOT . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNamePhoto);
+                $profile_path = $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto;
+                INSERTRisorsa($profile_path, 2, $result);
+            }
+
             //RisorseProgetto
             $countfiles = count($_FILES['RisorseProgetto']['name']);
-            $uploadDirResources = 'assets/resources/';
             for ($i = 0; $i < $countfiles; $i++) {
                 if (UPLOAD_ERR_OK === $_FILES['RisorseProgetto']['error'][$i]) {
                     $filename = $_FILES['RisorseProgetto']['name'][$i];
-                    $fileNameResources = $result . "_" . strval(date('Y-m-d')) . "_" . basename($filename);
-                    move_uploaded_file($_FILES['RisorseProgetto']['tmp_name'][$i], "../" . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources);
+                    $fileNameResources = $result . "_" . strval(date('Y-m-d')) . "_" . strval(date('H-i-s')) . "_" . basename($filename);
+
+                    move_uploaded_file($_FILES['RisorseProgetto']['tmp_name'][$i], SITE_ROOT . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources);
                     $resources_path = $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources;
-                    INSERTRisorsa($resources_path, 0, $result);
+                    INSERTRisorsa($resources_path, 3, $result);
                 }
             }
 
@@ -109,6 +132,7 @@ if (isset($_POST['submit'])) {
             }
         }
     }
+    header('Location: /onlus/allproject.php'); 
 } else if (isset($_GET['ID']) && $_GET['ID'] > 0) {
     $array = GETProgetto($_GET['ID']);
     $txtNomeProgetto = $array['Nome'];
@@ -146,7 +170,7 @@ include('navbar.php');
 ?>
 
 <div class="container">
-    <h1 class="text-center">
+    <h1 class="text-center my-4">
         <?= $title ?>
     </h1>
     <form method="POST" action="" enctype="multipart/form-data">
@@ -154,7 +178,7 @@ include('navbar.php');
             <h5>Dati identificativi del progetto</h5>
             <div class="form-group">
                 <label for="txtNomeProgetto">Nome Progetto</label>
-                <input type="text" class="form-control" id="txtNomeProgetto" value="<?= $txtNomeProgetto ?>" name="txtNomeProgetto" aria-describedby="txtNomeProgettoHelp">
+                <input type="text" class="form-control" id="txtNomeProgetto" value="<?= $txtNomeProgetto ?>" name="txtNomeProgetto" aria-describedby="txtNomeProgettoHelp" required>
                 <small id="txtNomeProgettoHelp" class="form-text text-muted">Come si chiama il progetto?</small>
             </div>
             <div class="form-group">
@@ -165,7 +189,7 @@ include('navbar.php');
             <div class="form-row">
                 <div class="form-group col-md">
                     <label for="txtFineProgetto">Data fine del Progetto</label>
-                    <input type="date" class="form-control" id="txtFineProgetto" name="txtFineProgetto" aria-describedby="txtFineProgettoHelp" value="<?= $day ?>">
+                    <input type="date" class="form-control" id="txtFineProgetto" name="txtFineProgetto" aria-describedby="txtFineProgettoHelp" value="<?= $day ?>" required>
                     <small id="txtFineProgettoHelp" class="form-text text-muted">Quando finisce la raccolta fondi?</small>
                 </div>
                 <div class="form-group col-md">
@@ -174,7 +198,7 @@ include('navbar.php');
                         <div class="input-group-prepend">
                             <span class="input-group-text">€</span>
                         </div>
-                        <input type="number" class="form-control" id="txtObiettivoProgetto" value="<?= $txtObiettivoProgetto ?>" name="txtObiettivoProgetto" aria-describedby="txtObiettivoProgettoHelp">
+                        <input type="number" class="form-control" id="txtObiettivoProgetto" value="<?= $txtObiettivoProgetto ?>" name="txtObiettivoProgetto" aria-describedby="txtObiettivoProgettoHelp" required>
                         <div class="input-group-append">
                             <span class="input-group-text">.00</span>
                         </div>
@@ -184,7 +208,7 @@ include('navbar.php');
             </div>
             <div class="form-group">
                 <label for="txtCategoriaProgetto">Seleziona la categoria</label>
-                <select class="form-control" id="txtCategoriaProgetto" name="txtCategoriaProgetto" value="<?= $txtCategoriaProgetto ?>">
+                <select class="form-control" id="txtCategoriaProgetto" name="txtCategoriaProgetto" value="<?= $txtCategoriaProgetto ?>" required>
                     <?php foreach ($categorie as $row) { ?>
                         <option value="<?= $row["IDTag"] ?>"><?= $row["Ambito"] ?></option>
                     <?php } ?>
@@ -202,7 +226,7 @@ include('navbar.php');
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">€</span>
                                 </div>
-                                <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="<?= $row['ImportoMin'] ?>">
+                                <input type="number" class="form-control" name="txtRicompensaProgetto[]" min="0" value="<?= $row['ImportoMin'] ?>" required>
                                 <div class="input-group-append">
                                     <span class="input-group-text">.00</span>
                                 </div>
@@ -224,7 +248,7 @@ include('navbar.php');
                     <label for="txtDescrizionePrezzo">Descrizione</label>
                     <?php if (count($txtRicompensa) > 0) {
                         foreach ($txtRicompensa as $row) { ?>
-                            <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]" value="<?= $row['Descrizione'] ?>">
+                            <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]" value="<?= $row['Descrizione'] ?>" required>
                         <?php }
                     } else { ?>
                         <input type="text" class="form-control mt-2" name="txtDescrizionePrezzo[]">
@@ -238,7 +262,7 @@ include('navbar.php');
             <div>
                 <h5>Carica gli allegati</h5>
                 <div class="form-group">
-                    <label>Immagine del profilo:</label>
+                    <label>Foto profilo del progetto:</label>
                     <a class="btn btn-outline-light" id="bd-modal-profile-image" data-toggle="modal" data-target=".bd-modal-profile-image">Nessun file disponibile. Clicca qui per caricare</a>
                     <div class="modal fade bd-modal-profile-image" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
@@ -251,12 +275,62 @@ include('navbar.php');
                                 </div>
                                 <div class="modal-body">
                                     <label for="ImmagineProgetto">Allega l'immagine che caratterizza meglio il tuo progetto</label>
-                                    <input type="file" accept=".jpg, .jpeg, .png" size="2MB" class="form-control" id="ImmagineProgetto" name="ImmagineProgetto" aria-describedby="ImmagineProgettoHelp">
+                                    <input type="file" accept=".jpg, .jpeg, .png" size="2MB" class="form-control" id="ImmagineProgetto" name="ImmagineProgetto" aria-describedby="ImmagineProgettoHelp" required>
                                     <small id="ImmagineProgettoHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png<br>Dimensione massima consentita: 2 MB</small>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
                                     <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFile('#bd-modal-profile-image','#ImmagineProgetto');">Carica</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Immagini per il progetto:</label>
+                    <a class="btn btn-outline-light" id="bd-modal-carosello-image" data-toggle="modal" data-target=".bd-modal-carosello-image">Nessun file disponibile. Clicca qui per caricare</a>
+                    <div class="modal fade bd-modal-carosello-image" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Immagini per il progetto</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="ImmagineCarosello">Allega le immagini per il carosello del tuo progetto</label>
+                                    <input type="file" accept=".jpg, .jpeg, .png" size="2MB" class="form-control" id="ImmagineCarosello" name="ImmagineCarosello[]" aria-describedby="ImmagineCaroselloHelp" multiple>
+                                    <small id="ImmagineCaroselloHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png<br>Dimensione massima consentita: 2 MB</small>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
+                                    <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFiles('#ImmagineCarosello','#bd-modal-carosello-image')">Carica</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Video per il progetto:</label>
+                    <a class="btn btn-outline-light" id="bd-modal-carosello-video" data-toggle="modal" data-target=".bd-modal-carosello-video">Nessun file disponibile. Clicca qui per caricare</a>
+                    <div class="modal fade bd-modal-carosello-video" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Video per il progetto</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="VideoCarosello">Allega il video del tuo progetto</label>
+                                    <input type="file" accept=".mp4" size="4MB" class="form-control" id="VideoCarosello" name="VideoCarosello" aria-describedby="VideoCaroselloHelp">
+                                    <small id="VideoCaroselloHelp" class="form-text text-muted">Formati accettati: .mp4<br>Dimensione massima consentita: 4 MB</small>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
+                                    <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFile('#bd-modal-carosello-video','#VideoCarosello')">Carica</button>
                                 </div>
                             </div>
                         </div>
@@ -276,8 +350,8 @@ include('navbar.php');
                                     <label for="RisorseProgetto">Descrivi il progetto allegando delle
                                         <span style="text-decoration: underline dashed" data-toggle="tooltip" data-placement="bottom" title="Ad esempio: immagini, manifesti, opuscoli, ecc.">risorse</span>
                                     </label>
-                                    <input type="file" accept=".jpeg, .jpg, .png, .pdf, .docx, .pptx, .xlsl" size="5MB" class="form-control" id="RisorseProgetto" name="RisorseProgetto[]" aria-describedby="RisorseProgettoHelp" multiple>
-                                    <small id="RisorseProgettoHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png, .pdf, .docx, .pptx, .xlsl<br>Dimensione massima consentita: 5 MB</small>
+                                    <input type="file" accept=".pdf, .docx, .pptx, .xlsl" size="5MB" class="form-control" id="RisorseProgetto" name="RisorseProgetto[]" aria-describedby="RisorseProgettoHelp" multiple>
+                                    <small id="RisorseProgettoHelp" class="form-text text-muted">Formati accettati: .pdf, .docx, .pptx, .xlsl<br>Dimensione massima consentita: 5 MB</small>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>

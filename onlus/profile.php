@@ -19,7 +19,7 @@ $progetti = GETOnlusProgetti($id, $page);
 $title = $onlus_array['Denominazione'];
 include('header.php');
 
-if ($_SESSION['Tipo'] === 1) {
+if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
     include('navbar.php');
 } else {
     include('../public/navbar.php');
@@ -28,7 +28,7 @@ if ($_SESSION['Tipo'] === 1) {
 <div class="container-fluid">
     <div class="row pt-5 pb-5 profile-background-image">
         <div class="col-md-6">
-            <img class="logo" src="https://cdn.wallpapersafari.com/77/90/056lrX.jpg" alt="" />
+            <img class="logo" src="<?= $onlus_array['Immagine'] ?>" alt="" />
         </div>
         <div class="col-md-2">
             <div class="profile-head text-center text-md-left">
@@ -74,16 +74,16 @@ if ($_SESSION['Tipo'] === 1) {
     </div>
     <div class="container mt-4">
         <div class="col-md-12 text-center">
-            <h3>Progetti in corso</h3>
+            <h2>Progetti in corso</h2>
         </div>
         <?php
         foreach ($progetti as $row) {
         ?>
             <div class="row divide-project">
                 <div class="row col-md-12">
-                    <div class="col-lg-2 project-logo"><img src="https://www.layoutit.com/img/sports-q-c-140-140-3.jpg"></div>
+                    <div class="col-lg-2 project-logo"><img src="<?= $row['Logo'] ?>" alt="Foto profilo progetto"></div>
                     <div class="col-lg-10">
-                        <h2><?= $row['Nome'] ?></h2>
+                        <h3><?= $row['Nome'] ?></h3>
                         <a href="#" class="badge badge-primary"><?= $row['Ambito'] ?></a>
                         <div>
                             <p><?= substr($row['Descrizione'], 0, 100) ?>...<a class="ml-1" href="/public/project.php?Idprj=<?=$row['IDProgetto']?>">Prosegui con la lettura»</a></p>
