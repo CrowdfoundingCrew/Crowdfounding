@@ -1,13 +1,12 @@
 <?php
 
-
 function verifyTransaction($data) {
 	global $paypalUrl;
 
 	$req = 'cmd=_notify-validate';
 	foreach ($data as $key => $value) {
 		$value = urlencode(stripslashes($value));
-		$value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i', '${1}%0D%0A${3}', $value); // IPN fix
+		$value = preg_replace('/(.*[^%^0^D])(%0A)(.*)/i', '${1}%0D%0A${3}', $value); 
 		$req .= "&$key=$value";
 	}
 
@@ -44,16 +43,14 @@ function verifyTransaction($data) {
 	return $res === 'VERIFIED';
 }
 
-
 function checkTxnid($txnid) {
-	global $db;
+    global $db;
 
-	$txnid = $db->real_escape_string($txnid);
-	$results = $db->query('SELECT * FROM `payments` WHERE txnid = \'' . $txnid . '\'');
+    $txnid = $db->real_escape_string($txnid);
+    $results = $db->query('SELECT * FROM `payments` WHERE txnid = \'' . $txnid . '\'');
 
-	return ! $results->num_rows;
+    return ! $results->num_rows;
 }
-
 
 function addPayment($data) {
 	global $db;
@@ -61,20 +58,22 @@ function addPayment($data) {
 	if (is_array($data)) {
 		$stmt = $db->prepare('INSERT INTO Donazioni (txnid, Importo, Status, IDProgetto, Data, IDUtente, `E-mail`) VALUES(?, ?, ?, ?, ?, ?, ?)');
 		$arr = explode(" ", $data['custom']);
+		$date = date('Y-m-d H:i:s');
 		$stmt->bind_param(
 			'sdsssis',
 			$data['txn_id'],
 			$data['payment_amount'],
 			$data['payment_status'],
 			$arr[1],
-			date('Y-m-d H:i:s'),
+			$date,
 			$arr[0],
 			$data['payer_email']
 		);
-		$stmt->execute();
+		$res = $stmt->execute();
+		//echo $stmt->error;
 		$stmt->close();
 
-		return $db->insert_id;
+		return $res;
 	}
 
 	return false;
