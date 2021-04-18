@@ -10,7 +10,7 @@ function UploadFile(a, b) {
 function UploadFiles(a, b) {
     let text = "";
     if ($(a).get(0).files.length > 0) {
-        var array = $('#RisorseProgetto').get(0).files;
+        var array = $(a).get(0).files;
         $.each(array, (i, v) => {
             text += v.name;
             text += "<br>";
