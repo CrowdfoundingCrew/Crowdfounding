@@ -1,13 +1,14 @@
 <?php
 
 session_start();
-$check = isset($_SESSION['islogged']) ? $_SESSION['islogged'] : FALSE;
+$check = isset($_SESSION['ID']) ? $_SESSION['ID'] : FALSE;
 
-if($check and $_SESSION['ruolo']==='donatori'){ 
+if($check and $_SESSION['Tipo'] === 0){ 
 
 }else{ 
     $_SESSION['msg']="Permessi insufficienti";
-    header('Location: /'); 
+    header('Location: /public'); 
 }
+
 
 ?>
