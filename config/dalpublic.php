@@ -107,7 +107,7 @@ function FindProject($id)
     $stmt->bind_result($rdesc, $rmin);
     $res = "";
     while ($stmt->fetch()) {
-        $res = $res . " <tr><td>$rdesc</td> <td>$rmin</td><td>SandBoxLink</td></tr>";
+        $res = $res . " <tr><td>$rdesc</td> <td>$rmin</td><td><a class='btn btn-primary btn-sm' href='../donatori/paypal/paypal.html.php?prjname=$Nome&don=$rmin&prjid=$id'>DONA ORA</a></td></tr>";
     }
 
     array_push($data, $res);
