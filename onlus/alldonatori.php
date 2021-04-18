@@ -1,7 +1,7 @@
 <?php
 
 include('checksession.php');
-require('../config/dalOnlus.php');
+require('../config/dalonlus.php');
 
 $id = isset($_GET['ID']) ? $_GET['ID'] : header('Location: /public');
 
@@ -26,8 +26,8 @@ include('navbar.php');
                 <th class="text-center">Identificativo</th>
                 <th>Donatore</th>
                 <th>Email</th>
-                <th>Data donazione</th>
                 <th>Importo</th>
+                <th>Data donazione</th>
             </tr>
         </thead>
         <tbody>

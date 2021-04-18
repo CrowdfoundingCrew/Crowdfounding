@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('../config/dalOnlus.php');
+require('../config/dalonlus.php');
 
 $id = 0;
 if (isset($_GET['ID'])) {
@@ -28,7 +28,7 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
 <div class="container-fluid">
     <div class="row pt-5 pb-5 profile-background-image">
         <div class="col-md-6">
-            <img class="logo" src="<?= $onlus_array['Immagine'] ?>" alt="" />
+            <img class="logo" src="<?= $onlus_array['Immagine'] ?>" alt="" height="150px" width="150px"/>
         </div>
         <div class="col-md-2">
             <div class="profile-head text-center text-md-left">
@@ -106,6 +106,7 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
         ?>
         <nav>
             <ul class="pagination justify-content-center">
+            <?php if(isset($_GET['ID'])){ ?>
                 <li class="page-item">
                     <a class="page-link" href="?ID=<?= $_GET['ID'] ?>&page=1" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
@@ -124,6 +125,26 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
                         <span class="sr-only">Next</span>
                     </a>
                 </li>
+                <?php }else{ ?>
+                    <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= $page <= 1 ? '#' : "?page=" . ($page - 1) ?>">Previous</a>
+                </li>
+                <li class="page-item <?= $page >= $total ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= $page >= $total ? '#' : "?page=" . ($page + 1) ?>">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<?= $total; ?>" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+                    <?php } ?>
             </ul>
         </nav>
     </div>

@@ -1,7 +1,7 @@
 <?php
 
 include('checksession.php');
-require('../config/dalOnlus.php');
+require('../config/dalonlus.php');
 
 $id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 if (isset($_POST['Elimina']) && $_POST['Elimina'] > 0) {

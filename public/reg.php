@@ -17,7 +17,7 @@ include('header.php');
           <span class="logmod__heading-subtitle">Enter your personal details <strong>to create an acount</strong></span>
         </div>-->
           <div class="logmod__form">
-            <form accept-charset="utf-8" action="../config/AddOnlus.php" class="simform" method="POST" enctype="multipart/form-data">
+            <form accept-charset="utf-8" action="../config/addonlus.php" class="simform" method="POST" enctype="multipart/form-data">
               <div class="sminputs">
                 <div class="input string optional">
                   <label class="string optional" for="user-name">Email *</label>
@@ -78,7 +78,7 @@ include('header.php');
         <div class="logmod__tab lgm-2">
 
           <div class="logmod__form">
-            <form accept-charset="utf-8" action="../config/AddDonator.php" class="simform" method="POST">
+            <form accept-charset="utf-8" action="../config/adddonator.php" class="simform" method="POST">
               <div class="sminputs">
                 <div class="input string optional">
                   <label class="string optional" for="user-name">Email *</label>

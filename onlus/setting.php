@@ -1,6 +1,6 @@
 <?php
 include('checksession.php');
-require('../config/dalOnlus.php');
+require('../config/dalonlus.php');
 define('SITE_ROOT', __DIR__);
 
 $id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;

@@ -1,6 +1,6 @@
 <?php
 include('checksession.php');
-require('../config/dalOnlus.php');
+require('../config/dalonlus.php');
 define('SITE_ROOT', realpath(dirname(getcwd())));
 
 $date = new DateTime();

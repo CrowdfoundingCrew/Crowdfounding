@@ -1,5 +1,5 @@
 <?php
-require '../config/publicDal.php';
+require '../config/dalpublic.php';
 session_start();
 $title = "HomePage";
 include('header.php');

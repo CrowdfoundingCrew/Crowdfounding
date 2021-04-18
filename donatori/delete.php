@@ -1,6 +1,6 @@
 <?php
 include('checksession.php');
-require('../config/dalDonatori.php');
+require('../config/daldonatori.php');
 $id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 
 DELETEDonatori($id);

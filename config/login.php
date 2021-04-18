@@ -1,5 +1,5 @@
 <?php
-    require './publicDal.php';
+    require './dalpublic.php';
 
     $user = $_POST["User"];
     $psw = $_POST["Pass"];

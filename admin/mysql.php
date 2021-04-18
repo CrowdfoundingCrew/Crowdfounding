@@ -4,7 +4,7 @@ include '../config/sampleconnection.php';
 function Onlus($no_of_records_per_page, $offset, $search)
 {
     $conn = connectDB();
-   
+
     $total_pages_sql = "SELECT COUNT(*) AS Pagine FROM utenti WHERE Tipo = b'01' AND Denominazione LIKE ?";
     $countrows = $conn->prepare($total_pages_sql);
     $search = $search . "%";
@@ -32,7 +32,8 @@ function Onlus($no_of_records_per_page, $offset, $search)
     while ($result_data->fetch()) {
         $descrizioneonlus = $Email . " - " . $Indirizzo . " - " . $IVA . " - " . $REA;
         $paginaonlus = "/onlus/profile.php?ID=" . $IDUtente;
-        $result = $result . "<div class='row border-top border-primary pt-3'>
+        if ($result == "") {
+            $result = $result . "<div class='row pt-3'>
             <div class='col-md-12'>
                 <h3>
                     $nomeonlus - Progetti: $NProgetti
@@ -45,11 +46,27 @@ function Onlus($no_of_records_per_page, $offset, $search)
                 </p>
             </div>
             </div>" .
-            "<div class='row'>";
+                "<div class='row'>";
+        } else {
+            $result = $result . "<div class='row border-top border-primary pt-3'>
+            <div class='col-md-12'>
+                <h3>
+                    $nomeonlus - Progetti: $NProgetti
+                </h3>
+                <p>
+                    $descrizioneonlus
+                </p>
+                <p>
+                    <a class='btn' href='$paginaonlus'>View details »</a>
+                </p>
+            </div>
+            </div>" .
+                "<div class='row'>";
+        }
 
         $conn2 = connectDB();
 
-        $sqlprogetti = "SELECT IDProgetto, Nome, Descrizione, DataI, DataF, Obbiettivo FROM progetti WHERE IDOnlus = " . $IDUtente. " LIMIT 3";
+        $sqlprogetti = "SELECT IDProgetto, Nome, Descrizione, DataI, DataF, Obbiettivo FROM progetti WHERE IDOnlus = " . $IDUtente . " LIMIT 3";
         $progetti = $conn2->query($sqlprogetti);
         while ($progetto = $progetti->fetch_assoc()) {
             $nomeprogetto = $progetto['Nome'];
@@ -62,25 +79,25 @@ function Onlus($no_of_records_per_page, $offset, $search)
             $sqldonazioni = "SELECT Importo FROM donazioni WHERE IDProgetto =" . $progetto["IDProgetto"] . " AND Status = 'Ok'";
             $donazioni = $conn2->query($sqldonazioni);
             $totdona = 0;
-            while($donazione = $donazioni->fetch_assoc()){
+            while ($donazione = $donazioni->fetch_assoc()) {
                 $totdona = $totdona + $donazione["Importo"];
             }
 
             $barprogetto = floor($totdona / $progetto["Obbiettivo"] * 100);
 
-            if($barprogetto < 30){
+            if ($barprogetto < 30) {
                 $coloreprogetto = "danger";
-            } else if($barprogetto <50){
+            } else if ($barprogetto < 50) {
                 $coloreprogetto = "warning";
-            } else if ($barprogetto < 80){
+            } else if ($barprogetto < 80) {
                 $coloreprogetto = "info";
-            } else if ($barprogetto < 100){
+            } else if ($barprogetto < 100) {
                 $coloreprogetto = "primary";
             } else {
                 $coloreprogetto = "success";
             }
 
-            if($immagine)
+            if ($immagine)
                 $immagineprogetto = $immagine["Path"];
             else
                 $immagineprogetto = "../assets/img/placeholder.png";
@@ -121,7 +138,7 @@ function Donatori($no_of_records_per_page, $offset, $search)
     $countrows->close();
 
 
-    $sql = "SELECT utenti.IDUtente, Username, Nome, Cognome, utenti.`E-mail`, Indirizzo, SUM(Importo) AS Donazioni FROM utenti LEFT JOIN donazioni ON utenti.IDUtente = donazioni.IDUtente WHERE Tipo = 0 AND Username LIKE ? GROUP BY utenti.IDUtente LIMIT $offset, $no_of_records_per_page";
+    $sql = "SELECT utenti.IDUtente, Username, Nome, Cognome, utenti.`E-mail`, Indirizzo, ROUND(SUM(Importo),2) AS Donazioni FROM utenti LEFT JOIN donazioni ON utenti.IDUtente = donazioni.IDUtente WHERE Tipo = 0 AND Username LIKE ? GROUP BY utenti.IDUtente LIMIT $offset, $no_of_records_per_page";
     $result_data = $conn->prepare($sql);
     $result_data->bind_param("s", $search);
     $result_data->execute();
@@ -130,25 +147,31 @@ function Donatori($no_of_records_per_page, $offset, $search)
     $count = 0;
 
     while ($result_data->fetch()) {
-        if($count % 3 == 0){
-            $result = $result . "<div class='row  border-top border-primary pt-3'>";
+        if ($result != "<div class='container-fluid'>") {
+            if ($count % 3 == 0) {
+                $result = $result . "<div class='row border-top border-primary pt-3'>";
+            }
+        }else{
+            if ($count % 3 == 0) {
+                $result = $result . "<div class='row pt-3'>";
+            }
         }
-        if($Donazioni == NULL){
+        if ($Donazioni == NULL) {
             $Donazioni = 0;
         }
         $linkuser = "/donatori/profile.php?ID=" . $IDUtente;
 
         $result = $result . "<div class='col-md-4'>
 			                    <p>
-                                    <strong>$Username: $Cognome $Nome</strong><br>
-                                    E-mail: $Email<br>
-                                    Indirizzo: $Indirizzo<br>
-                                    Totale donazioni: $Donazioni<br>
-                                    <a class='btn' href='$linkuser'>View details »</a>
+                                    <i class=\"far fa-user\"></i><strong>$Username: $Cognome $Nome</strong><br>
+                                    <i class=\"far fa-envelope\"></i>E-mail: $Email<br>
+                                    <i class=\"fas fa-map-marker-alt\"></i>Indirizzo: $Indirizzo<br>
+                                    Totale delle donazioni: $Donazioni<br>
+                                    <a class=\"ml-1\" href='$linkuser'>Maggiori dettagli»</a>
                                 </p>
 		                     </div>";
 
-        if($count % 3 == 2){
+        if ($count % 3 == 2) {
             $result = $result . "</div>";
         }
         $count++;
@@ -159,7 +182,8 @@ function Donatori($no_of_records_per_page, $offset, $search)
     return [$result, $total_pages];
 }
 
-function NewAdmin($Nome, $Cognome, $Username, $Email, $Password){
+function NewAdmin($Nome, $Cognome, $Username, $Email, $Password)
+{
     $conn = connectDB();
     $pass = password_hash($Password, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO utenti(Username, Password, `E-mail`, Tipo, Nome, Cognome) VALUES (?,?,?,b'10',?,?)");
@@ -168,6 +192,6 @@ function NewAdmin($Nome, $Cognome, $Username, $Email, $Password){
     echo $stmt->error;
     $stmt->close();
     $conn->close();
-    
+
     return;
 }
