@@ -115,12 +115,26 @@ function FindProject($id)
     $conn->close();
     return $data;
 }
-function GetProjectPrev()
+function GetProjectPrev($no_of_records_per_page, $offset, $search)
 {
     $conn = connectDB();
-    $stmt = $conn->prepare('SELECT `progetti`.`IDProgetto`, `progetti`.`Nome`, `progetti`.`Descrizione`, `risorse`.`Path` FROM `progetti` 
+
+    $total_pages_sql = "SELECT COUNT(*) AS Pagine FROM progetti WHERE Nome LIKE ?";
+    $countrows = $conn->prepare($total_pages_sql);
+    $search = $search . "%";
+    $countrows->bind_param("s", $search);
+    $countrows->execute();
+    $countrows->bind_result($total_rows);
+    $countrows->fetch();
+    $total_pages = ceil($total_rows / $no_of_records_per_page);
+    $countrows->close();
+
+
+    $stmt = $conn->prepare("SELECT `progetti`.`IDProgetto`, `progetti`.`Nome`, `progetti`.`Descrizione`, `risorse`.`Path` FROM `progetti` 
     INNER JOIN `risorse` ON `risorse`.`IDProgetto`=`progetti`.`IDProgetto`
-    WHERE `risorse`.`Tipologia`= 0');
+    WHERE `risorse`.`Tipologia`= 0 AND `progetti`.`Nome` LIKE ?
+    LIMIT $offset, $no_of_records_per_page");
+    $stmt->bind_param("s", $search);
     $stmt->execute();
     $stmt->bind_result($id, $name, $desc, $path);
 
@@ -159,5 +173,5 @@ function GetProjectPrev()
     }
     $stmt->close();
     $conn->close();
-    return $res;
+    return [$res, $total_pages];
 }
