@@ -61,25 +61,14 @@ $total_pages = $data[1];
                 <div class="d-flex justify-content-around">
                     <nav>
                         <ul class="pagination">
-<?php if ($search=="") {?>
-                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                            <li class="page-item"><a class="page-link" href="?page=1&cat=<?=$categoria?>&search=<?=$search?>">First</a></li>
                             <li class="page-item <?php if($page <= 1){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page <= 1){ echo '#'; } else { echo "?page=".($page - 1); } ?>">Prev</a>
+                                <a class="page-link" href="<?php if($page <= 1){ echo '#'; } else { echo "?page=".($page - 1)."&cat=".$categoria."&search=".$search; } ?>">Prev</a>
                             </li>
                             <li class="page-item <?php if($page >= $total_pages){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page >= $total_pages){ echo '#'; } else { echo "?page=".($page + 1); } ?>">Next</a>
+                                <a class="page-link" href="<?php if($page >= $total_pages){ echo '#'; } else { echo "?page=".($page + 1)."&cat=".$categoria."&search=".$search; } ?>">Next</a>
                             </li>
-                            <li class="page-item"><a class="page-link" href="?page=<?=$total_pages; ?>">Last</a></li>
-<?php }else{ ?>
-                            <li class="page-item"><a class="page-link" href="?page=1&search=<?=$search?>">First</a></li>
-                            <li class="page-item <?php if($page <= 1){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page <= 1){ echo '#'; } else { echo "?page=".($page - 1)."&search=".$search; } ?>">Prev</a>
-                            </li>
-                            <li class="page-item <?php if($page >= $total_pages){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page >= $total_pages){ echo '#'; } else { echo "?page=".($page + 1)."&search=".$search; } ?>">Next</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="?page=<?=$total_pages;?>&search=<?=$search?>">Last</a></li>
-<?php } ?>
+                            <li class="page-item"><a class="page-link" href="?page=<?=$total_pages;?>&cat=<?=$categoria?>&search=<?=$search?>">Last</a></li>
                         </ul>
                     </nav>
                 </div>

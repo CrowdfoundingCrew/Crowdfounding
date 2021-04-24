@@ -153,7 +153,7 @@ function GetProjectPrev($no_of_records_per_page, $offset, $search, $categoria)
 
     $res = "";
     while ($stmt->fetch()) {
-        $description=str_split($desc,250)[0]."...";
+        $description = str_split($desc, 250)[0] . "...";
         $res = $res . "<div class='col-md-4'>
         <div class='row'>
             <div class='col-md-6'>
@@ -195,7 +195,10 @@ function Categorie($categoria)
     $cat = $conn->prepare("SELECT IDTag, Ambito FROM tag");
     $cat->execute();
     $cat->bind_result($id, $nome);
-    $res = "";
+    if ($categoria != 0)
+        $res = "<a class='dropdown-item' href='?cat=0'>Tutto</a>";
+    else
+        $res = "<a class='dropdown-item active' href='?cat=0'>Tutto</a>";
 
     while ($cat->fetch()) {
         if ($id != $categoria)
