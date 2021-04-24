@@ -16,7 +16,7 @@ html {
     bottom: 0;
     left: 0;
     opacity: 1;
-    background: #cfd4f2;
+    background: #fff;
     z-index: 1;
 }
 
@@ -54,6 +54,7 @@ html {
 .logmod__container {
     overflow: hidden;
     width: 100%;
+    border: 3px solid #5161ce;
 }
 
 .logmod__container::after {

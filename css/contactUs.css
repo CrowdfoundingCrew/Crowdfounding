@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+}
+
+.row .col-md-12 h3 {
+    font-size: 35px;
+}
+
+.row .col-md-4 {
+    text-align: center;
+}
+
+.row {
+    margin-top: 25px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
