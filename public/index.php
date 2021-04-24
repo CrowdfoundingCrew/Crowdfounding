@@ -73,7 +73,7 @@ $onlus = GetOnlusProfile(3);
                 <img alt='Logo' src="<?= $row["Logo"] ?>" class='rounded-circle' widht='140px' height='140px' />
                 <h3><?= $row['Nome'] ?></h3>
                 <p><?= substr($row['Descrizione'], 0, 75) ?>...</p>
-                <p><a class="btn btn-secondary" href='./project.php?Idprj=<?= $row["IDProgetto"] ?>' role="button">maggiori dettagli »</a></p>
+                <p><a class="btn btn-secondary" href='./project.php?Idprj=<?= $row["IDProgetto"] ?>' role="button">Maggiori dettagli »</a></p>
             </div>
         <?php
         }
