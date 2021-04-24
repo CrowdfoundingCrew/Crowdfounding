@@ -8,7 +8,7 @@ $paypalConfig = [
 	'email' => 'sb-w6lvy4772730@business.example.com',
 	'return_url' => 'http://localhost:8000/Crowdfounding/donatori/paypal/payment-successful.html',
 	'cancel_url' => 'http://localhost:8000/Crowdfounding/donatori/paypal/payment-cancelled.html',
-	'notify_url' => 'http://localhost:8000/Crowdfounding/donatori/paypal/payments.php'
+	'notify_url' => 'http://hoilserveracasa.altervista.org/proxy.php'
 ];
 
 $paypalUrl = $enableSandbox ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
