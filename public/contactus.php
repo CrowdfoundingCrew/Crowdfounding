@@ -4,7 +4,7 @@ $title = "Contact Us";
 include('header.php');
 include('navbar.php');
 ?>
-<link rel="stylesheet" href="../css/contactUs.css">
+<link rel="stylesheet" href="../css/contactus.css">
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -16,7 +16,7 @@ include('navbar.php');
     <div class="row">
         <div class="col-md-4">
             <h3>
-                Miguel Malaj
+                Migel Malaj
             </h3>
             <address>
                 <strong>Twitter, Inc.</strong><br /> 19 Case belle, Suite 798<br /> Gazzola, Pc 29010<br />
@@ -24,7 +24,7 @@ include('navbar.php');
             <h5>
                 telefono: 123-4445556
             </h5>
-            <img alt="Icon" src="https://www.studioms.it/wp-content/uploads/2019/09/avatar-icon-png-10.png" width="300px" height="300px" />
+            <img alt="Icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQP50pXiubgStZ2CNuJPkQXFpdP-U7PU3VDROqeWYPOgff6Vk_JvomaUJNHczs4wV--HI&usqp=CAU" width="300px" height="300px"/>
         </div>
         <div class="col-md-4">
             <h3>

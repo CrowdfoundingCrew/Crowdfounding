@@ -1,5 +1,15 @@
 <?php
-require 'sampleconnection.php';
+require('config.php');
+
+function connectDB()
+{
+    $cfg = GetDBConfig();
+    $conn = mysqli_connect($cfg['hostname'], $cfg['username'], $cfg['password'], $cfg['dbname']);
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    return $conn;
+}
 
 function InsertDonator($mail, $usr, $psw, $name, $surn, $cdf, $addr)
 {
@@ -197,4 +207,60 @@ function Categorie($categoria)
     $cat->close();
     $conn->close();
     return $res;
+}
+
+function GetProjectRand($num)
+{
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo FROM progetti AS P WHERE P.DataF>CURRENT_DATE() ORDER BY RAND() LIMIT ?");
+    $stmt->bind_param('i', $num);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function GetLastProject($num)
+{
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo FROM progetti AS P WHERE P.DataF>CURRENT_DATE() ORDER BY P.DataI DESC, IDProgetto LIMIT ?");
+    $stmt->bind_param('i', $num);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function GetTopProject($num)
+{
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo FROM progetti AS P INNER JOIN donazioni AS D ON P.IDProgetto=D.IDProgetto WHERE P.DataF>CURRENT_DATE() GROUP BY D.`IDProgetto` ORDER BY ROUND(SUM(`Importo`),2) DESC LIMIT ?");
+    $stmt->bind_param('i', $num);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
+}
+
+function GetOnlusProfile($num)
+{
+    $mysqli = connectDB();
+    $stmt = $mysqli->prepare("SELECT `IDUtente`, `E-mail`, Indirizzo, Denominazione, Immagine FROM utenti WHERE Tipo=1 ORDER BY RAND() LIMIT ?");
+    $stmt->bind_param('i', $num);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    $result->free_result();
+    $stmt->close();
+    $mysqli->close();
+    return $data;
 }

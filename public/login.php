@@ -1,6 +1,7 @@
 <?php
-$title="HomePage";
+$title="Login";
 include('header.php');
+include('navbar.php');
 ?>
 <link rel="stylesheet" href="../css/login.css">
 <div class="container-fluid">
@@ -24,3 +25,6 @@ include('header.php');
 		</div>
 	</div>
 </div>
+<?php
+include('footer.php');
+?>

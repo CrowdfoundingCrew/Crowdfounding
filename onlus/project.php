@@ -275,7 +275,7 @@ include('navbar.php');
                                 </div>
                                 <div class="modal-body">
                                     <label for="ImmagineProgetto">Allega l'immagine che caratterizza meglio il tuo progetto</label>
-                                    <input type="file" accept=".jpg, .jpeg, .png" size="2MB" class="form-control" id="ImmagineProgetto" name="ImmagineProgetto" aria-describedby="ImmagineProgettoHelp" required>
+                                    <input type="file" accept=".jpg, .jpeg, .png" class="form-control" id="ImmagineProgetto" name="ImmagineProgetto" aria-describedby="ImmagineProgettoHelp" required>
                                     <small id="ImmagineProgettoHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png<br>Dimensione massima consentita: 2 MB</small>
                                 </div>
                                 <div class="modal-footer">
@@ -300,7 +300,7 @@ include('navbar.php');
                                 </div>
                                 <div class="modal-body">
                                     <label for="ImmagineCarosello">Allega le immagini per il carosello del tuo progetto</label>
-                                    <input type="file" accept=".jpg, .jpeg, .png" size="2MB" class="form-control" id="ImmagineCarosello" name="ImmagineCarosello[]" aria-describedby="ImmagineCaroselloHelp" multiple>
+                                    <input type="file" accept=".jpg, .jpeg, .png" class="form-control" id="ImmagineCarosello" name="ImmagineCarosello[]" aria-describedby="ImmagineCaroselloHelp" multiple>
                                     <small id="ImmagineCaroselloHelp" class="form-text text-muted">Formati accettati: .jpeg, .jpg, .png<br>Dimensione massima consentita: 2 MB</small>
                                 </div>
                                 <div class="modal-footer">
@@ -325,7 +325,7 @@ include('navbar.php');
                                 </div>
                                 <div class="modal-body">
                                     <label for="VideoCarosello">Allega il video del tuo progetto</label>
-                                    <input type="file" accept=".mp4" size="4MB" class="form-control" id="VideoCarosello" name="VideoCarosello" aria-describedby="VideoCaroselloHelp">
+                                    <input type="file" accept=".mp4" class="form-control" id="VideoCarosello" name="VideoCarosello" aria-describedby="VideoCaroselloHelp">
                                     <small id="VideoCaroselloHelp" class="form-text text-muted">Formati accettati: .mp4<br>Dimensione massima consentita: 4 MB</small>
                                 </div>
                                 <div class="modal-footer">
@@ -350,7 +350,7 @@ include('navbar.php');
                                     <label for="RisorseProgetto">Descrivi il progetto allegando delle
                                         <span style="text-decoration: underline dashed" data-toggle="tooltip" data-placement="bottom" title="Ad esempio: immagini, manifesti, opuscoli, ecc.">risorse</span>
                                     </label>
-                                    <input type="file" accept=".pdf, .docx, .pptx, .xlsl" size="5MB" class="form-control" id="RisorseProgetto" name="RisorseProgetto[]" aria-describedby="RisorseProgettoHelp" multiple>
+                                    <input type="file" accept=".pdf, .docx, .pptx, .xlsl" class="form-control" id="RisorseProgetto" name="RisorseProgetto[]" aria-describedby="RisorseProgettoHelp" multiple>
                                     <small id="RisorseProgettoHelp" class="form-text text-muted">Formati accettati: .pdf, .docx, .pptx, .xlsl<br>Dimensione massima consentita: 5 MB</small>
                                 </div>
                                 <div class="modal-footer">

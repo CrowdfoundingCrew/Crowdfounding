@@ -1,5 +1,5 @@
 <?php
-$title = "HomePage";
+$title="Registrazione";
 include('header.php');
 ?>
 <link rel="stylesheet" href="../css/reg.scss">

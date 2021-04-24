@@ -206,3 +206,8 @@ i {
         left: -25px;
     }
 }
+
+.carousel-inner>.carousel-item>img {
+    width: 100vw;
+    height: 540px;
+}

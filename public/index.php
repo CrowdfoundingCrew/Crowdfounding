@@ -3,89 +3,101 @@ session_start();
 $title = "HomePage";
 include('header.php');
 include('navbar.php');
-include('../config/dalpublic.php');
+require('../config/dalpublic.php');
 
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
-} else {
-    $page = 1;
-}
+$slide = GetProjectRand(3);
+$last = GetLastProject(3);
+$top = GetTopProject(3);
+$onlus = GetOnlusProfile(3);
 
-if (isset($_GET['search'])) {
-    $search = $_GET['search'];
-} else {
-    $search = "";
-}
-
-if(isset($_GET['cat'])){
-    $categoria = $_GET['cat'];
-}else{
-    $categoria = 0;
-}
-
-$no_of_records_per_page = 21;
-$offset = ($page - 1) * $no_of_records_per_page;
-$data = GetProjectPrev($no_of_records_per_page, $offset, $search, $categoria);
-$total_pages = $data[1];
 ?>
-<link rel="stylesheet" href="../css/index.css">
-<div class="container-fluid">
-    <div class="row">
-            <div class="col-md-12">
-                <div class="d-flex justify-content-between my-2">                 
-                    <div class="page-header">
-                        <h1><?=$title?></h1>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <div class="btn-group dropleft align-self-center mr-2">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categorie
-                        </button>
-                        <div class="dropdown-menu"> 
-                        <?=Categorie($categoria)?>
-                        </div>
-                        </div>
-                        <form class="form-inline" action = "" method="get">
-                            <input class="form-control mr-sm-2" type="text" name="search" value="<?=$search?>">
-                            <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i>Cerca</button>
-                        </form>
-                    </div>
-                </div>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+        <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+    </ol>
+    <div class="carousel-inner">
+        <?php
+        $i = 0;
+        foreach ($slide as $row) {
+        ?>
+            <?= ($i == 0) ? '<div class="carousel-item active">' : '<div class="carousel-item">' ?>
+            <img class="d-block" src="<?= $row["Logo"] ?>" alt="Slide">
+            <div class="carousel-caption d-none d-md-block text-dark">
+                <h1><?= $row['Nome'] ?></h1>
+                <p><?= substr($row['Descrizione'], 0, 100) ?>...</p>
+                <p><a class="btn btn-lg btn-primary" href='./project.php?Idprj=<?= $row["IDProgetto"] ?>' role="button">Maggiori dettagli »</a></p>
             </div>
-        </div>
-    <div class="row">
-        <?=$data[0];?>
     </div>
-    <div class="row">
-            <div class="col-md-12">
-                <div class="d-flex justify-content-around">
-                    <nav>
-                        <ul class="pagination">
-<?php if ($search=="") {?>
-                            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-                            <li class="page-item <?php if($page <= 1){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page <= 1){ echo '#'; } else { echo "?page=".($page - 1); } ?>">Prev</a>
-                            </li>
-                            <li class="page-item <?php if($page >= $total_pages){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page >= $total_pages){ echo '#'; } else { echo "?page=".($page + 1); } ?>">Next</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="?page=<?=$total_pages; ?>">Last</a></li>
-<?php }else{ ?>
-                            <li class="page-item"><a class="page-link" href="?page=1&search=<?=$search?>">First</a></li>
-                            <li class="page-item <?php if($page <= 1){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page <= 1){ echo '#'; } else { echo "?page=".($page - 1)."&search=".$search; } ?>">Prev</a>
-                            </li>
-                            <li class="page-item <?php if($page >= $total_pages){ echo 'disabled'; } ?>">
-                                <a class="page-link" href="<?php if($page >= $total_pages){ echo '#'; } else { echo "?page=".($page + 1)."&search=".$search; } ?>">Next</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="?page=<?=$total_pages;?>&search=<?=$search?>">Last</a></li>
-<?php } ?>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+<?php
+            $i++;
+        }
+?>
+</div>
+<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+</a>
+<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+</a>
 </div>
 
+<div class="container mt-5">
+    <h2>Ultimi arrivati</h2>
+    <hr class="featurette-divider">
+    <div class="row mb-4">
+        <?php
+        foreach ($last as $row) {
+        ?>
+            <div class="col-lg-4">
+                <img alt='Logo' src="<?= $row["Logo"] ?>" class='rounded-circle' widht='140px' height='140px' />
+                <h3><?= $row['Nome'] ?></h3>
+                <p><?= substr($row['Descrizione'], 0, 75) ?>...</p>
+                <p><a class="btn btn-secondary" href='./project.php?Idprj=<?= $row["IDProgetto"] ?>' role="button">Maggiori dettagli »</a></p>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+
+    <h2>Top 5 progetti</h2>
+    <hr class="featurette-divider">
+    <div class="row mb-4">
+        <?php
+        foreach ($top as $row) {
+        ?>
+            <div class="col-lg-4">
+                <img alt='Logo' src="<?= $row["Logo"] ?>" class='rounded-circle' widht='140px' height='140px' />
+                <h3><?= $row['Nome'] ?></h3>
+                <p><?= substr($row['Descrizione'], 0, 75) ?>...</p>
+                <p><a class="btn btn-secondary" href='./project.php?Idprj=<?= $row["IDProgetto"] ?>' role="button">maggiori dettagli »</a></p>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+
+    <h2>Visualizza i progetti di queste onlus</h2>
+    <hr class="featurette-divider">
+    <div class="row mb-4">
+        <?php
+        foreach ($onlus as $row) {
+        ?>
+            <div class="col-lg-4">
+                <img alt='Logo' src="<?= $row["Immagine"] ?>" class='rounded-circle' widht='140px' height='140px' />
+                <h3><?= $row['Denominazione'] ?></h3>
+                <p><label><i class="fas fa-envelope"></i>E-mail:</label> <?= $row['E-mail'] ?></p>
+                <p><label><i class="fas fa-map-marker-alt"></i>Indirizzo:</label> <?= $row['Indirizzo'] ?></p>
+                <p><a class="btn btn-secondary" href='/onlus/profile.php?ID=<?= $row['IDUtente'] ?>' role="button">Maggiori dettagli »</a></p>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+</div>
 <?php
 include('footer.php');
 ?>

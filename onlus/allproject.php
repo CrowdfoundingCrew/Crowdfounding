@@ -7,6 +7,7 @@ $id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 if (isset($_POST['Elimina']) && $_POST['Elimina'] > 0) {
     DELETEProject($_POST['Elimina']);
     header("allproject.php");
+    unset($_POST['Elimina']);
 }
 
 $page = isset($_GET['page']) ?  $_GET['page'] : 1;

@@ -4,7 +4,7 @@ $title = "AboutUs";
 include('header.php');
 include('navbar.php');
 ?>
-<link rel="stylesheet" href="../css/aboutUs.css">
+<link rel="stylesheet" href="../css/aboutus.css">
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
