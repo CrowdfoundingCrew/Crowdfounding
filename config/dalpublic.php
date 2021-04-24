@@ -126,7 +126,7 @@ function GetProjectPrev()
 
     $res = "";
     while ($stmt->fetch()) {
-        $descrizione = str_split($desc, 250)[0] . "...";
+        $description=str_split($desc,250)[0]."...";
         $res = $res . "<div class='col-md-4'>
         <div class='row'>
             <div class='col-md-6'>
@@ -148,7 +148,7 @@ function GetProjectPrev()
                     Descrizione
                 </h2>
                 <p>
-                $descrizione 
+                $description
                 </p>
                 <p>
                     <a class='btn' href='../public/project.php?Idprj=$id'>View details»</a>
