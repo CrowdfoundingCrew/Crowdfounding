@@ -15,10 +15,10 @@
                     <a class="nav-link active" href="../public/index.php">Homepage</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 2</a>
+                    <a class="nav-link" href="../public/aboutUs.php">About us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 3</a>
+                    <a class="nav-link" href="../public/contactUs.php">Contact us</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Link 4</a>
