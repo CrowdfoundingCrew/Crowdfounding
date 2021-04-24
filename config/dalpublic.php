@@ -115,7 +115,7 @@ function FindProject($id)
     $conn->close();
     return $data;
 }
-function GetProjectPrev($no_of_records_per_page, $offset, $search)
+function GetProjectPrev($no_of_records_per_page, $offset, $search, $categoria)
 {
     $conn = connectDB();
 
@@ -129,10 +129,13 @@ function GetProjectPrev($no_of_records_per_page, $offset, $search)
     $total_pages = ceil($total_rows / $no_of_records_per_page);
     $countrows->close();
 
+    $cat = "";
+    if ($categoria != 0)
+        $cat = "AND IDTag = " . $categoria;
 
     $stmt = $conn->prepare("SELECT `progetti`.`IDProgetto`, `progetti`.`Nome`, `progetti`.`Descrizione`, `risorse`.`Path` FROM `progetti` 
     INNER JOIN `risorse` ON `risorse`.`IDProgetto`=`progetti`.`IDProgetto`
-    WHERE `risorse`.`Tipologia`= 0 AND `progetti`.`Nome` LIKE ?
+    WHERE `risorse`.`Tipologia`= 0 AND `progetti`.`Nome` LIKE ? $cat
     LIMIT $offset, $no_of_records_per_page");
     $stmt->bind_param("s", $search);
     $stmt->execute();
@@ -174,4 +177,24 @@ function GetProjectPrev($no_of_records_per_page, $offset, $search)
     $stmt->close();
     $conn->close();
     return [$res, $total_pages];
+}
+
+function Categorie($categoria)
+{
+    $conn = connectDB();
+    $cat = $conn->prepare("SELECT IDTag, Ambito FROM tag");
+    $cat->execute();
+    $cat->bind_result($id, $nome);
+    $res = "";
+
+    while ($cat->fetch()) {
+        if ($id != $categoria)
+            $res = $res . "<a class='dropdown-item' href='?cat=$id'>$nome</a>";
+        else
+            $res = $res . "<a class='dropdown-item active' href='?cat=$id'>$nome</a>";
+    }
+
+    $cat->close();
+    $conn->close();
+    return $res;
 }
