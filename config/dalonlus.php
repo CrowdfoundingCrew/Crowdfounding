@@ -30,7 +30,7 @@ function GETOnlusProgetti($id, $page)
     $off = (10 * (intval($page)-1));
     $mysqli = connectDB();
 
-    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, P.Obbiettivo, P.DataI, P.DataF, T.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo, ROUND(SUM(D.`Importo`),2) AS Totale, COUNT(D.IDProgetto) AS Donatori FROM `donazioni` AS D RIGHT OUTER JOIN progetti AS P ON D.`IDProgetto`=P.IDProgetto INNER JOIN `tag` AS T ON P.IDTag=T.IDTag WHERE P.IDOnlus=? GROUP BY P.`IDProgetto` ORDER BY P.DataI DESC, P.DataF LIMIT 10 OFFSET ? ");
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, P.Obbiettivo, P.DataI, P.DataF, T.IDTag, T.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo, ROUND(SUM(D.`Importo`),2) AS Totale, COUNT(D.IDProgetto) AS Donatori FROM `donazioni` AS D RIGHT OUTER JOIN progetti AS P ON D.`IDProgetto`=P.IDProgetto INNER JOIN `tag` AS T ON P.IDTag=T.IDTag WHERE P.IDOnlus=? GROUP BY P.`IDProgetto` ORDER BY P.DataI DESC, P.DataF LIMIT 10 OFFSET ? ");
 
     $stmt->bind_param('ii', $id, $off);
     $stmt->execute();

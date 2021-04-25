@@ -229,7 +229,7 @@ function GetProjectRand($num)
 function GetLastProject($num)
 {
     $mysqli = connectDB();
-    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo FROM progetti AS P WHERE P.DataF>CURRENT_DATE() ORDER BY P.DataI DESC, IDProgetto LIMIT ?");
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, T.IDTag, T.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo FROM progetti AS P INNER JOIN `tag` AS T ON P.IDTag=T.IDTag WHERE P.DataF>CURRENT_DATE() ORDER BY P.DataI DESC, IDProgetto LIMIT ?");
     $stmt->bind_param('i', $num);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -243,7 +243,7 @@ function GetLastProject($num)
 function GetTopProject($num)
 {
     $mysqli = connectDB();
-    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo FROM progetti AS P INNER JOIN donazioni AS D ON P.IDProgetto=D.IDProgetto WHERE P.DataF>CURRENT_DATE() GROUP BY D.`IDProgetto` ORDER BY ROUND(SUM(`Importo`),2) DESC LIMIT ?");
+    $stmt = $mysqli->prepare("SELECT P.IDProgetto, P.Nome, P.Descrizione, T.IDTag, T.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=P.IDProgetto) AS Logo FROM progetti AS P INNER JOIN `tag` AS T ON P.IDTag=T.IDTag INNER JOIN donazioni AS D ON P.IDProgetto=D.IDProgetto WHERE P.DataF>CURRENT_DATE() GROUP BY D.`IDProgetto` ORDER BY ROUND(SUM(`Importo`),2) DESC LIMIT ?");
     $stmt->bind_param('i', $num);
     $stmt->execute();
     $result = $stmt->get_result();

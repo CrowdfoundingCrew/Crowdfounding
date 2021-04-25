@@ -8,7 +8,7 @@ if (isset($_GET['ID'])) {
 } else if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
     $id = $_SESSION['ID'];
 } else {
-    header('Location: /public'); 
+    header('Location: /public');
 }
 
 $page = isset($_GET['page']) ?  $_GET['page'] : 1;
@@ -28,7 +28,7 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
 <div class="container-fluid">
     <div class="row pt-5 pb-5 profile-background-image">
         <div class="col-md-6">
-            <img class="logo" src="<?= $onlus_array['Immagine'] ?>" alt="" height="150px" width="150px"/>
+            <img class="logo" src="<?= $onlus_array['Immagine'] ?>" alt="" height="150px" width="150px" />
         </div>
         <div class="col-md-2">
             <div class="profile-head text-center text-md-left">
@@ -42,31 +42,31 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
                 <div class="row">
                     <div class="col-lg-6 font-weight-bolder"><label><i class="fas fa-envelope"></i>E-mail</label></div>
                     <div class="col-lg-6">
-                        <p> <?= $onlus_array["E-mail"] ?></p>
+                        <p> <?= isset($onlus_array["E-mail"]) ? $onlus_array["E-mail"] : 'Non disponibile' ?></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 font-weight-bolder"><label><i class="fas fa-phone-alt"></i>Telefono</label></div>
                     <div class="col-lg-6">
-                        <p><?= $onlus_array['Telefono'] ?></p>
+                        <p><?= isset($onlus_array['Telefono']) ? $onlus_array['Telefono'] : 'Non disponibile' ?></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 font-weight-bolder"><label>Codice Fiscale</label></div>
                     <div class="col-lg-6">
-                        <p><?= $onlus_array['CodiceFiscale'] ?></p>
+                        <p><?= isset($onlus_array['CodiceFiscale']) ? $onlus_array['CodiceFiscale'] : 'Non disponibile' ?></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 font-weight-bolder"><label>Partita IVA</label></div>
                     <div class="col-lg-6">
-                        <p><?= $onlus_array['PartitaIva'] ?></p>
+                        <p><?= isset($onlus_array['PartitaIva']) ? $onlus_array['PartitaIva'] : 'Non disponibile' ?></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 font-weight-bolder"><label>REA</label></div>
                     <div class="col-lg-6">
-                        <p><?= $onlus_array['REA'] ?></p>
+                        <p><?= isset($onlus_array['REA']) ?: 'Non disponibile' ?></p>
                     </div>
                 </div>
             </div>
@@ -81,12 +81,12 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
         ?>
             <div class="row divide-project">
                 <div class="row col-md-12">
-                    <div class="col-lg-2 project-logo"><img src="<?= $row['Logo'] ?>" alt="Foto profilo progetto"></div>
+                    <div class="col-lg-2 project-logo"><img src="<?= isset($row['Logo'])?$row['Logo']:'/assets/img/placeholder.png' ?>" alt="Foto profilo progetto" height="150" width="150"></div>
                     <div class="col-lg-10">
                         <h3><?= $row['Nome'] ?></h3>
-                        <a href="#" class="badge badge-primary"><?= $row['Ambito'] ?></a>
+                        <a href="../public/allprojects.php?cat=<?= $row['IDTag'] ?>" class="badge badge-secondary"><?= $row['Ambito'] ?></a>
                         <div>
-                            <p><?= substr($row['Descrizione'], 0, 100) ?>...<a class="ml-1" href="/public/project.php?Idprj=<?=$row['IDProgetto']?>">Prosegui con la lettura»</a></p>
+                            <p><?= substr($row['Descrizione'], 0, 100) ?>...<a class="ml-1" href="/public/project.php?Idprj=<?= $row['IDProgetto'] ?>">Prosegui con la lettura»</a></p>
                         </div>
                         <div><span class="font-weight-bold">Obiettivo:</span>
                             <p class="d-inline"><?= $row['Obbiettivo'] ?></p>
@@ -106,45 +106,45 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
         ?>
         <nav>
             <ul class="pagination justify-content-center">
-            <?php if(isset($_GET['ID'])){ ?>
-                <li class="page-item">
-                    <a class="page-link" href="?ID=<?= $_GET['ID'] ?>&page=1" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $page <= 1 ? '#' : "?ID=" . $_GET['ID'] . "&page=" . ($page - 1) ?>">Previous</a>
-                </li>
-                <li class="page-item <?= $page >= $total ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $page >= $total ? '#' : "?ID=" . $_GET['ID'] . "&page=" . ($page + 1) ?>">Next</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?ID=<?= $_GET['ID'] ?>&page=<?= $total; ?>" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-                <?php }else{ ?>
+                <?php if (isset($_GET['ID'])) { ?>
                     <li class="page-item">
-                    <a class="page-link" href="?page=1" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $page <= 1 ? '#' : "?page=" . ($page - 1) ?>">Previous</a>
-                </li>
-                <li class="page-item <?= $page >= $total ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= $page >= $total ? '#' : "?page=" . ($page + 1) ?>">Next</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page=<?= $total; ?>" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-                    <?php } ?>
+                        <a class="page-link" href="?ID=<?= $_GET['ID'] ?>&page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                        <a class="page-link" href="<?= $page <= 1 ? '#' : "?ID=" . $_GET['ID'] . "&page=" . ($page - 1) ?>">Previous</a>
+                    </li>
+                    <li class="page-item <?= $page >= $total ? 'disabled' : '' ?>">
+                        <a class="page-link" href="<?= $page >= $total ? '#' : "?ID=" . $_GET['ID'] . "&page=" . ($page + 1) ?>">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?ID=<?= $_GET['ID'] ?>&page=<?= $total; ?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                <?php } else { ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                        <a class="page-link" href="<?= $page <= 1 ? '#' : "?page=" . ($page - 1) ?>">Previous</a>
+                    </li>
+                    <li class="page-item <?= $page >= $total ? 'disabled' : '' ?>">
+                        <a class="page-link" href="<?= $page >= $total ? '#' : "?page=" . ($page + 1) ?>">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $total; ?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                <?php } ?>
             </ul>
         </nav>
     </div>

@@ -6,8 +6,8 @@ require('../config/dalonlus.php');
 $id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 if (isset($_POST['Elimina']) && $_POST['Elimina'] > 0) {
     DELETEProject($_POST['Elimina']);
-    header("allproject.php");
     unset($_POST['Elimina']);
+    header("allproject.php");
 }
 
 $page = isset($_GET['page']) ?  $_GET['page'] : 1;
@@ -51,7 +51,8 @@ include('navbar.php');
                         <a type="button" class="btn btn-warning mb-1" href="project.php?ID=<?= $row['IDProgetto'] ?>">Modifica</a>
                         <br>
                         <form method="POST" action="">
-                            <button type="button" name="Elimina" class="btn btn-danger mt-1" value="<?= $row['IDProgetto'] ?>" onclick="confirm('Sei sicuro di voler eliminare questo elemento?') ? submit(): false">Elimina</button>
+                            <input type="hidden" name="Elimina" value="<?= $row['IDProgetto'] ?>">
+                            <button type="button" class="btn btn-danger mt-1" onclick="confirm('Sei sicuro di voler eliminare questo elemento?') ? submit(): false">Elimina</button>
                         </form>
                     </td>
                 </tr>

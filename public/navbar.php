@@ -21,8 +21,7 @@
                 <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='contactus.php'? 'active':''?>">
                     <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='contactus.php'? 'active':''?>" href="../public/contactus.php">Contact us</a>
                 </li>
-            <?php if (!isset($_SESSION['Tipo'])) {
-            ?>
+            <?php if (!isset($_SESSION['Tipo'])) { ?>
                 <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='login.php'|| basename($_SERVER['PHP_SELF'])=='reg.php'? 'active':''?>">
                     <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='login.php'|| basename($_SERVER['PHP_SELF'])=='reg.php'? 'active':''?>" href="./login.php">Login <i class="fas fa-sign-in-alt"></i></a>
                 </li>

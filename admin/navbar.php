@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-custom navbar-mainbg">
-    <a class="navbar-brand navbar-logo" href="#">Donate For</a>
+    <a class="navbar-brand navbar-logo" href="../public/index.php">Donate For</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars text-white"></i>
     </button>
@@ -13,16 +13,16 @@
                 <a class="nav-link" href="/public/index.php">HomePage</a>
             </li>
             <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='allonlus.php'? 'active':''?>">
-                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='allonlus.php'? 'active':''?>" href="/admin/allonlus.php">Tutte le onlus</a>
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='allonlus.php'? 'active':''?>" href="../admin/allonlus.php">Tutte le onlus</a>
             </li>
             <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='alldonatori.php'? 'active':''?>">
-                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='alldonatori.php'? 'active':''?>" href="/admin/alldonatori.php">Tutti i donatori</a>
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='alldonatori.php'? 'active':''?>" href="../admin/alldonatori.php">Tutti i donatori</a>
             </li>
-            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='newadmin.html.php' ? 'active':''?>">
-                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='newadmin.html.php'? 'active':''?>" href="/admin/newadmin.html.php">Aggiungi un amministratore</a>
+            <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='newadmin.php' ? 'active':''?>">
+                <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='newadmin.php'? 'active':''?>" href="../admin/newadmin.php">Aggiungi un amministratore</a>
             </li>
             <div class="nav-item form-inline ml-5">
-                <a class="nav-link text-light" href="/public/logout.php"><?=$_SESSION['Username']?><i class="fas fa-sign-out-alt ml-2"></i></a>
+                <a class="nav-link text-light" href="../public/logout.php"><?=$_SESSION['Username']?><i class="fas fa-sign-out-alt ml-2"></i></a>
             </div>
         </ul>
     </div>

@@ -35,7 +35,7 @@ if ($_SESSION['Tipo'] === 0) {
                     <p class="text-muted mb-1 font-13"><strong>Indirizzo:</strong><span class="ml-2"><?= $profile['Indirizzo'] ?></span></p>
                     <p class="text-muted mb-1 font-13"><strong>Codice Fiscale:</strong><span class="ml-2"><?= $profile['CodiceFiscale'] ?></span></p>
                     <a href="./setting.php" aria-expanded="false" class="nav-link"><i class="mdi mdi-settings-outline mr-1"></i>Modifica le informazioni dell'account</a>
-                    <a href="#" onclick="confirm('Sei sicuro di voler eliminare l\'account?') ? window.location.href = 'delete.php' : false" aria-expanded="false" class="nav-link"><i class="mdi mdi-settings-outline mr-1"></i>Elimina l'account</a>
+                    <a href="" onclick="confirm('Sei sicuro di voler eliminare l\'account?') ? window.location.href = 'delete.php' : false" aria-expanded="false" class="nav-link"><i class="mdi mdi-settings-outline mr-1"></i>Elimina l'account</a>
                 </div>
             </div>
         </div>
@@ -59,12 +59,12 @@ if ($_SESSION['Tipo'] === 0) {
                         <tbody>
                             <?php foreach ($project as $row) { ?>
                                 <tr>
-                                    <td><a href="#<?= $row['IDProgetto'] ?>"><?= $row['Nome'] ?></a></td>
+                                    <td><a href="../public/project.php?Idprj=<?=$row['IDProgetto'] ?>"><?= $row['Nome'] ?></a></td>
                                     <td><?= $row['DataI'] ?></td>
                                     <td><?= $row['DataF'] ?></td>
                                     <td><?= $row['Importo'] ?></td>
                                     <td><?= $row['Data'] ?></td>
-                                    <td><?= $row['Ricompensa']==NULL? 'Non disponibile': $row['Ricompensa']?></td>
+                                    <td><?= isset($row['Ricompensa']) ? $row['Ricompensa']:'Non disponibile'?></td>
                                     <td><a href="/onlus/profile.php?ID=<?= $row['IDOnlus'] ?>"><?= $row['OnlusName'] ?></a></td>
                                 </tr>
                             <?php } ?>
