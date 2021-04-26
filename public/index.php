@@ -20,7 +20,7 @@ $onlus = GetOnlusProfile(3);
     <div class="carousel-inner">
         <?php $i = 0; foreach ($slide as $row) { ?>
             <?= ($i == 0) ? '<div class="carousel-item active">' : '<div class="carousel-item">' ?>
-            <img class="d-block" src="<?= isset($row["Logo"])?$row["Logo"]:'/assets/img/placeholder.png' ?>" alt="Slide">
+            <img class="d-block" src="<?= isset($row["Logo"])?$row["Logo"]:'https://www.istitutopantheon.it/wp-content/uploads/2019/12/placeholder.png' ?>" alt="Slide">
             <div class="carousel-caption d-md-block text-light" style="background-color: #262a2dbf!important;">
                 <h1><?= $row['Nome'] ?></h1>
                 <p><?= substr($row['Descrizione'], 0, 100) ?>...</p>
@@ -45,7 +45,7 @@ $onlus = GetOnlusProfile(3);
     <div class="row mb-4">
         <?php foreach ($last as $row) { ?>
             <div class="col-lg-4">
-                <img alt='Logo' src="<?= isset($row["Logo"])?$row["Logo"]:'/assets/img/placeholder.png' ?>" class='rounded-circle' widht='140px' height='140px' />
+                <img alt='Logo' src="<?= isset($row["Logo"])?$row["Logo"]:'https://wiki.dave.eu/images/4/47/Placeholder.png' ?>" class='rounded-circle' widht='140px' height='140px' />
                 <h3><?= $row['Nome'] ?></h3>
                 <a href="../public/allprojects.php?cat=<?= $row['IDTag'] ?>" class="badge badge-secondary"><?= $row['Ambito'] ?></a>
                 <p><?= substr($row['Descrizione'], 0, 100) ?>...</p>
@@ -59,7 +59,7 @@ $onlus = GetOnlusProfile(3);
     <div class="row mb-4">
         <?php foreach ($top as $row) { ?>
             <div class="col-lg-4">
-                <img alt='Logo' src="<?= isset($row["Logo"])?$row["Logo"]:'/assets/img/placeholder.png' ?>" class='rounded-circle' widht='140px' height='140px' />
+                <img alt='Logo' src="<?= isset($row["Logo"])?$row["Logo"]:'https://wiki.dave.eu/images/4/47/Placeholder.png' ?>" class='rounded-circle' widht='140px' height='140px' />
                 <h3><?= $row['Nome'] ?></h3>
                 <a href="../public/allprojects.php?cat=<?= $row['IDTag'] ?>" class="badge badge-secondary"><?= $row['Ambito'] ?></a>
                 <p><?= substr($row['Descrizione'], 0, 100) ?>...</p>

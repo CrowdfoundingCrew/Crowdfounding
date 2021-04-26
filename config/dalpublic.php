@@ -65,40 +65,37 @@ function FindUser($Username)
 function FindProject($id)
 {
     $conn = connectDB();
-    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI, progetti.DataF, utenti.Username, utenti.Immagine, tag.Ambito, risorse.Path, utenti.Indirizzo,  utenti.Denominazione, utenti.Telefono, `utenti`.`E-mail`
-    FROM progetti
-    INNER JOIN utenti ON progetti.IDOnlus = utenti.IDUtente 
-    INNER JOIN tag ON progetti.IDTag= tag.IDTag 
-    INNER JOIN risorse ON progetti.IDProgetto = risorse.IDProgetto
-    WHERE progetti.IDProgetto = ? AND risorse.Tipologia=0');
+    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI, progetti.DataF, utenti.Username, utenti.Immagine, tag.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=progetti.IDProgetto) AS Path, utenti.Indirizzo, utenti.Denominazione, utenti.Telefono, `utenti`.`E-mail`, tag.IDTag  FROM progetti INNER JOIN utenti ON progetti.IDOnlus = utenti.IDUtente INNER JOIN tag ON progetti.IDTag= tag.IDTag WHERE progetti.IDProgetto = ?');
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail);
+    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail,$tag);
     $stmt->fetch();
-    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail);
+    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail,$tag);
     $stmt->close();
 
-    $stmt = $conn->prepare('SELECT `Path` FROM `risorse` INNER JOIN progetti ON risorse.IDProgetto=progetti.IDProgetto WHERE progetti.IDProgetto=?');
+    $stmt = $conn->prepare('SELECT `Path` FROM `risorse` INNER JOIN progetti ON risorse.IDProgetto=progetti.IDProgetto WHERE progetti.IDProgetto=? AND Tipologia <> 0');
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $stmt->bind_result($path);
     $counter = 0;
-    $r = "<div id='carouselControls' class='carousel slide' data-ride='carousel'>
+    $r = "";
+    if ($stmt->num_rows > 0) {
+        $r = "<div id='carouselControls' class='carousel slide' data-ride='carousel'>
     <div class='carousel-inner'>
     <div class='carousel-item active'>
                     <img class='d-block w-100' src='$path' alt='$counter'>
                 </div>";
 
-    while ($stmt->fetch()) {
-        if ($counter != 0) {
-            $r = $r . "<div class='carousel-item'>
+        while ($stmt->fetch()) {
+            if ($counter != 0) {
+                $r = $r . "<div class='carousel-item'>
                     <img class='d-block w-100' src='$path' alt='$counter'>
                 </div>";
+            }
+            $counter += 1;
         }
-        $counter += 1;
-    }
 
-    $r = $r . "</div>
+        $r = $r . "</div>
     <a class='carousel-control-prev' href='#carouselExampleControls' role='button' data-slide='prev'>
       <span class='carousel-control-prev-icon' aria-hidden='true'></span>
       <span class='sr-only'>Previous</span>
@@ -108,6 +105,7 @@ function FindProject($id)
       <span class='sr-only'>Next</span>
     </a>
   </div>";
+    }
     array_push($data, $r);
     $stmt->close();
 

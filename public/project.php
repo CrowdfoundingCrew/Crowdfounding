@@ -10,15 +10,21 @@ $data = FindProject($_GET['Idprj']);
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
-            <img alt="Logo" src="<?= $data[6] ?>" width="350px" height="350px" />
+            <img alt="Logo" src="<?= isset($data[6]) ? $data[6] : 'https://wiki.dave.eu/images/4/47/Placeholder.png' ?>" width="150px" height="150px" />
         </div>
         <div class="col-md-8">
-            <h3>
+            <h2>
                 <?= $data[10] ?>
-            </h3>
-            <address>Indirizzo: <?= $data[9] ?></address>
-            <abbr title="Email">Email: <?= $data[12] ?></abbr><br>
-            <abbr title="Phone">Telefono: <?= $data[11] ?></abbr>
+            </h2>
+            <div class="row">
+                <div class="col-lg-6"><label class="font-weight-bolder"><i class="fas fa-map-marker-alt"></i>Indirizzo:</label> <?= $data[9] ?></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"><label class="font-weight-bolder"><i class="fas fa-envelope"></i>E-mail:</label> <?= isset($data[12]) ? $data[12] : 'Non disponibile' ?></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6"><label class="font-weight-bolder"><i class="fas fa-phone-alt"></i>Telefono:</label> <?= isset($data[11]) ? $data[11] : 'Non disponibile' ?></div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -41,17 +47,18 @@ $data = FindProject($_GET['Idprj']);
             <div class="row">
                 <div class="col-md-12">
                     <p>
-                        Obiettivo: <?= $data[2] ?> </br>
-                        Inizio progetto: <?= $data[3] ?> </br>
-                        Fine progetto: <?= $data[4] ?> </br>
-                        <?= $data[1] ?> </br>
-                        Tag: <?= $data[9] ?>
+                    <a href="../public/allprojects.php?cat=<?= $data[13] ?>" class="badge badge-secondary"><?= $data[7] ?></a></br>
+                        <span class="font-weight-bold">Obiettivo:</span> <?= $data[2] ?> </br>
+                        <span class="font-weight-bold">Inizio progetto:</span> <?= $data[3] ?> </br>
+                        <span class="font-weight-bold">Fine progetto:</span> <?= $data[4] ?> </br>
+                        <span class="font-weight-bold">Descrizione:</span></br>
+                        <?= $data[1] ?>
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <?= $data[13] ?>
+                    <?= $data[14] ?>
                 </div>
             </div>
         </div>
@@ -71,7 +78,7 @@ $data = FindProject($_GET['Idprj']);
                     </tr>
                 </thead>
                 <tbody>
-                    <?= $data[14] ?>
+                    <?= $data[15] ?>
                 </tbody>
             </table>
         </div>

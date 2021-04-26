@@ -97,7 +97,7 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
                         <div><span class="font-weight-bold">Data termine:</span>
                             <p class="d-inline"><?= $row['DataF'] ?></p>
                         </div>
-                        <button type="button" class="btn btn-success mt-1">Dona Ora!</button>
+                        <a type="button" class="btn btn-success mt-1" href="/public/project.php?Idprj=<?= $row['IDProgetto'] ?>">Dona Ora!</a>
                     </div>
                 </div>
             </div>
