@@ -44,7 +44,7 @@ function verifyTransaction($data) {
 }
 
 function checkTxnid($txnid) {
-    global $db;
+    $dbConfig = GetDBConfig();
 
     $txnid = $db->real_escape_string($txnid);
     $results = $db->query('SELECT * FROM `payments` WHERE txnid = \'' . $txnid . '\'');
@@ -53,10 +53,11 @@ function checkTxnid($txnid) {
 }
 
 function addPayment($data) {
-	global $db;
+	$dbConfig = GetDBConfig();
+	$db = new mysqli($dbConfig['hostname'], $dbConfig['username'], $dbConfig['password'], $dbConfig['dbname']);
 
 	if (is_array($data)) {
-		$stmt = $db->prepare('INSERT INTO Donazioni (txnid, Importo, Status, IDProgetto, Data, IDUtente, `E-mail`) VALUES(?, ?, ?, ?, ?, ?, ?)');
+		$stmt = $db->prepare('INSERT INTO donazioni (txnid, Importo, Status, IDProgetto, Data, IDUtente, `E-mail`) VALUES(?, ?, ?, ?, ?, ?, ?)');
 		$arr = explode(" ", $data['custom']);
 		$date = date('Y-m-d H:i:s');
 		$stmt->bind_param(
@@ -70,7 +71,7 @@ function addPayment($data) {
 			$data['payer_email']
 		);
 		$res = $stmt->execute();
-		//echo $stmt->error;
+		file_put_contents('../../assets/request.txt', $stmt->error);
 		$stmt->close();
 
 		return $res;

@@ -8,12 +8,15 @@ $paypalConfig = [
 	'email' => 'sb-w6lvy4772730@business.example.com',
 	'return_url' => 'http://localhost:8000/Crowdfounding/donatori/paypal/payment-successful.html',
 	'cancel_url' => 'http://localhost:8000/Crowdfounding/donatori/paypal/payment-cancelled.html',
-	'notify_url' => 'http://hoilserveracasa.altervista.org/proxy.php'
+	'notify_url' => 'https://proxyforpaypal.herokuapp.com/proxy.php'
 ];
 
 $paypalUrl = $enableSandbox ? 'https://www.sandbox.paypal.com/cgi-bin/webscr' : 'https://www.paypal.com/cgi-bin/webscr';
 
 require 'functions.php';
+
+echo var_dump($_POST);
+file_put_contents('../../assets/test.txt', json_encode($_POST));
 
 if (!isset($_POST["txn_id"]) && !isset($_POST["txn_type"])) {
 	$itemName = $_POST["progetto"];
@@ -53,11 +56,9 @@ if (!isset($_POST["txn_id"]) && !isset($_POST["txn_type"])) {
 		'custom' => $_POST['custom'],
 	];
 
-	if (verifyTransaction($_POST) && checkTxnid($data['txn_id'])) {
 		if (addPayment($data) !== false) {
 			echo "Payment successfully added.";
 		} else {
 			echo "add fallito";
 		}
-	}
 }
