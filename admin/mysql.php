@@ -86,7 +86,7 @@ function Onlus($no_of_records_per_page, $offset, $search)
             $sqlimmagine = "SELECT Path FROM risorse WHERE IDProgetto =" . $progetto["IDProgetto"] . " AND Tipologia = 0 LIMIT 1";
             $immagine = $conn2->query($sqlimmagine)->fetch_assoc();
 
-            $sqldonazioni = "SELECT Importo FROM donazioni WHERE IDProgetto =" . $progetto["IDProgetto"] . " AND Status = 'Ok'";
+            $sqldonazioni = "SELECT Importo FROM donazioni WHERE IDProgetto =" . $progetto["IDProgetto"] . " AND Status = 'Completed'";
             $donazioni = $conn2->query($sqldonazioni);
             $totdona = 0;
             while ($donazione = $donazioni->fetch_assoc()) {
