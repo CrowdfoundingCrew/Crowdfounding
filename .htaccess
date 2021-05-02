@@ -62,18 +62,4 @@ RewriteBase /
 RewriteRule ^$ /public/index.php [R]
 RewriteRule ^index(.*)$ /public/index.php [R]
 
-##Speciali
-#RewriteRule ^login$ /config/login.php [L]
-#RewriteRule ^logout$ /config/logout.php [L]
-#RewriteRule ^admin/new-key$ /config/generateapi.php [L]
-#RewriteRule ^error$ /public/error.php
-#RewriteRule ^api/username=([\w]+)&key=([\w]+)$ /api.php?username=$1&key=$2 [L,NE]
-
-##Errors pages
-#ErrorDocument 400 /public/error.php
-#ErrorDocument 401 /public/error.php
-#ErrorDocument 403 /public/error.php
-#ErrorDocument 404 /public/error404.php
-#ErrorDocument 500 /public/error.php
-
 Options -Indexes

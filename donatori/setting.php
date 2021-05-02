@@ -61,7 +61,6 @@ include('navbar.php');
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <div class="text-right">
-                                <button type="button" class="btn btn-secondary">Annulla</button>
                                 <button type="button" name="submit" value="0" class="btn btn-primary">Modifica</button>
                             </div>
                         </div>
@@ -100,7 +99,7 @@ include('navbar.php');
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <div class="text-right">
-                                <button type="button" class="btn btn-secondary">Annulla</button>
+                                <a type="button" href="profile.php" class="btn btn-secondary">Annulla</a>
                                 <button type="button" name="submit" value="1" class="btn btn-primary">Modifica</button>
                             </div>
                         </div>
