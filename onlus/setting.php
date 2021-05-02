@@ -1,7 +1,7 @@
 <?php
 include('checksession.php');
 require('../config/dalonlus.php');
-define('SITE_ROOT', __DIR__);
+define('SITE_ROOT', realpath(dirname(getcwd())));
 
 $id = isset($_SESSION['ID']) ? $_SESSION['ID'] : header('Location: /public'); ;
 $array = GETOnlusProfile($id);
@@ -15,10 +15,10 @@ if (isset($_POST['submit'])) {
         }
     } else if ($_POST['submit'] == 1) {
         if (UPLOAD_ERR_OK === $_FILES['LOGO']['error']) {
+            $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets\avatar';
             if ($_FILES['LOGO']['size'] > 0) {
-                $uploadDirPhoto = SITE_ROOT.'\assets\avatar';
                 $fileNamePhoto = $id . "_" . strval(date('Y-m-d'))."_".strval(date('H:i:s')).".jpg";
-                move_uploaded_file($_FILES['LOGO']['tmp_name'], $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
+                move_uploaded_file($_FILES['LOGO']['tmp_name'], SITE_ROOT . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
                 $profile_path = $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto;
                 unlink($array['Immagine']);
                 if (UPDATEOnlusProfile($_POST["CF"], $_POST["Indirizzo"], $_POST["Denominazione"], $_POST["Telefono"], $_POST["Piva"], $_POST["REA"], $profile_path, $id)) {
@@ -31,6 +31,7 @@ if (isset($_POST['submit'])) {
             }
         }
     }
+    unset($_POST);
 }
 
 $title = "Modifica profilo";

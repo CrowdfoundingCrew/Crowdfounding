@@ -1,6 +1,6 @@
 <?php
 session_start();
-$title = "HomePage";
+$title = "Tutti i progetti";
 include('header.php');
 include('navbar.php');
 include('../config/dalpublic.php');

@@ -2,7 +2,7 @@
 session_start();
 
 $id = 0;
-if (isset($_GET['ID']) and isset($_SESSION['Tipo']) and $_SESSION['Tipo'] === 0) {
+if (isset($_GET['ID']) and isset($_SESSION['Tipo']) and $_SESSION['Tipo'] === 2) {
     $id = $_GET['ID'];
 } else if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 0) {
     $id = $_SESSION['ID'];
@@ -34,8 +34,10 @@ if ($_SESSION['Tipo'] === 0) {
                     <p class="text-muted mb-2 font-13"><strong>Email:</strong><span class="ml-2 "><?= $profile['E-mail'] ?></span></p>
                     <p class="text-muted mb-1 font-13"><strong>Indirizzo:</strong><span class="ml-2"><?= $profile['Indirizzo'] ?></span></p>
                     <p class="text-muted mb-1 font-13"><strong>Codice Fiscale:</strong><span class="ml-2"><?= $profile['CodiceFiscale'] ?></span></p>
+                    <?php if($id == $_SESSION['ID']) { ?>
                     <a href="./setting.php" aria-expanded="false" class="nav-link"><i class="mdi mdi-settings-outline mr-1"></i>Modifica le informazioni dell'account</a>
                     <a href="" onclick="confirm('Sei sicuro di voler eliminare l\'account?') ? window.location.href = 'delete.php' : false" aria-expanded="false" class="nav-link"><i class="mdi mdi-settings-outline mr-1"></i>Elimina l'account</a>
+                    <?php } ?>
                 </div>
             </div>
         </div>

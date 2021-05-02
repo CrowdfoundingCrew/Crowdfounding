@@ -43,14 +43,6 @@ if (isset($_POST['submit'])) {
                 }
             }
 
-            //VideoCarosello
-            if (UPLOAD_ERR_OK === $_FILES['VideoCarosello']['error']) {
-                $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . strval(date('H-i-s')) . "_" . basename($_FILES['VideoCarosello']['name']);
-                move_uploaded_file($_FILES['VideoCarosello']['tmp_name'], SITE_ROOT . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNamePhoto);
-                $profile_path = $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto;
-                INSERTRisorsa($profile_path, 2, $result);
-            }
-
             //RisorseProgetto
             $countfiles = count($_FILES['RisorseProgetto']['name']);
             for ($i = 0; $i < $countfiles; $i++) {
@@ -60,7 +52,7 @@ if (isset($_POST['submit'])) {
 
                     move_uploaded_file($_FILES['RisorseProgetto']['tmp_name'][$i], SITE_ROOT . $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources);
                     $resources_path = $uploadDirResources . DIRECTORY_SEPARATOR . $fileNameResources;
-                    INSERTRisorsa($resources_path, 3, $result);
+                    INSERTRisorsa($resources_path, 2, $result);
                 }
             }
 
@@ -263,7 +255,7 @@ include('navbar.php');
                 <h5>Carica gli allegati</h5>
                 <div class="form-group">
                     <label>Foto profilo del progetto:</label>
-                    <a class="btn btn-outline-light" id="bd-modal-profile-image" data-toggle="modal" data-target=".bd-modal-profile-image">Nessun file disponibile. Clicca qui per caricare</a>
+                    <a class="btn btn-outline-dark" id="bd-modal-profile-image" data-toggle="modal" data-target=".bd-modal-profile-image">Nessun file disponibile. Clicca qui per caricare</a>
                     <div class="modal fade bd-modal-profile-image" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -288,7 +280,7 @@ include('navbar.php');
                 </div>
                 <div class="form-group">
                     <label>Immagini per il progetto:</label>
-                    <a class="btn btn-outline-light" id="bd-modal-carosello-image" data-toggle="modal" data-target=".bd-modal-carosello-image">Nessun file disponibile. Clicca qui per caricare</a>
+                    <a class="btn btn-outline-dark" id="bd-modal-carosello-image" data-toggle="modal" data-target=".bd-modal-carosello-image">Nessun file disponibile. Clicca qui per caricare</a>
                     <div class="modal fade bd-modal-carosello-image" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -312,33 +304,8 @@ include('navbar.php');
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Video per il progetto:</label>
-                    <a class="btn btn-outline-light" id="bd-modal-carosello-video" data-toggle="modal" data-target=".bd-modal-carosello-video">Nessun file disponibile. Clicca qui per caricare</a>
-                    <div class="modal fade bd-modal-carosello-video" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Video per il progetto</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <label for="VideoCarosello">Allega il video del tuo progetto</label>
-                                    <input type="file" accept=".mp4" class="form-control" id="VideoCarosello" name="VideoCarosello" aria-describedby="VideoCaroselloHelp">
-                                    <small id="VideoCaroselloHelp" class="form-text text-muted">Formati accettati: .mp4<br>Dimensione massima consentita: 4 MB</small>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Annulla operazione</button>
-                                    <button type="button" data-dismiss="modal" class="btn btn-info btn-sm" onclick="UploadFile('#bd-modal-carosello-video','#VideoCarosello')">Carica</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label>Altri allegati:</label>
-                    <a class="btn btn-outline-light" id="bd-modal-other" data-toggle="modal" data-target=".bd-modal-other">Nessun file disponibile. Clicca qui per caricare</a>
+                    <a class="btn btn-outline-dark" id="bd-modal-other" data-toggle="modal" data-target=".bd-modal-other">Nessun file disponibile. Clicca qui per caricare</a>
                     <div class="modal fade bd-modal-other" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">

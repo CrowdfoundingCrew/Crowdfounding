@@ -1,10 +1,10 @@
 <?php
 require '../config/dalpublic.php';
 session_start();
-$title = "HomePage";
+$data = FindProject($_GET['Idprj']);
+$title = "Progetto: ". $data[0];
 include('header.php');
 include('navbar.php');
-$data = FindProject($_GET['Idprj']);
 ?>
 <link rel="stylesheet" href="../css/project.css">
 <div class="container-fluid">
