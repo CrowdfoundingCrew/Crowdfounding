@@ -1,6 +1,6 @@
 <?php
 session_start();
-$title = "AboutUs";
+$title = "Chi siamo";
 include('header.php');
 include('navbar.php');
 ?>

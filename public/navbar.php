@@ -16,10 +16,10 @@
                     <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='allprojects.php'? 'active':''?>" href="../public/allprojects.php">Tutti i progetti</a>
                 </li>
                 <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='aboutus.php'? 'active':''?>">
-                    <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='aboutus.php'? 'active':''?>" href="../public/aboutus.php">About us</a>
+                    <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='aboutus.php'? 'active':''?>" href="../public/aboutus.php">Chi siamo</a>
                 </li>
                 <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='contactus.php'? 'active':''?>">
-                    <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='contactus.php'? 'active':''?>" href="../public/contactus.php">Contact us</a>
+                    <a class="nav-link <?=basename($_SERVER['PHP_SELF'])=='contactus.php'? 'active':''?>" href="../public/contactus.php">Contattaci</a>
                 </li>
             <?php if (!isset($_SESSION['Tipo'])) { ?>
                 <li class="nav-item <?=basename($_SERVER['PHP_SELF'])=='login.php'|| basename($_SERVER['PHP_SELF'])=='reg.php'? 'active':''?>">
