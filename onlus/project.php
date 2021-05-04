@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
         if (is_numeric($result)) {
             //ImmagineProgetto
             if (UPLOAD_ERR_OK === $_FILES['ImmagineProgetto']['error']) {
-                $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets\profile';
+                $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets'.DIRECTORY_SEPARATOR .'profile';
                 $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . strval(date('H-i-s')) . "_" . basename($_FILES['ImmagineProgetto']['name']);
 
                 move_uploaded_file($_FILES['ImmagineProgetto']['tmp_name'], SITE_ROOT . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
 
             //ImmagineCarosello
             $countfiles = count($_FILES['ImmagineCarosello']['name']);
-            $uploadDirResources = DIRECTORY_SEPARATOR . 'assets\resources';
+            $uploadDirResources = DIRECTORY_SEPARATOR . 'assets'.DIRECTORY_SEPARATOR .'resources';
             for ($i = 0; $i < $countfiles; $i++) {
                 if (UPLOAD_ERR_OK === $_FILES['ImmagineCarosello']['error'][$i]) {
                     $filename = $_FILES['ImmagineCarosello']['name'][$i];

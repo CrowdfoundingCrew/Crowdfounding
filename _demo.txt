@@ -1,0 +1,12 @@
+######
+Tipologia: Donatori
+Username: hmedlar73
+Password: UCqnBdEFpG
+######
+Tipologia: Onlus
+Username: vdurram0
+Password: UGsEApN2PF
+######
+Tipologia: Administrator
+Username: Admin
+Password: password

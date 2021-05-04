@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
         }
     } else if ($_POST['submit'] == 1) {
         if (UPLOAD_ERR_OK === $_FILES['LOGO']['error']) {
-            $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets\avatar';
+            $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets'.DIRECTORY_SEPARATOR .'avatar';
             if ($_FILES['LOGO']['size'] > 0) {
                 $fileNamePhoto = $id . "_" . strval(date('Y-m-d'))."_".strval(date('H:i:s')).".jpg";
                 move_uploaded_file($_FILES['LOGO']['tmp_name'], SITE_ROOT . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);

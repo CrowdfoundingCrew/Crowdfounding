@@ -17,13 +17,13 @@ if ($psw == $psw2) {
     $result = InsertOnlus($mail, $user, $psw, $cdf, $addr, $name, $tel, $piva, $rea);
     if (is_numeric($result)) {
         if (UPLOAD_ERR_OK === $_FILES['Logo']['error']) {
-            $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets\avatar';
-            $fileNamePhoto = $result . ".jpeg";
+            $uploadDirPhoto = DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'avatar';
+            $fileNamePhoto = $result . "_" . strval(date('Y-m-d')) . "_" . strval(date('H:i:s')) . ".jpg";
             move_uploaded_file($_FILES['Logo']['tmp_name'], SITE_ROOT . $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto);
             $profile_path = $uploadDirPhoto . DIRECTORY_SEPARATOR . $fileNamePhoto;
             InsertOnlusWithLogo($result, $profile_path);
         }
-    }else{
+    } else {
         echo "<script type='text/javascript'>alert('Errore generico');</script>";
         header('Location: ../public/reg.php');
     }

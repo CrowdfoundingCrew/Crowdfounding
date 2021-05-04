@@ -1,3 +1,15 @@
+<?php
+session_start();
+$check = isset($_SESSION['ID']) ? $_SESSION['ID'] : FALSE;
+
+if ($check and $_SESSION['Tipo'] === 0) {
+} else {
+    $_SESSION['msg'] = "Permessi insufficienti";
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    die();
+}
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -9,18 +21,15 @@
 </head>
 
 <body>
-<?php
-        session_start(); 
-?>
     <form class="paypal" action="payments.php" method="post" id="paypal_form">
         <input type="hidden" name="cmd" value="_xclick" />
         <input type="hidden" name="no_note" value="1" />
         <input type="hidden" name="lc" value="EU" />
         <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynow_LG.gif:NonHostedGuest" />
-        <input type="hidden" name="progetto" value="<?=$_GET["prjname"]; ?>" />
-        <input type="hidden" name="donazione" value="<?=$_GET["don"]; ?>" />
-        <input type="hidden" name="prjid" value="<?=$_GET["prjid"]; ?>" />
-	<input type="hidden" name="userid" value="<?=$_SESSION["ID"]; ?>" />
+        <input type="hidden" name="progetto" value="<?= $_GET["prjname"]; ?>" />
+        <input type="hidden" name="donazione" value="<?= $_GET["don"]; ?>" />
+        <input type="hidden" name="prjid" value="<?= $_GET["prjid"]; ?>" />
+        <input type="hidden" name="userid" value="<?= $_SESSION["ID"]; ?>" />
     </form>
     <script type="text/javascript">
         document.getElementById("paypal_form").submit();

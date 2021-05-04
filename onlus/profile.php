@@ -66,7 +66,7 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
                 <div class="row">
                     <div class="col-lg-6 font-weight-bolder"><label>REA</label></div>
                     <div class="col-lg-6">
-                        <p><?= isset($onlus_array['REA']) ?: 'Non disponibile' ?></p>
+                        <p><?= isset($onlus_array['REA']) ? $onlus_array['REA'] : 'Non disponibile' ?></p>
                     </div>
                 </div>
             </div>
@@ -81,12 +81,12 @@ if (isset($_SESSION['ID']) && $_SESSION['Tipo'] === 1) {
         ?>
             <div class="row divide-project">
                 <div class="row col-md-12">
-                    <div class="col-lg-2 project-logo"><img src="<?= isset($row['Logo'])?$row['Logo']:'/assets/img/placeholder.png' ?>" alt="Foto profilo progetto" height="150" width="150"></div>
+                    <div class="col-lg-2 project-logo"><img src="<?= isset($row['Logo']) ? $row['Logo'] : '/assets/img/placeholder.png' ?>" alt="Foto profilo progetto" height="150" width="150"></div>
                     <div class="col-lg-10">
                         <h3><?= $row['Nome'] ?></h3>
                         <a href="../public/allprojects.php?cat=<?= $row['IDTag'] ?>" class="badge badge-secondary"><?= $row['Ambito'] ?></a>
                         <div>
-                            <p><?= substr($row['Descrizione'], 0, 100) ?>...<a class="ml-1" href="/public/project.php?Idprj=<?= $row['IDProgetto'] ?>">Prosegui con la lettura»</a></p>
+                            <p><?= substr($row['Descrizione'], 0, 100) ?>...<a class="ml-1" href="/public/project.php?Idprj=<?= $row['IDProgetto'] ?>">Prosegui con la letturaÂ»</a></p>
                         </div>
                         <div><span class="font-weight-bold">Obiettivo:</span>
                             <p class="d-inline"><?= $row['Obbiettivo'] ?></p>

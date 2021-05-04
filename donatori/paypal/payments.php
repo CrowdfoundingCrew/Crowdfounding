@@ -6,8 +6,8 @@ $dbConfig = GetDBConfig();
 
 $paypalConfig = [
 	'email' => 'sb-w6lvy4772730@business.example.com',
-	'return_url' => 'http://localhost:8000/Crowdfounding/donatori/paypal/payment-successful.html',
-	'cancel_url' => 'http://localhost:8000/Crowdfounding/donatori/paypal/payment-cancelled.html',
+	'return_url' => 'http://extra.isii.it:40081/donatori/paypal/payment-successful.html',
+	'cancel_url' => 'http://extra.isii.it:40081/donatori/paypal/payment-cancelled.html',
 	'notify_url' => 'https://proxyforpaypal.herokuapp.com/proxy.php'
 ];
 

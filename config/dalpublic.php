@@ -65,31 +65,63 @@ function FindUser($Username)
 function FindProject($id)
 {
     $conn = connectDB();
-    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI, progetti.DataF, utenti.Username, utenti.Immagine, tag.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=progetti.IDProgetto) AS Path, utenti.Indirizzo, utenti.Denominazione, utenti.Telefono, `utenti`.`E-mail`, tag.IDTag  FROM progetti INNER JOIN utenti ON progetti.IDOnlus = utenti.IDUtente INNER JOIN tag ON progetti.IDTag= tag.IDTag WHERE progetti.IDProgetto = ?');
+    $stmt = $conn->prepare('SELECT progetti.Nome, progetti.Descrizione, progetti.Obbiettivo, progetti.DataI, progetti.DataF, utenti.Username, utenti.Immagine, tag.Ambito, (SELECT `Path` FROM `risorse` WHERE `Tipologia`=0 AND `IDProgetto`=progetti.IDProgetto) AS Path, utenti.Indirizzo, utenti.Denominazione, utenti.Telefono, `utenti`.`E-mail`, tag.IDTag, (SELECT SUM(Importo) FROM donazioni WHERE IDProgetto = progetti.IDProgetto AND Status = "Completed") AS bar  FROM progetti INNER JOIN utenti ON progetti.IDOnlus = utenti.IDUtente INNER JOIN tag ON progetti.IDTag= tag.IDTag WHERE progetti.IDProgetto = ?');
     $stmt->bind_param('i', $id);
     $stmt->execute();
-    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail,$tag);
+    $stmt->bind_result($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail, $tag, $totdona);
     $stmt->fetch();
-    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail,$tag);
+    $data = array($Nome, $Descrizione, $Obbiettivo, $DataI, $DataF, $Username, $Immagine, $Ambito, $path, $addr, $den, $tel, $mail, $tag);
     $stmt->close();
 
-    $stmt = $conn->prepare('SELECT `Path` FROM `risorse` INNER JOIN progetti ON risorse.IDProgetto=progetti.IDProgetto WHERE progetti.IDProgetto=? AND Tipologia <> 0');
+    $barprogetto = floor($totdona / $Obbiettivo * 100);
+    if ($barprogetto < 30) {
+        $coloreprogetto = "danger";
+    } else if ($barprogetto < 50) {
+        $coloreprogetto = "warning";
+    } else if ($barprogetto < 80) {
+        $coloreprogetto = "info";
+    } else if ($barprogetto < 100) {
+        $coloreprogetto = "primary";
+    } else {
+        $coloreprogetto = "success";
+    }
+
+    $bar = "<div class='progress mt-2'>
+                <div class='progress-bar progress-bar-animated progress-bar-striped bg-$coloreprogetto' style='width: $barprogetto%'>
+           </div>";
+
+
+
+    $stmt = $conn->prepare('SELECT `Path` FROM `risorse` WHERE IDProgetto=? AND Tipologia = 1');
     $stmt->bind_param('i', $id);
     $stmt->execute();
     $stmt->bind_result($path);
     $counter = 0;
     $r = "";
-    if ($stmt->num_rows > 0) {
+    $stmt->store_result();
+    $row_num = $stmt->num_rows;
+    if ($row_num > 0) {
+        if (substr($path, 0, 1) === DIRECTORY_SEPARATOR) {
+            $newpath = '..' . $path;
+        } else {
+            $newpath = $path;
+        }
         $r = "<div id='carouselControls' class='carousel slide' data-ride='carousel'>
     <div class='carousel-inner'>
     <div class='carousel-item active'>
-                    <img class='d-block w-100' src='$path' alt='$counter'>
+                    <img class='d-block w-100' src='$newpath ' alt='$counter'>
                 </div>";
 
         while ($stmt->fetch()) {
             if ($counter != 0) {
+                if (substr($path, 0, 1) === DIRECTORY_SEPARATOR) {
+                    $newpath = '..' . $path;
+                } else {
+                    $newpath = $path;
+                }
+
                 $r = $r . "<div class='carousel-item'>
-                    <img class='d-block w-100' src='$path' alt='$counter'>
+                    <img class='d-block w-100' src='$newpath ' alt='$counter'>
                 </div>";
             }
             $counter += 1;
@@ -115,10 +147,11 @@ function FindProject($id)
     $stmt->bind_result($rdesc, $rmin);
     $res = "";
     while ($stmt->fetch()) {
-        $res = $res . " <tr><td>$rdesc</td> <td>$rmin</td><td><a class='btn btn-primary btn-sm' href='../donatori/paypal/paypal.html.php?prjname=$Nome&don=$rmin&prjid=$id'>Dona ora!</a></td></tr>";
+        $res = $res . " <tr><td>$rdesc</td> <td>â‚¬ $rmin</td><td><a class='btn btn-primary btn-sm' href='../donatori/paypal/paypal.html.php?prjname=$Nome&don=$rmin&prjid=$id'>Dona ora!</a></td></tr>";
     }
 
     array_push($data, $res);
+    array_push($data, $bar);
     $stmt->close();
     $conn->close();
     return $data;
@@ -176,7 +209,7 @@ function GetProjectPrev($no_of_records_per_page, $offset, $search, $categoria)
                 $description
                 </p>
                 <p>
-                    <a class='btn' href='../public/project.php?Idprj=$id'>View details»</a>
+                    <a class='btn' href='../public/project.php?Idprj=$id'>View detailsÂ»</a>
                 </p>
             </div>
         </div>

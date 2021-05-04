@@ -1,3 +1,2 @@
-# Crowdfounding
-aaaaaa
-aa
+# Crowdfounding - Donate For
+Realizzare un portale web per la raccolta di finanziamenti-donazioni a favore di progetti, promossi da organizzazioni Onlus di utilità sociale, per consentire l’incontro tra progetti e finanziatori-donatori.

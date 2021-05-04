@@ -2,7 +2,7 @@
 require '../config/dalpublic.php';
 session_start();
 $data = FindProject($_GET['Idprj']);
-$title = "Progetto: ". $data[0];
+$title = "Progetto: " . $data[0];
 include('header.php');
 include('navbar.php');
 ?>
@@ -38,51 +38,60 @@ include('navbar.php');
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="progress">
-                        <div class="progress-bar w-75">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p>
-                    <a href="../public/allprojects.php?cat=<?= $data[13] ?>" class="badge badge-secondary"><?= $data[7] ?></a></br>
-                        <span class="font-weight-bold">Obiettivo:</span> <?= $data[2] ?> </br>
-                        <span class="font-weight-bold">Inizio progetto:</span> <?= $data[3] ?> </br>
-                        <span class="font-weight-bold">Fine progetto:</span> <?= $data[4] ?> </br>
-                        <span class="font-weight-bold">Descrizione:</span></br>
-                        <?= $data[1] ?>
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?= $data[14] ?>
+                    <?= $data[16] ?>
                 </div>
             </div>
         </div>
-        <div class="col-md-4" id="table-column">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Descrizione
-                        </th>
-                        <th>
-                            Importo minimo
-                        </th>
-                        <th>
-                            Link
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?= $data[15] ?>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    <a href="../public/allprojects.php?cat=<?= $data[13] ?>" class="badge badge-secondary"><?= $data[7] ?></a></br>
+                    <span class="font-weight-bold">Obiettivo:</span> <?= $data[2] ?> </br>
+                    <span class="font-weight-bold">Inizio progetto:</span> <?= $data[3] ?> </br>
+                    <span class="font-weight-bold">Fine progetto:</span> <?= $data[4] ?> </br>
+                    <span class="font-weight-bold">Descrizione:</span></br>
+                    <?= $data[1] ?>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?= $data[14] ?>
+            </div>
         </div>
     </div>
+    <div class="col-md-4" id="table-column">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Descrizione
+                    </th>
+                    <th>
+                        Importo minimo
+                    </th>
+                    <th>
+                        Link
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?= $data[15] ?>
+                <form action="../donatori/paypal/paypal.html.php" method="GET">
+                    <tr>
+                        <td>Donazione a piacere</td>
+                        <td><input class="form-control mr-sm-2" type="text" name="don" required></td>
+                        <td>
+                            <input type="hidden" name="prjname" id="prjname" class="form-control" value="<?= $data[0] ?>">
+                            <input type="hidden" name="prjid" id="prjid" class="form-control" value="<?= $_GET['Idprj'] ?>">
+                            <button type="submit" class='btn btn-primary btn-sm' href='?prjname=$Nome&don=$rmin&prjid=$id'>Dona ora!</button>
+                        </td>
+                    </tr>
+                </form>
+            </tbody>
+        </table>
+    </div>
+</div>
 </div>
 <?php
 include('footer.php');
